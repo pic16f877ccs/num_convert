@@ -22,8 +22,17 @@ num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "
 #### Or using cargo
 ```
 cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
+
 ```
-#### Example
+#### Examples
+```
+ use num_convert::ToByAdd;
+
+ assert_eq!(i8::MIN, ToByAdd::to_i8(&i8::MIN));
+ assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
+ assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
+ assert_eq!(u8::MAX, ToByAdd::to_u8(&i8::MAX));
+```
 
 ## License
 GNU General Public License v3.0
