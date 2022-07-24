@@ -27,7 +27,14 @@ cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
 #### Examples
 ```
  use num_convert::ToByAdd;
+ 
+ fn convert_i8_to_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
+     (min.to_u8(), max.to_u8())
+ }
+ assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+```
 
+```
  assert_eq!(i8::MIN, ToByAdd::to_i8(&i8::MIN));
  assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
  assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
