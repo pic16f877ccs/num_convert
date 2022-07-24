@@ -1,0 +1,12 @@
+[package]
+name = "num_convert"
+version = "0.1.0"
+edition = "2021"
+authors = ["Karl Wulfert"]
+readme = "README.md"
+repository = "https://github.com/pic16f877ccs/num_convert"
+license = "GNU General Public License v3.0"
+description = "Type converting library, converted signed integers to full range unsigned integers, \nsupports generics types."
+keywords = ["trait", "generic", "converting", "signed", "unsigned", "full range"]
+
+[dependencies]
