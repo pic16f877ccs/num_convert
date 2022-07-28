@@ -1,8 +1,26 @@
 use core::{i16, i32, i8, isize};
 use core::{u16, u32, u8, usize};
 
-/// A generic trait for converting value types.
+///
 /// Convert from signed integers to unsigned in the full range of values.
+///
+/// # A generic trait for converting value types.
+///
+/// # Examples
+///
+/// ```
+/// use num_convert::ToByAdd;
+///
+/// fn convert_i8_to_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
+///     (min.to_u8(), max.to_u8())
+/// }
+/// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+///
+/// assert_eq!(i8::MIN, ToByAdd::to_i8(&i8::MIN));
+/// assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
+/// assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
+/// assert_eq!(u8::MAX, ToByAdd::to_u8(&i8::MAX));
+/// ```
 pub trait ToByAdd {
     /// Converts the value of `self` to an `i8`.
     fn to_i8(&self) -> i8;
