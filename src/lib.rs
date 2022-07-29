@@ -1,5 +1,13 @@
-use core::{i16, i32, i8, isize};
-use core::{u16, u32, u8, usize};
+use core::{i16, i32, i64, i8, isize};
+use core::{u16, u32, u64, u8, usize};
+
+/// Const for adding `usize` 32 bit.
+#[cfg(target_pointer_width = "32")]
+const ADD_VALUE_USIZE: usize = 2_147_483_648;
+
+/// Const for adding `usize` 64 bit.
+#[cfg(target_pointer_width = "64")]
+const ADD_VALUE_USIZE: usize = 9_223_372_036_854_775_808;
 
 ///
 /// Convert from signed integers to unsigned in the full range of values.
@@ -39,6 +47,12 @@ pub trait ToByAdd {
 
     /// Converts the value of `self` to an `u32`.
     fn to_u32(&self) -> u32;
+
+    /// Converts the value of `self` to an `i64`.
+    fn to_i64(&self) -> i64;
+
+    /// Converts the value of `self` to an `u64`.
+    fn to_u64(&self) -> u64;
 
     /// Converts the value of `self` to an `isize`.
     fn to_isize(&self) -> isize;
@@ -82,6 +96,18 @@ impl ToByAdd for i8 {
     #[inline]
     fn to_u32(&self) -> u32 {
         (*self as u32).wrapping_add(128)
+    }
+
+    /// Converts the value of `i8` to an `i64`.
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        *self as i64
+    }
+
+    /// Converts the value of `i8` to an `u64`.
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        (*self as u64).wrapping_add(128)
     }
 
     /// Converts the value of `i8` to an `isize`.
@@ -132,12 +158,23 @@ impl ToByAdd for i16 {
         (*self as u32).wrapping_add(32_768)
     }
 
+    /// Converts the value of `i16` to an `i64`.
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        *self as i64
+    }
+
+    /// Converts the value of `i16` to an `u64`.
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        (*self as u64).wrapping_add(32_768)
+    }
+
     /// Converts the value of `i16` to an `isize`.
     #[inline]
     fn to_isize(&self) -> isize {
         *self as isize
     }
-
     /// Converts the value of `i16` to an `usize`.
     #[inline]
     fn to_usize(&self) -> usize {
@@ -178,6 +215,18 @@ impl ToByAdd for i32 {
         (*self as u32).wrapping_add(2_147_483_648)
     }
 
+    /// Converts the value of `i32` to an `i64`.
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        *self as i64
+    }
+
+    /// Converts the value of `i32` to an `u64`.
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        (*self as u64).wrapping_add(2_147_483_648)
+    }
+
     /// Converts the value of `i32` to an `isize`.
     #[inline]
     fn to_isize(&self) -> isize {
@@ -188,5 +237,121 @@ impl ToByAdd for i32 {
     #[inline]
     fn to_usize(&self) -> usize {
         (*self as usize).wrapping_add(2_147_483_648)
+    }
+}
+
+impl ToByAdd for i64 {
+    ///This value cannot be represented as an `i8`
+    fn to_i8(&self) -> i8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u8`
+    fn to_u8(&self) -> u8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i16`
+    fn to_i16(&self) -> i16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    fn to_u16(&self) -> u16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    #[inline]
+    fn to_i32(&self) -> i32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    #[inline]
+    fn to_u32(&self) -> u32 {
+        todo!();
+    }
+
+    /// Converts the value of `i64` to an `i64`.
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        *self
+    }
+
+    /// Converts the value of `i64` to an `u64`.
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        (*self as u64).wrapping_add(9_223_372_036_854_775_808)
+    }
+
+    /// Converts the value of `i64` to an `isize`.
+    #[inline]
+    fn to_isize(&self) -> isize {
+        *self as isize
+    }
+
+    /// Converts the value of `i64` to an `usize`, 32 or 64 bit arch.
+    #[inline]
+    fn to_usize(&self) -> usize {
+        (*self as usize).wrapping_add(ADD_VALUE_USIZE)
+    }
+}
+
+impl ToByAdd for isize {
+    ///This value cannot be represented as an `i8`
+    fn to_i8(&self) -> i8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u8`
+    fn to_u8(&self) -> u8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i16`
+    fn to_i16(&self) -> i16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    fn to_u16(&self) -> u16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    #[inline]
+    fn to_i32(&self) -> i32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    #[inline]
+    fn to_u32(&self) -> u32 {
+        todo!();
+    }
+
+    /// Converts the value of `isize` to an `i64`.
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        *self as i64
+    }
+
+    /// Converts the value of `isize` to an `u64`.
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        (*self as u64).wrapping_add(9_223_372_036_854_775_808)
+    }
+
+    /// Converts the value of `isize` to an `isize`.
+    #[inline]
+    fn to_isize(&self) -> isize {
+        *self
+    }
+
+    /// Converts the value of `isize` to an `usize`, 32 or 64 bit arch.
+    #[inline]
+    fn to_usize(&self) -> usize {
+        (*self as usize).wrapping_add(ADD_VALUE_USIZE)
     }
 }
