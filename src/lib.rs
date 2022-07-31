@@ -28,7 +28,9 @@ const ADD_VALUE_USIZE: usize = 9_223_372_036_854_775_808;
 /// assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
 /// assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
 /// assert_eq!(u8::MAX, ToByAdd::to_u8(&i8::MAX));
+///
 /// ```
+
 pub trait ToByAdd {
     /// Converts the value of `self` to an `i8`.
     fn to_i8(&self) -> i8;
@@ -261,19 +263,19 @@ impl ToByAdd for i64 {
         todo!();
     }
 
-    ///This value cannot be represented as an `u16`
+    ///This value cannot be represented as an `i32`
     #[inline]
     fn to_i32(&self) -> i32 {
         todo!();
     }
 
-    ///This value cannot be represented as an `u16`
+    ///This value cannot be represented as an `u32`
     #[inline]
     fn to_u32(&self) -> u32 {
         todo!();
     }
 
-    /// Converts the value of `i64` to an `i64`.
+    /// Returns an `i64` for compatibility.
     #[inline]
     fn to_i64(&self) -> i64 {
         *self
@@ -343,7 +345,7 @@ impl ToByAdd for isize {
         (*self as u64).wrapping_add(9_223_372_036_854_775_808)
     }
 
-    /// Converts the value of `isize` to an `isize`.
+    /// Returns an `isize` for compatibility.
     #[inline]
     fn to_isize(&self) -> isize {
         *self
