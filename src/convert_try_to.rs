@@ -2,7 +2,7 @@ use core::{i128, i16, i32, i64, i8, isize};
 use core::{u128, u16, u32, u64, u8, usize};
 
 ///
-/// Convert from signed integers to signed values, see below for details.
+/// Convert from signed integers to signed values, see below for details.    
 /// -128_i8 -> -128_i8 ... -128_i8 -> -128_i128, -128_i128 -> -128_i8
 /// 127_i8 -> 127_i8 ... 127_i8 -> 127_i128, 127_i128 -> 127_i8
 /// convert from unsigned integers to unsigned values, see below for details.
