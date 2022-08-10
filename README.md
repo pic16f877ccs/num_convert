@@ -24,7 +24,7 @@ Type converting library.
 #### Add this to your Cargo.toml
 ```
 [dependencies]
-num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.1.0" }
+num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.2.0" }
 ```
 #### Or using cargo
 ```
