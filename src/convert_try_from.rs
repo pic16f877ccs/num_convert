@@ -9,7 +9,7 @@ const ADD_VALUE_USIZE: usize = 2_147_483_648;
 #[cfg(target_pointer_width = "64")]
 const ADD_VALUE_USIZE: usize = 9_223_372_036_854_775_808;
 
-pub trait FromByAdd: Sized {
+pub trait TryFromByAdd: Sized {
     type Error;
     fn from_i8(n: i8) -> Result<Self, Self::Error>;
     fn from_u8(n: u8) -> Result<Self, Self::Error>;
@@ -23,7 +23,7 @@ pub trait FromByAdd: Sized {
     fn from_usize(n: usize) -> Result<Self, Self::Error>;
 }
 
-impl FromByAdd for i8 {
+impl TryFromByAdd for i8 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<i8, Self::Error> {
@@ -67,7 +67,7 @@ impl FromByAdd for i8 {
     }
 }
 
-impl FromByAdd for u8 {
+impl TryFromByAdd for u8 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<u8, Self::Error> {
@@ -111,7 +111,7 @@ impl FromByAdd for u8 {
     }
 }
 
-impl FromByAdd for i16 {
+impl TryFromByAdd for i16 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<i16, Self::Error> {
@@ -151,7 +151,7 @@ impl FromByAdd for i16 {
     }
 }
 
-impl FromByAdd for u16 {
+impl TryFromByAdd for u16 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<u16, Self::Error> {
@@ -191,7 +191,7 @@ impl FromByAdd for u16 {
     }
 }
 
-impl FromByAdd for i32 {
+impl TryFromByAdd for i32 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<i32, Self::Error> {
@@ -237,7 +237,7 @@ impl FromByAdd for i32 {
     }
 }
 
-impl FromByAdd for u32 {
+impl TryFromByAdd for u32 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<u32, Self::Error> {
@@ -273,7 +273,7 @@ impl FromByAdd for u32 {
     }
 }
 
-impl FromByAdd for i64 {
+impl TryFromByAdd for i64 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<i64, Self::Error> {
@@ -315,7 +315,7 @@ impl FromByAdd for i64 {
     }
 }
 
-impl FromByAdd for u64 {
+impl TryFromByAdd for u64 {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<u64, Self::Error> {
@@ -343,7 +343,7 @@ impl FromByAdd for u64 {
     }
 }
 
-impl FromByAdd for isize {
+impl TryFromByAdd for isize {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<isize, Self::Error> {
@@ -384,7 +384,7 @@ impl FromByAdd for isize {
     }
 }
 
-impl FromByAdd for usize {
+impl TryFromByAdd for usize {
     type Error = &'static str;
 
     fn from_i8(n: i8) -> Result<usize, Self::Error> {
