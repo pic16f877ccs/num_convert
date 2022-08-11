@@ -543,13 +543,13 @@ impl ToByAdd for i64 {
         (*self as u64).wrapping_add(9_223_372_036_854_775_808)
     }
 
-    /// Converts the value of `i64` to an `isize`.
+    /// Converts the value of `i64` to an `isize`, 64 bit arch.
     #[inline]
     fn to_isize(&self) -> isize {
         *self as isize
     }
 
-    /// Converts the value of `i64` to an `usize`, 32 or 64 bit arch.
+    /// Converts the value of `i64` to an `usize`, 64 bit arch.
     #[inline]
     fn to_usize(&self) -> usize {
         (*self as usize).wrapping_add(ADD_VALUE_USIZE)
@@ -611,23 +611,11 @@ impl ToByAdd for u64 {
         *self
     }
 
-    ///// Converts the value of `u64` to an `isize`, 32 bit arch.
-    //#[inline]
-    //fn to_isize(&self) -> isize {
-    //    todo!();
-    //}
-
     /// Converts the value of `u64` to an `isize`, 64 bit arch.
     #[inline]
     fn to_isize(&self) -> isize {
         ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1)
     }
-
-    ///// Converts the value of `u64` to an `usize`, 32 bit arch.
-    //#[inline]
-    //fn to_usize(&self) -> usize {
-    //    todo!();
-    //}
 
     /// Converts the value of `u64` to an `usize`, 64 bit arch.
     #[inline]
@@ -669,12 +657,12 @@ impl ToByAdd for isize {
         todo!();
     }
 
-    ///This value cannot be represented as an `i32`
+    ///This value cannot be represented as an `i32`, 64 bit arch.
     fn to_i32(&self) -> i32 {
         todo!();
     }
 
-    ///This value cannot be represented as an `u32`
+    ///This value cannot be represented as an `u32`, 64 bit arch.
     fn to_u32(&self) -> u32 {
         todo!();
     }
@@ -685,13 +673,13 @@ impl ToByAdd for isize {
         *self as i64
     }
 
-    /// Converts the value of `isize` to an `u64`.
+    /// Converts the value of `isize` to an `u64`, 64 bit arch.
     #[inline]
     fn to_u64(&self) -> u64 {
         (*self as u64).wrapping_add(9_223_372_036_854_775_808)
     }
 
-    /// Returns an `isize` for compatibility.
+    /// Returns an `isize` for compatibility, 32 or 64 bit arch.
     #[inline]
     fn to_isize(&self) -> isize {
         *self
@@ -737,17 +725,17 @@ impl ToByAdd for usize {
         todo!();
     }
 
-    ///This value cannot be represented as an `i32`
+    ///This value cannot be represented as an `i32`, 64 bit arch.
     fn to_i32(&self) -> i32 {
         todo!();
     }
 
-    ///This value cannot be represented as an `u32`
+    ///This value cannot be represented as an `u32`, 64 bit arch.
     fn to_u32(&self) -> u32 {
         todo!();
     }
 
-    /// Converts the value of `usize` to an `i64`.
+    /// Converts the value of `usize` to an `i64`, 64 bit arch.
     #[inline]
     fn to_i64(&self) -> i64 {
         ((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1)
@@ -759,13 +747,13 @@ impl ToByAdd for usize {
         *self as u64
     }
 
-    /// Converts the value of `usize` to an `isize`.
+    /// Converts the value of `usize` to an `isize`, 32 or 64 bit arch.
     #[inline]
     fn to_isize(&self) -> isize {
         ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1)
     }
 
-    /// Returns an `usize` for compatibility, 32, 64 bit arch.
+    /// Returns an `usize` for compatibility, 32 or 64 bit arch.
     #[inline]
     fn to_usize(&self) -> usize {
         *self
@@ -781,5 +769,141 @@ impl ToByAdd for usize {
     #[inline]
     fn to_u128(&self) -> u128 {
         *self as u128
+    }
+}
+
+impl ToByAdd for i128 {
+    ///This value cannot be represented as an `i8`
+    fn to_i8(&self) -> i8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u8`
+    fn to_u8(&self) -> u8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i16`
+    fn to_i16(&self) -> i16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    fn to_u16(&self) -> u16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i32`
+    fn to_i32(&self) -> i32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u32`
+    fn to_u32(&self) -> u32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i64`
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u64`
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `isize`
+    #[inline]
+    fn to_isize(&self) -> isize {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `usize`
+    #[inline]
+    fn to_usize(&self) -> usize {
+        todo!();
+    }
+
+    /// Returns an `i128` for compatibility.
+    #[inline]
+    fn to_i128(&self) -> i128 {
+        *self
+    }
+
+    /// Converts the value of `i128` to an `u128`.
+    #[inline]
+    fn to_u128(&self) -> u128 {
+        (*self as u128).wrapping_add(170_141_183_460_469_231_731_687_303_715_884_105_728)
+    }
+}
+
+impl ToByAdd for u128 {
+    ///This value cannot be represented as an `i8`
+    fn to_i8(&self) -> i8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u8`
+    fn to_u8(&self) -> u8 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i16`
+    fn to_i16(&self) -> i16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u16`
+    fn to_u16(&self) -> u16 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i32`
+    fn to_i32(&self) -> i32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u32`
+    fn to_u32(&self) -> u32 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `i64`
+    #[inline]
+    fn to_i64(&self) -> i64 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `u64`
+    #[inline]
+    fn to_u64(&self) -> u64 {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `isize`
+    #[inline]
+    fn to_isize(&self) -> isize {
+        todo!();
+    }
+
+    ///This value cannot be represented as an `usize`
+    #[inline]
+    fn to_usize(&self) -> usize {
+        todo!();
+    }
+
+    /// Converts the value of `u128` to an `i128`.
+    #[inline]
+    fn to_i128(&self) -> i128 {
+        ((*self as i128).wrapping_add(i128::MAX)).wrapping_add(1)
+    }
+
+    /// Returns an `u128` for compatibility.
+    #[inline]
+    fn to_u128(&self) -> u128 {
+        *self
     }
 }
