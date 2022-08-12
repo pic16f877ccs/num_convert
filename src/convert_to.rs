@@ -588,18 +588,6 @@ impl ToByAdd for i64 {
     fn to_u128(&self) -> u128 {
         (*self as u128).wrapping_add(ADD_VALUE_32_64_I64_TO_U128)
     }
-
-    /// Converts the value of `i64` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `i64` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(9_223_372_036_854_775_808)
-    }
 }
 
 impl ToByAdd for u64 {
@@ -691,9 +679,6 @@ impl ToByAdd for isize {
         todo!();
     }
 
-<<<<<<< HEAD
-    ///This value cannot be represented as an `i32`, 64 bit arch.
-=======
     /// Converts the value of `isize` to an `i32, 32 bit arch.
     #[cfg(target_pointer_width = "32")]
     fn to_i32(&self) -> i32 {
@@ -708,16 +693,12 @@ impl ToByAdd for isize {
 
     ///This value cannot be represented as an `i32`, 64 bit arch.
     #[cfg(target_pointer_width = "64")]
->>>>>>> dev
     fn to_i32(&self) -> i32 {
         todo!();
     }
 
     ///This value cannot be represented as an `u32`, 64 bit arch.
-<<<<<<< HEAD
-=======
     #[cfg(target_pointer_width = "64")]
->>>>>>> dev
     fn to_u32(&self) -> u32 {
         todo!();
     }
@@ -728,11 +709,7 @@ impl ToByAdd for isize {
         *self as i64
     }
 
-<<<<<<< HEAD
-    /// Converts the value of `isize` to an `u64`, 64 bit arch.
-=======
     /// Converts the value of `isize` to an `u64`, 32 or 64 bit arch.
->>>>>>> dev
     #[inline]
     fn to_u64(&self) -> u64 {
         (*self as u64).wrapping_add(ADD_VALUE_32_64_ISIZE_TO_U64)
@@ -761,18 +738,6 @@ impl ToByAdd for isize {
     fn to_u128(&self) -> u128 {
         (*self as u128).wrapping_add(ADD_VALUE_32_64_ISIZE_TO_U128)
     }
-
-    /// Converts the value of `isize` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `isize` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(9_223_372_036_854_775_808)
-    }
 }
 
 impl ToByAdd for usize {
@@ -796,12 +761,26 @@ impl ToByAdd for usize {
         todo!();
     }
 
+    /// Converts the value of `usize` to an `i32`, 32 bit arch.
+    #[cfg(target_pointer_width = "32")]
+    fn to_i32(&self) -> i32 {
+        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1)
+    }
+
+    /// Converts the value of `usize` to an `u32`, 32 bit arch.
+    #[cfg(target_pointer_width = "32")]
+    fn to_u32(&self) -> u32 {
+        *self as u3232
+    }
+
     ///This value cannot be represented as an `i32`, 64 bit arch.
+    #[cfg(target_pointer_width = "64")]
     fn to_i32(&self) -> i32 {
         todo!();
     }
 
     ///This value cannot be represented as an `u32`, 64 bit arch.
+    #[cfg(target_pointer_width = "64")]
     fn to_u32(&self) -> u32 {
         todo!();
     }
@@ -812,7 +791,7 @@ impl ToByAdd for usize {
         ((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1)
     }
 
-    /// Converts the value of `usize` to an `u64`.
+    /// Converts the value of `usize` to an `u64`, 32 or 64 arch.
     #[inline]
     fn to_u64(&self) -> u64 {
         *self as u64
@@ -830,7 +809,7 @@ impl ToByAdd for usize {
         *self
     }
 
-    /// Converts the value of `usize` to an `i128`.
+    /// Converts the value of `usize` to an `i128`, 32 or 64 bit arch.
     #[inline]
     fn to_i128(&self) -> i128 {
         ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1) as i128
@@ -907,11 +886,7 @@ impl ToByAdd for i128 {
     /// Converts the value of `i128` to an `u128`.
     #[inline]
     fn to_u128(&self) -> u128 {
-<<<<<<< HEAD
-        (*self as u128).wrapping_add(170_141_183_460_469_231_731_687_303_715_884_105_728)
-=======
         (*self as u128).wrapping_add(ADD_VALUE_I128_TO_U128)
->>>>>>> dev
     }
 }
 
