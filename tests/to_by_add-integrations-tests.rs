@@ -178,6 +178,17 @@ fn to_by_add_u64() {
 
 #[test]
 fn to_by_add_isize() {
+<<<<<<< HEAD
+=======
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(i32::MIN,            ToByAdd::to_i64(&isize::MIN));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(i32::MAX,            ToByAdd::to_i64(&isize::MAX));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(u32::MIN,            ToByAdd::to_u64(&isize::MIN));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(u32::MAX,            ToByAdd::to_u64(&isize::MAX));
+>>>>>>> dev
     assert_eq!(i64::MIN,            ToByAdd::to_i64(&isize::MIN));
     assert_eq!(i64::MAX,            ToByAdd::to_i64(&isize::MAX));
     assert_eq!(u64::MIN,            ToByAdd::to_u64(&isize::MIN));
@@ -194,6 +205,17 @@ fn to_by_add_isize() {
 
 #[test]
 fn to_by_add_usize() {
+<<<<<<< HEAD
+=======
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(i32::MIN,            ToByAdd::to_i64(&usize::MIN));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(i32::MAX,            ToByAdd::to_i64(&usize::MAX));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(u32::MIN,            ToByAdd::to_u64(&usize::MIN));
+    #[cfg(target_pointer_width = "32")]
+    assert_eq!(u32::MAX,            ToByAdd::to_u64(&usize::MAX));
+>>>>>>> dev
     assert_eq!(i64::MIN,            ToByAdd::to_i64(&usize::MIN));
     assert_eq!(i64::MAX,            ToByAdd::to_i64(&usize::MAX));
     assert_eq!(u64::MIN,            ToByAdd::to_u64(&usize::MIN));
