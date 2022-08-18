@@ -1,6 +1,6 @@
 [package]
 name = "num_convert"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Karl Wulfert"]
 readme = "README.md"
@@ -10,5 +10,6 @@ description = "Type converting library, converted signed integers to full range 
 keywords = ["trait", "generic", "converting", "signed", "unsigned", "full range"]
 
 [dependencies]
+paste = "1.0.8"
 
 [features]
