@@ -23,14 +23,14 @@ macro_rules! try_from {
 }
 
 macro_rules! from_signed_to_signed {
-    ( $($try_from:ident($t:ty)),+ ) => {
-        { $( try_from!(i128; $t; i8, i16, i32, i64, isize, i128; i8, i16, i32, i64, isize, i128; $try_from($t); i128); )+ }
+    ( $($try_from:ident($arg_type:ty)),+ ) => {
+        { $( try_from!(i128; $arg_type; i8, i16, i32, i64, isize, i128; i8, i16, i32, i64, isize, i128; $try_from($arg_type); i128); )+ }
     };
 }
 
 macro_rules! from_unsigned_to_unsigned {
-    ( $($try_from:ident($t:ty)),+ ) => {
-        { $( try_from!(u128; $t; u8, u16, u32, u64, usize, u128; u8, u16, u32, u64, usize, u128; $try_from($t); u128); )+ }
+    ( $($try_from:ident($arg_type:ty)),+ ) => {
+        { $( try_from!(u128; $arg_type; u8, u16, u32, u64, usize, u128; u8, u16, u32, u64, usize, u128; $try_from($arg_type); u128); )+ }
     };
 }
 

@@ -1,35 +1,6 @@
 use core::{i128, i16, i32, i64, i8, isize};
 use core::{u128, u16, u32, u64, u8, usize};
-
-/// Const for adding `isize` to `u32`, 32 bit arch.
-#[cfg(target_pointer_width = "32")]
-const ADD_VALUE_32_64_ISIZE_TO_U32: u32 = 2_147_483_648;
-/// Const for adding `isize` to `u64`, 32 bit arch.
-#[cfg(target_pointer_width = "32")]
-const ADD_VALUE_32_64_ISIZE_TO_U64: u64 = 2_147_483_648;
-/// Const for adding `isize` to `usize`, 32 bit arch.
-#[cfg(target_pointer_width = "32")]
-const ADD_VALUE_32_64_ISIZE_TO_USIZE: usize = 2_147_483_648;
-/// Const for adding `isize` to `u128`, 32 bit arch.
-#[cfg(target_pointer_width = "32")]
-const ADD_VALUE_32_64_ISIZE_TO_U128: u128 = 2_147_483_648;
-
-/// Const for adding `isize` to `u64`, 64 bit arch.
-#[cfg(target_pointer_width = "64")]
-const ADD_VALUE_32_64_ISIZE_TO_U64: u64 = 9_223_372_036_854_775_808;
-/// Const for adding `isize` to `usize`, 64 bit arch.
-#[cfg(target_pointer_width = "64")]
-const ADD_VALUE_32_64_ISIZE_I64_TO_USIZE: usize = 9_223_372_036_854_775_808;
-/// Const for adding `isize` to `u128`, 64 bit arch.
-#[cfg(target_pointer_width = "64")]
-const ADD_VALUE_32_64_ISIZE_TO_U128: u128 = 9_223_372_036_854_775_808;
-
-/// Const for adding `i64` to `u64`.
-const ADD_VALUE_32_64_I64_TO_U64: u64 = 9_223_372_036_854_775_808;
-/// Const for adding `i64` to `u128`.
-const ADD_VALUE_32_64_I64_TO_U128: u128 = 9_223_372_036_854_775_808;
-/// Const for adding `i128` to `u128`.
-const ADD_VALUE_I128_TO_U128: u128 = 170_141_183_460_469_231_731_687_303_715_884_105_728;
+use paste::paste;
 
 ///
 /// Convert from signed integers to unsigned in the full range of values or
@@ -43,917 +14,267 @@ const ADD_VALUE_I128_TO_U128: u128 = 170_141_183_460_469_231_731_687_303_715_884
 /// use num_convert::ToByAdd;
 ///
 /// fn convert_i8_to_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
-///     (min.to_u8(), max.to_u8())
+///     (min.into_u8(), max.into_u8())
 /// }
 /// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
 ///
-/// assert_eq!(i8::MIN, ToByAdd::to_i8(&i8::MIN));
-/// assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
-/// assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
-/// assert_eq!(u8::MAX, ToByAdd::to_u8(&i8::MAX));
+/// assert_eq!(i8::MIN, ToByAdd::into_i8(&i8::MIN));
+/// assert_eq!(i8::MAX, ToByAdd::into_i8(&i8::MAX));
+/// assert_eq!(u8::MIN, ToByAdd::into_u8(&i8::MIN));
+/// assert_eq!(u8::MAX, ToByAdd::into_u8(&i8::MAX));
 ///
 /// ```
 
 pub trait ToByAdd {
     /// Converts the value of `self` to an `i8`.
-    fn to_i8(&self) -> i8;
+    fn into_i8(&self) -> i8;
 
     /// Converts the value of `self` to an `u8`.
-    fn to_u8(&self) -> u8;
+    fn into_u8(&self) -> u8;
 
     /// Converts the value of `self` to an `i16`.
-    fn to_i16(&self) -> i16;
+    fn into_i16(&self) -> i16;
 
     /// Converts the value of `self` to an `u16`.
-    fn to_u16(&self) -> u16;
+    fn into_u16(&self) -> u16;
 
     /// Converts the value of `self` to an `i32`.
-    fn to_i32(&self) -> i32;
+    fn into_i32(&self) -> i32;
 
     /// Converts the value of `self` to an `u32`.
-    fn to_u32(&self) -> u32;
+    fn into_u32(&self) -> u32;
 
     /// Converts the value of `self` to an `i64`.
-    fn to_i64(&self) -> i64;
+    fn into_i64(&self) -> i64;
 
     /// Converts the value of `self` to an `u64`.
-    fn to_u64(&self) -> u64;
+    fn into_u64(&self) -> u64;
 
     /// Converts the value of `self` to an `isize`.
-    fn to_isize(&self) -> isize;
+    fn into_isize(&self) -> isize;
 
     /// Converts the value of `self` to an `usize`.
-    fn to_usize(&self) -> usize;
+    fn into_usize(&self) -> usize;
 
     /// Converts the value of `self` to an `i128`.
-    fn to_i128(&self) -> i128;
+    fn into_i128(&self) -> i128;
 
     /// Converts the value of `self` to an `u128`.
-    fn to_u128(&self) -> u128;
+    fn into_u128(&self) -> u128;
 }
 
-impl ToByAdd for i8 {
-    /// Returns an `i8` for compatibility.
-    #[inline]
-    fn to_i8(&self) -> i8 {
-        *self
-    }
-
-    /// Converts the value of `i8` to an `u8`.
-    #[inline]
-    fn to_u8(&self) -> u8 {
-        (*self as u8).wrapping_add(128)
-    }
-
-    /// Converts the value of `i8` to an `i16`.
-    #[inline]
-    fn to_i16(&self) -> i16 {
-        *self as i16
-    }
-
-    /// Converts the value of `i8` to an `u16`.
-    #[inline]
-    fn to_u16(&self) -> u16 {
-        (*self as u16).wrapping_add(128)
-    }
-
-    /// Converts the value of `i8` to an `i32`.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        *self as i32
-    }
-
-    /// Converts the value of `i8` to an `u32`.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        (*self as u32).wrapping_add(128)
-    }
-
-    /// Converts the value of `i8` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        *self as i64
-    }
-
-    /// Converts the value of `i8` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        (*self as u64).wrapping_add(128)
-    }
-
-    /// Converts the value of `i8` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        *self as isize
-    }
-
-    /// Converts the value of `i8` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        (*self as usize).wrapping_add(128)
-    }
-
-    /// Converts the value of `i8` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `i8` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(128)
+macro_rules! return_self_value {
+    ( $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<into_$to_type>](&self) -> $to_type {
+                *self
+            }
+        })*
     }
 }
 
-impl ToByAdd for u8 {
-    /// Converts the value of `u8` to an `i8`.
-    #[inline]
-    fn to_i8(&self) -> i8 {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1)
-    }
-
-    /// Returns an `u8` for compatibility.
-    #[inline]
-    fn to_u8(&self) -> u8 {
-        *self
-    }
-
-    /// Converts the value of `u8` to an `i16`.
-    #[inline]
-    fn to_i16(&self) -> i16 {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i16
-    }
-
-    /// Converts the value of `u8` to an `u16`.
-    #[inline]
-    fn to_u16(&self) -> u16 {
-        *self as u16
-    }
-
-    /// Converts the value of `u8` to an `i32`.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i32
-    }
-
-    /// Converts the value of `u8` to an `u32`.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        *self as u32
-    }
-
-    /// Converts the value of `u8` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i64
-    }
-
-    /// Converts the value of `u8` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        *self as u64
-    }
-
-    /// Converts the value of `u8` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as isize
-    }
-
-    /// Converts the value of `u8` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        *self as usize
-    }
-
-    /// Converts the value of `u8` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i128
-    }
-
-    /// Converts the value of `u8` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self as u128
+macro_rules! signed_or_unsigned {
+    ( $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<into_$to_type>](&self) -> $to_type {
+                *self as $to_type
+            }
+        })*
     }
 }
 
-impl ToByAdd for i16 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    /// Returns an `i16` for compatibility.
-    #[inline]
-    fn to_i16(&self) -> i16 {
-        *self
-    }
-
-    /// Converts the value of `i16` to an `u16`.
-    #[inline]
-    fn to_u16(&self) -> u16 {
-        (*self as u16).wrapping_add(32_768)
-    }
-
-    /// Converts the value of `i16` to an `i32`.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        *self as i32
-    }
-
-    /// Converts the value of `i16` to an `u32`.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        (*self as u32).wrapping_add(32_768)
-    }
-
-    /// Converts the value of `i16` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        *self as i64
-    }
-
-    /// Converts the value of `i16` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        (*self as u64).wrapping_add(32_768)
-    }
-
-    /// Converts the value of `i16` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        *self as isize
-    }
-    /// Converts the value of `i16` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        (*self as usize).wrapping_add(32_768)
-    }
-
-    /// Converts the value of `i16` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `i16` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(32_768)
+macro_rules! unreach_func {
+    ( $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<into_$to_type>](&self) -> $to_type {
+                unreachable!();
+            }
+        })*
     }
 }
 
-impl ToByAdd for u16 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    /// Converts the value of `i16` to an `u16`.
-    #[inline]
-    fn to_i16(&self) -> i16 {
-        ((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1)
-    }
-
-    /// Returns an `u16` for compatibility.
-    #[inline]
-    fn to_u16(&self) -> u16 {
-        *self
-    }
-
-    /// Converts the value of `u16` to an `i32`.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        ((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i32
-    }
-
-    /// Converts the value of `u16` to an `u32`.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        *self as u32
-    }
-
-    /// Converts the value of `u16` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        ((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i64
-    }
-
-    /// Converts the value of `u16` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        *self as u64
-    }
-
-    /// Converts the value of `u16` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        ((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as isize
-    }
-    /// Converts the value of `u16` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        *self as usize
-    }
-
-    /// Converts the value of `u16` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i128
-    }
-
-    /// Converts the value of `u16` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self as u128
+macro_rules! signed_to_unsigned {
+    ( $for_type:expr; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<into_$to_type>](&self) -> $to_type {
+                (*self as $to_type).wrapping_add($for_type)
+            }
+        })*
     }
 }
 
-impl ToByAdd for i32 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    /// Returns an `i32` for compatibility.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        *self
-    }
-
-    /// Converts the value of `i32` to an `u32`.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        (*self as u32).wrapping_add(2_147_483_648)
-    }
-
-    /// Converts the value of `i32` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        *self as i64
-    }
-
-    /// Converts the value of `i32` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        (*self as u64).wrapping_add(2_147_483_648)
-    }
-
-    /// Converts the value of `i32` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        *self as isize
-    }
-
-    /// Converts the value of `i32` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        (*self as usize).wrapping_add(2_147_483_648)
-    }
-
-    /// Converts the value of `i32` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `i32` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(2_147_483_648)
+macro_rules! unsigned_to_signed {
+    ( $for_type:ty; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<into_$to_type>](&self) -> $to_type {
+                ((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type
+            }
+        })*
     }
 }
 
-impl ToByAdd for u32 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
+macro_rules! signed_impls {
+    ( $type_i8:ty, $type_i16:ty, $type_i32:ty, $type_i64:ty, $type_isize:ty, $type_i128:ty;
+        $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty;
+            $value_8bit:expr, $value_16bit:expr, $value_32bit:expr, $value_64bit:expr, $value_32or64bit:expr ) => {
 
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
+        impl ToByAdd for $type_i8 {
+            return_self_value!($type_i8);
+            signed_or_unsigned!($type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            signed_to_unsigned!($value_8bit; $type_u8, $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
+        impl ToByAdd for $type_i16 {
+            unreach_func!($type_i8);
+            return_self_value!($type_i16);
+            signed_or_unsigned!($type_i32, $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8);
+            signed_to_unsigned!($value_16bit; $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
+        impl ToByAdd for $type_i32 {
+            unreach_func!($type_i8, $type_i16);
+            return_self_value!($type_i32);
+            signed_or_unsigned!($type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16);
+            signed_to_unsigned!($value_32bit; $type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    /// Converts the value of `u32` to an `i32`.
-    #[inline]
-    fn to_i32(&self) -> i32 {
-        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1)
-    }
+        #[cfg(target_pointer_width = "32")]
+        impl ToByAdd for $type_i64 {
+            unreach_func!($type_i8, $type_i16, $type_i32, $type_isize);
+            return_self_value!($type_i64);
+            signed_or_unsigned!($type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32, $type_usize);
+            signed_to_unsigned!($value_64bit; $type_u64, $type_u128);
+        }
 
-    /// Returns an `u32` for compatibility.
-    #[inline]
-    fn to_u32(&self) -> u32 {
-        *self
-    }
+        #[cfg(target_pointer_width = "64")]
+        impl ToByAdd for $type_i64 {
+            unreach_func!($type_i8, $type_i16, $type_i32);
+            return_self_value!($type_i64);
+            signed_or_unsigned!($type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32);
+            signed_to_unsigned!($value_64bit; $type_u64, $type_usize, $type_u128);
+        }
 
-    /// Converts the value of `u32` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as i64
-    }
+        #[cfg(target_pointer_width = "32")]
+        impl ToByAdd for $type_isize {
+            unreach_func!($type_i8, $type_i16);
+            return_self_value!($type_isize);
+            signed_or_unsigned!($type_i32, $type_i64, $type_i128);
+            unreach_func!($type_u8, $type_u16);
+            signed_to_unsigned!($value_32or64bit; $type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    /// Converts the value of `u32` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        *self as u64
-    }
+        #[cfg(target_pointer_width = "64")]
+        impl ToByAdd for $type_isize {
+            unreach_func!($type_i8, $type_i16, $type_i32);
+            return_self_value!($type_isize);
+            signed_or_unsigned!($type_i64, $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32);
+            signed_to_unsigned!($value_32or64bit; $type_u64, $type_usize, $type_u128);
+        }
 
-    /// Converts the value of `u32` to an `isize`.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as isize
-    }
-
-    /// Converts the value of `u32` to an `usize`.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        *self as usize
-    }
-
-    /// Converts the value of `u32` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as i128
-    }
-
-    /// Converts the value of `u32` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self as u128
-    }
-}
-
-impl ToByAdd for i64 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i32`
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u32`
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
-
-    /// Returns an `i64` for compatibility.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        *self
-    }
-
-    /// Converts the value of `i64` to an `u64`.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        (*self as u64).wrapping_add(ADD_VALUE_32_64_I64_TO_U64)
-    }
-
-    /// Converts the value of `i64` to an `isize`, 64 bit arch.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        *self as isize
-    }
-
-    /// Converts the value of `i64` to an `usize`, 64 bit arch.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        (*self as usize).wrapping_add(ADD_VALUE_32_64_ISIZE_I64_TO_USIZE)
-    }
-
-    /// Converts the value of `i64` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `i64` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(ADD_VALUE_32_64_I64_TO_U128)
+        impl ToByAdd for $type_i128 {
+            unreach_func!($type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
+            return_self_value!($type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32, $type_u64, $type_usize);
+            signed_to_unsigned!(170_141_183_460_469_231_731_687_303_715_884_105_728; $type_u128);
+        }
     }
 }
 
-impl ToByAdd for u64 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
+macro_rules! unsigned_impls {
+    ( $type_i8:ty, $type_i16:ty, $type_i32:ty, $type_i64:ty, $type_isize:ty, $type_i128:ty;
+        $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty; ) => {
 
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
+        impl ToByAdd for $type_u8 {
+            unsigned_to_signed!($type_i8;$type_i8, $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            return_self_value!($type_u8);
+            signed_or_unsigned!($type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
+        impl ToByAdd for $type_u16 {
+            unreach_func!($type_i8);
+            unsigned_to_signed!($type_i16; $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8);
+            return_self_value!($type_u16);
+            signed_or_unsigned!($type_u32, $type_u64, $type_usize, $type_u128);
+        }
 
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
+        impl ToByAdd for $type_u32 {
+            unreach_func!($type_i8, $type_i16);
+            unsigned_to_signed!($type_i32; $type_i32, $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16);
+            return_self_value!($type_u32);
+            signed_or_unsigned!($type_u64, $type_usize, $type_u128);
+        }
 
-    ///This value cannot be represented as an `i32`
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
+        #[cfg(target_pointer_width = "32")]
+        impl ToByAdd for $type_u64 {
+            unreach_func!($type_i8, $type_i16, $type_i32, $type_isize );
+            unsigned_to_signed!($type_i64; $type_i64, $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32, $type_usize);
+            return_self_value!($type_u64);
+            signed_or_unsigned!($type_u128);
+        }
 
-    ///This value cannot be represented as an `u32`
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
+        #[cfg(target_pointer_width = "64")]
+        impl ToByAdd for $type_u64 {
+            unreach_func!($type_i8, $type_i16, $type_i32);
+            unsigned_to_signed!($type_i64; $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32);
+            return_self_value!($type_u64);
+            signed_or_unsigned!($type_usize, $type_u128);
+        }
 
-    /// Converts the value of `u64` to an `i64`.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        ((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1)
-    }
+        #[cfg(target_pointer_width = "32")]
+        impl ToByAdd for $type_usize {
+            unreach_func!($type_i8, $type_i16);
+            unsigned_to_signed!($type_isize; $type_i32, $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16);
+            return_self_value!($type_usize);
+            signed_or_unsigned!($type_u32, $type_u64, $type_u128);
+        }
 
-    /// Returns an `u64` for compatibility.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        *self
-    }
+        #[cfg(target_pointer_width = "64")]
+        impl ToByAdd for $type_usize {
+            unreach_func!($type_i8, $type_i16, $type_i32);
+            unsigned_to_signed!($type_isize; $type_i64, $type_isize, $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32);
+            return_self_value!($type_usize);
+            signed_or_unsigned!($type_u64, $type_u128);
+        }
 
-    /// Converts the value of `u64` to an `isize`, 64 bit arch.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1)
-    }
-
-    /// Converts the value of `u64` to an `usize`, 64 bit arch.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        *self as usize
-    }
-
-    /// Converts the value of `u64` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1) as i128
-    }
-
-    /// Converts the value of `u64` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self as u128
+        impl ToByAdd for $type_u128 {
+            unreach_func!($type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
+            unsigned_to_signed!($type_i128; $type_i128);
+            unreach_func!($type_u8, $type_u16, $type_u32, $type_u64, $type_usize);
+            return_self_value!($type_u128);
+        }
     }
 }
 
-impl ToByAdd for isize {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
+// For adding 32 bit arch.
+#[cfg(target_pointer_width = "32")]
+signed_impls!(
+    i8, i16, i32, i64, isize, i128;
+        u8, u16, u32, u64, usize, u128;
+            128, 32_768, 2_147_483_648,
+                9_223_372_036_854_775_808, 2_147_483_648
+);
 
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
+// For adding 64 bit arch.
+#[cfg(target_pointer_width = "64")]
+signed_impls!(
+    i8, i16, i32, i64, isize, i128;
+        u8, u16, u32, u64, usize, u128;
+            128, 32_768, 2_147_483_648,
+                9_223_372_036_854_775_808, 9_223_372_036_854_775_808
+);
 
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    /// Converts the value of `isize` to an `i32, 32 bit arch.
-    #[cfg(target_pointer_width = "32")]
-    fn to_i32(&self) -> i32 {
-        *self as i32
-    }
-
-    /// Converts the value of `isize` to an `u32, 32 bit arch.
-    #[cfg(target_pointer_width = "32")]
-    fn to_u32(&self) -> u32 {
-        (*self as u32).wrapping_add(ADD_VALUE_32_64_ISIZE_TO_U32)
-    }
-
-    ///This value cannot be represented as an `i32`, 64 bit arch.
-    #[cfg(target_pointer_width = "64")]
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u32`, 64 bit arch.
-    #[cfg(target_pointer_width = "64")]
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
-
-    /// Converts the value of `isize` to an `i64`, 32 or 64 bit arch.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        *self as i64
-    }
-
-    /// Converts the value of `isize` to an `u64`, 32 or 64 bit arch.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        (*self as u64).wrapping_add(ADD_VALUE_32_64_ISIZE_TO_U64)
-    }
-
-    /// Returns an `isize` for compatibility, 32 or 64 bit arch.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        *self
-    }
-
-    /// Converts the value of `isize` to an `usize`, 32 or 64 bit arch.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        (*self as usize).wrapping_add(ADD_VALUE_32_64_ISIZE_I64_TO_USIZE)
-    }
-
-    /// Converts the value of `isize` to an `i128`, 32 or 64 bit arch.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self as i128
-    }
-
-    /// Converts the value of `isize` to an `u128`, 32 or 64 bit arch.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(ADD_VALUE_32_64_ISIZE_TO_U128)
-    }
-}
-
-impl ToByAdd for usize {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    /// Converts the value of `usize` to an `i32`, 32 bit arch.
-    #[cfg(target_pointer_width = "32")]
-    fn to_i32(&self) -> i32 {
-        ((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1)
-    }
-
-    /// Converts the value of `usize` to an `u32`, 32 bit arch.
-    #[cfg(target_pointer_width = "32")]
-    fn to_u32(&self) -> u32 {
-        *self as u3232
-    }
-
-    ///This value cannot be represented as an `i32`, 64 bit arch.
-    #[cfg(target_pointer_width = "64")]
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u32`, 64 bit arch.
-    #[cfg(target_pointer_width = "64")]
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
-
-    /// Converts the value of `usize` to an `i64`, 64 bit arch.
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        ((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1)
-    }
-
-    /// Converts the value of `usize` to an `u64`, 32 or 64 arch.
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        *self as u64
-    }
-
-    /// Converts the value of `usize` to an `isize`, 32 or 64 bit arch.
-    #[inline]
-    fn to_isize(&self) -> isize {
-        ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1)
-    }
-
-    /// Returns an `usize` for compatibility, 32 or 64 bit arch.
-    #[inline]
-    fn to_usize(&self) -> usize {
-        *self
-    }
-
-    /// Converts the value of `usize` to an `i128`, 32 or 64 bit arch.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1) as i128
-    }
-
-    /// Converts the value of `usize` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self as u128
-    }
-}
-
-impl ToByAdd for i128 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i32`
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u32`
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i64`
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u64`
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `isize`
-    #[inline]
-    fn to_isize(&self) -> isize {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `usize`
-    #[inline]
-    fn to_usize(&self) -> usize {
-        todo!();
-    }
-
-    /// Returns an `i128` for compatibility.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        *self
-    }
-
-    /// Converts the value of `i128` to an `u128`.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        (*self as u128).wrapping_add(ADD_VALUE_I128_TO_U128)
-    }
-}
-
-impl ToByAdd for u128 {
-    ///This value cannot be represented as an `i8`
-    fn to_i8(&self) -> i8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u8`
-    fn to_u8(&self) -> u8 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i16`
-    fn to_i16(&self) -> i16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u16`
-    fn to_u16(&self) -> u16 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i32`
-    fn to_i32(&self) -> i32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u32`
-    fn to_u32(&self) -> u32 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `i64`
-    #[inline]
-    fn to_i64(&self) -> i64 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `u64`
-    #[inline]
-    fn to_u64(&self) -> u64 {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `isize`
-    #[inline]
-    fn to_isize(&self) -> isize {
-        todo!();
-    }
-
-    ///This value cannot be represented as an `usize`
-    #[inline]
-    fn to_usize(&self) -> usize {
-        todo!();
-    }
-
-    /// Converts the value of `u128` to an `i128`.
-    #[inline]
-    fn to_i128(&self) -> i128 {
-        ((*self as i128).wrapping_add(i128::MAX)).wrapping_add(1)
-    }
-
-    /// Returns an `u128` for compatibility.
-    #[inline]
-    fn to_u128(&self) -> u128 {
-        *self
-    }
-}
+unsigned_impls!(
+    i8, i16, i32, i64, isize, i128;
+        u8, u16, u32, u64, usize, u128;
+);
