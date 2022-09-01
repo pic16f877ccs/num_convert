@@ -7,16 +7,17 @@ Rust library for converting integers.
 Type converting library.
 
 ### This library provide a way to convert from one type to another type.
-### Trait ToByAdd
-- Convert from signed integers to unsigned in the full range of values.
+### Trait ToByAdd and FromByAdd
+- Convert to or from signed integers to unsigned in the full range of values.
+- Convert to or from unsigned integers to signed in the full range of values.
 - Supports generics types.
 - Not all value types support conversions.
 
-### Trait TryByAdd
-- Convert from signed integers to unsigned in the full range of values or possible values.
-- Convert from unsigned integers to signed in the full range of values or possible values.
-- Convert from signed integers to signed in the full range of values or possible values.
-- Convert from unsigned integers to unsigned in the full range of values or possible values.
+### Trait TryToByAdd or TryFromByAdd 
+- Convert into or from signed integers to unsigned in the full range of values or possible values.
+- Convert into or from unsigned integers to signed in the full range of values or possible values.
+- Convert into or from signed integers to signed in the full range of values or possible values.
+- Convert into or from unsigned integers to unsigned in the full range of values or possible values.
 - Supports generics types.
 
 ## Usage
