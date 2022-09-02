@@ -66,7 +66,7 @@ macro_rules! fns {
     ( $($from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
-            fn [<from_$from_type>](n: $from_type) -> $to_type {
+            fn [<from_$from_type>](_n: $from_type) -> $to_type {
                 unreachable!();
             }
         }
@@ -115,7 +115,7 @@ macro_rules! from_impls {
             fns! {sig u8; i8}
             fns! {i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; i8}
         }
-        
+
         impl FromByAdd for i16 {
             fns! {i8 = u8; i16}
             fns! {sig u16; i16}
@@ -123,7 +123,7 @@ macro_rules! from_impls {
             fns! {equ i16; i16}
             fns! {i32, i64, isize, i128, u32, u64, usize, u128; i16}
         }
-        
+
         // For adding 32 bit arch.
         #[cfg(target_pointer_width = "32")]
         impl FromByAdd for i32 {
@@ -143,7 +143,7 @@ macro_rules! from_impls {
             fns! {equ i32; i32}
             fns! {i64, isize, i128, u64, usize, u128; i32}
         }
-        
+
         // For adding 32 bit arch.
         #[cfg(target_pointer_width = "32")]
         impl FromByAdd for i64 {
@@ -163,7 +163,7 @@ macro_rules! from_impls {
             fns! {equ i64; i64}
             fns! {i128, u128; i64}
         }
-        
+
         // For adding 32 bit arch.
         #[cfg(target_pointer_width = "32")]
         impl FromByAdd for isize {
@@ -183,27 +183,27 @@ macro_rules! from_impls {
             fns! {equ isize; isize}
             fns! {i128, u128; isize}
         }
-        
+
         impl FromByAdd for i128 {
             fns! {i8 = u8, i16 = u16, i32 = u32, i64 = u64, isize = usize; i128}
             fns! {sig u128; i128}
             fns! {as equ i8, i16, i32, i64, isize; i128}
             fns! {equ i128; i128}
         }
-        
+
         impl FromByAdd for u8 {
             fns! {equ u8; u8}
             fns! {128, i8; u8}
             fns! {i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; u8}
         }
-        
+
         impl FromByAdd for u16 {
             fns! {128, i8, 32_768, i16; u16}
             fns! {as equ u8; u16}
             fns! {equ u16; u16}
             fns! {i32, i64, isize, i128, u32, u64, usize, u128; u16}
         }
-        
+
         // For adding 32 bit arch.
         #[cfg(target_pointer_width = "32")]
         impl FromByAdd for u32 {
@@ -221,14 +221,14 @@ macro_rules! from_impls {
             fns! {equ u32; u32}
             fns! {i64, isize, i128, u64, usize, u128; u32}
         }
-        
+
         impl FromByAdd for u64 {
             fns! {128, i8, 32_768, i16, $value_i32, i32, $value_i64, i64, $value_isize, isize; u64}
             fns! {as equ u8, u16, u32, usize; u64}
             fns! {equ u64; u64}
             fns! {i128, u128; u64}
         }
-        
+
         // For adding 32 bit arch.
         #[cfg(target_pointer_width = "32")]
         impl FromByAdd for usize {
@@ -237,7 +237,7 @@ macro_rules! from_impls {
             fns! {equ usize; usize}
             fns! {i64, i128, u64, u128; usize}
         }
-        
+
         // For adding 64 bit arch.
         #[cfg(target_pointer_width = "64")]
         impl FromByAdd for usize {
@@ -246,7 +246,7 @@ macro_rules! from_impls {
             fns! {equ usize; usize}
             fns! {i128, u128; usize}
         }
-        
+
         impl FromByAdd for u128 {
             fns! {128, i8, 32_768, i16, $value_i32, i32, $value_i64, i64, $value_isize, isize; u128}
             fns! {as equ u8, u16, u32, u64, usize; u128}
