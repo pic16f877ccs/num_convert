@@ -1,499 +1,99 @@
 use num_convert::*;
+use paste::paste;
 
-#[test]
-fn try_into_ok_i8() {
-    assert_eq!(i8::MIN,             TryToByAdd::try_into_i8(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX,             TryToByAdd::try_into_i8(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN,             TryToByAdd::try_into_u8(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX,             TryToByAdd::try_into_u8(&i8::MAX).unwrap());
-    assert_eq!(i8::MIN as i16,     TryToByAdd::try_into_i16(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX as i16,     TryToByAdd::try_into_i16(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN as u16,     TryToByAdd::try_into_u16(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX as u16,     TryToByAdd::try_into_u16(&i8::MAX).unwrap());
-    assert_eq!(i8::MIN as i32,     TryToByAdd::try_into_i32(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX as i32,     TryToByAdd::try_into_i32(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN as u32,     TryToByAdd::try_into_u32(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX as u32,     TryToByAdd::try_into_u32(&i8::MAX).unwrap());
-    assert_eq!(i8::MIN as i64,     TryToByAdd::try_into_i64(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX as i64,     TryToByAdd::try_into_i64(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN as u64,     TryToByAdd::try_into_u64(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX as u64,     TryToByAdd::try_into_u64(&i8::MAX).unwrap());
-    assert_eq!(i8::MIN as isize, TryToByAdd::try_into_isize(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX as isize, TryToByAdd::try_into_isize(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN as usize, TryToByAdd::try_into_usize(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX as usize, TryToByAdd::try_into_usize(&i8::MAX).unwrap());
-    assert_eq!(i8::MIN as i128,   TryToByAdd::try_into_i128(&i8::MIN).unwrap());
-    assert_eq!(i8::MAX as i128,   TryToByAdd::try_into_i128(&i8::MAX).unwrap());
-    assert_eq!(u8::MIN as u128,   TryToByAdd::try_into_u128(&i8::MIN).unwrap());
-    assert_eq!(u8::MAX as u128,   TryToByAdd::try_into_u128(&i8::MAX).unwrap());
-}
+macro_rules! into_by_add_tests_ok {
+        ( $from:ty; $($left_type:ty, $into:ty, $right_type:ty);+ ) => {
+            $(
+                paste! {
+                    #[test]
+                    fn [<ok_$from _try_into_$into _min>]() {
+                       assert_eq!(<$left_type>::MIN as $into,
+                           paste! {TryToByAdd::[<try_into_$into>](&(<$right_type>::MIN as $from)).unwrap()});
+                    }
 
-#[test]
-fn try_into_ok_u8() {
-    assert_eq!(i8::MIN,             TryToByAdd::try_into_i8(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX,             TryToByAdd::try_into_i8(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN,             TryToByAdd::try_into_u8(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX,             TryToByAdd::try_into_u8(&u8::MAX).unwrap());
-    assert_eq!(i8::MIN as i16,     TryToByAdd::try_into_i16(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX as i16,     TryToByAdd::try_into_i16(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN as u16,     TryToByAdd::try_into_u16(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX as u16,     TryToByAdd::try_into_u16(&u8::MAX).unwrap());
-    assert_eq!(i8::MIN as i32,     TryToByAdd::try_into_i32(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX as i32,     TryToByAdd::try_into_i32(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN as u32,     TryToByAdd::try_into_u32(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX as u32,     TryToByAdd::try_into_u32(&u8::MAX).unwrap());
-    assert_eq!(i8::MIN as i64,     TryToByAdd::try_into_i64(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX as i64,     TryToByAdd::try_into_i64(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN as u64,     TryToByAdd::try_into_u64(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX as u64,     TryToByAdd::try_into_u64(&u8::MAX).unwrap());
-    assert_eq!(i8::MIN as isize, TryToByAdd::try_into_isize(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX as isize, TryToByAdd::try_into_isize(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN as usize, TryToByAdd::try_into_usize(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX as usize, TryToByAdd::try_into_usize(&u8::MAX).unwrap());
-    assert_eq!(i8::MIN as i128,   TryToByAdd::try_into_i128(&u8::MIN).unwrap());
-    assert_eq!(i8::MAX as i128,   TryToByAdd::try_into_i128(&u8::MAX).unwrap());
-    assert_eq!(u8::MIN as u128,   TryToByAdd::try_into_u128(&u8::MIN).unwrap());
-    assert_eq!(u8::MAX as u128,   TryToByAdd::try_into_u128(&u8::MAX).unwrap());
-}
+                    #[test]
+                    fn [<ok_$from _try_into_$into _max>]() {
+                       assert_eq!(<$left_type>::MAX as $into,
+                           paste! {TryToByAdd::[<try_into_$into>](&(<$right_type>::MAX as $from)).unwrap()});
+                    }
+                }
+            )*
+        }
+    }
 
-#[test]
-#[should_panic]
-fn try_into_err_i16() {
-    assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&((i8::MIN as i16) - 1)).unwrap());
-    assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&((i8::MAX as i16) + 1)).unwrap());
-    assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&((i8::MIN as i16) - 1)).unwrap());
-    assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&((i8::MAX as i16) + 1)).unwrap());
-}
+macro_rules! into_by_add_tests_min_err {
+        ( $from:ty; $($into:ty, $right_type:ty);+ ) => {
+            $(
+                paste! {
+                    #[test]
+                    #[should_panic]
+                    fn [<err_$from _try_into_$into _min>]() {
+                       assert_eq!(<$into>::MIN,
+                           paste! {TryToByAdd::[<try_into_$into>](&((<$right_type>::MIN as $from) - 1)).unwrap()});
+                    }
+                }
+            )*
+        }
+    }
 
-#[test]
-fn try_into_ok_i16() {
-    assert_eq!(i8::MIN,  TryToByAdd::try_into_i8(&(i8::MIN as i16)).unwrap());
-    assert_eq!(i8::MAX,  TryToByAdd::try_into_i8(&(i8::MAX as i16)).unwrap());
-    assert_eq!(u8::MIN,  TryToByAdd::try_into_u8(&(i8::MIN as i16)).unwrap());
-    assert_eq!(u8::MAX,  TryToByAdd::try_into_u8(&(i8::MAX as i16)).unwrap());
-    assert_eq!(i16::MIN,            TryToByAdd::try_into_i16(&i16::MIN).unwrap());
-    assert_eq!(i16::MAX,            TryToByAdd::try_into_i16(&i16::MAX).unwrap());
-    assert_eq!(u16::MIN,            TryToByAdd::try_into_u16(&i16::MIN).unwrap());
-    assert_eq!(u16::MAX,            TryToByAdd::try_into_u16(&i16::MAX).unwrap());
-    assert_eq!(i16::MIN as i32,     TryToByAdd::try_into_i32(&i16::MIN).unwrap());
-    assert_eq!(i16::MAX as i32,     TryToByAdd::try_into_i32(&i16::MAX).unwrap());
-    assert_eq!(u16::MIN as u32,     TryToByAdd::try_into_u32(&i16::MIN).unwrap());
-    assert_eq!(u16::MAX as u32,     TryToByAdd::try_into_u32(&i16::MAX).unwrap());
-    assert_eq!(i16::MIN as i64,     TryToByAdd::try_into_i64(&i16::MIN).unwrap());
-    assert_eq!(i16::MAX as i64,     TryToByAdd::try_into_i64(&i16::MAX).unwrap());
-    assert_eq!(u16::MIN as u64,     TryToByAdd::try_into_u64(&i16::MIN).unwrap());
-    assert_eq!(u16::MAX as u64,     TryToByAdd::try_into_u64(&i16::MAX).unwrap());
-    assert_eq!(i16::MIN as isize, TryToByAdd::try_into_isize(&i16::MIN).unwrap());
-    assert_eq!(i16::MAX as isize, TryToByAdd::try_into_isize(&i16::MAX).unwrap());
-    assert_eq!(u16::MIN as usize, TryToByAdd::try_into_usize(&i16::MIN).unwrap());
-    assert_eq!(u16::MAX as usize, TryToByAdd::try_into_usize(&i16::MAX).unwrap());
-    assert_eq!(i16::MIN as i128,   TryToByAdd::try_into_i128(&i16::MIN).unwrap());
-    assert_eq!(i16::MAX as i128,   TryToByAdd::try_into_i128(&i16::MAX).unwrap());
-    assert_eq!(u16::MIN as u128,   TryToByAdd::try_into_u128(&i16::MIN).unwrap());
-    assert_eq!(u16::MAX as u128,   TryToByAdd::try_into_u128(&i16::MAX).unwrap());
-}
+macro_rules! into_by_add_tests_max_err {
+        ( $from:ty; $($into:ty, $right_type:ty);+ ) => {
+            $(
+                paste! {
+                    #[test]
+                    #[should_panic]
+                    fn [<err_$from _try_into_$into _max>]() {
+                       assert_eq!(<$into>::MAX,
+                           paste! {TryToByAdd::[<try_into_$into>](&((<$right_type>::MAX as $from) + 1)).unwrap()});
+                    }
+                }
+            )*
+        }
+    }
 
-#[test]
-#[should_panic]
-fn try_into_err_u16() {
-    assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&((u8::MIN as u16) + 1)).unwrap());
-    assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&((u8::MAX as u16) + 1)).unwrap());
-    assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&((u8::MIN as u16) + 1)).unwrap());
-    assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&((u8::MAX as u16) + 1)).unwrap());
-}
+into_by_add_tests_ok! {i8;    i8, i8, i8; i8,  i16, i8;  i8,  i32, i8;  i8,  i64, i8;  i8,    isize, i8;    i8,    i128, i8}
+into_by_add_tests_ok! {i16;   i8, i8, i8; i16, i16, i16; i16, i32, i16; i16, i64, i16; i16,   isize, i16;   i16,   i128, i16}
+into_by_add_tests_ok! {i32;   i8, i8, i8; i16, i16, i16; i32, i32, i32; i32, i64, i32; i32,   isize, i32;   i32,   i128, i32}
+into_by_add_tests_ok! {i64;   i8, i8, i8; i16, i16, i16; i32, i32, i32; i64, i64, i64; i64,   isize, i64;   i64,   i128, i64}
+into_by_add_tests_ok! {isize; i8, i8, i8; i16, i16, i16; i32, i32, i32; i64, i64, i64; isize, isize, isize; isize, i128, isize}
+into_by_add_tests_ok! {i128;  i8, i8, i8; i16, i16, i16; i32, i32, i32; i64, i64, i64; isize, isize, isize; i128,  i128, i128}
 
-#[test]
-fn try_into_ok_u16() {
-    assert_eq!(i8::MIN,  TryToByAdd::try_into_i8(&(u8::MIN as u16)).unwrap());
-    assert_eq!(i8::MAX,  TryToByAdd::try_into_i8(&(u8::MAX as u16)).unwrap());
-    assert_eq!(u8::MIN,  TryToByAdd::try_into_u8(&(u8::MIN as u16)).unwrap());
-    assert_eq!(u8::MAX,  TryToByAdd::try_into_u8(&(u8::MAX as u16)).unwrap());
-    assert_eq!(i16::MIN,            TryToByAdd::try_into_i16(&u16::MIN).unwrap());
-    assert_eq!(i16::MAX,            TryToByAdd::try_into_i16(&u16::MAX).unwrap());
-    assert_eq!(u16::MIN,            TryToByAdd::try_into_u16(&u16::MIN).unwrap());
-    assert_eq!(u16::MAX,            TryToByAdd::try_into_u16(&u16::MAX).unwrap());
-    assert_eq!(i16::MIN as i32,     TryToByAdd::try_into_i32(&u16::MIN).unwrap());
-    assert_eq!(i16::MAX as i32,     TryToByAdd::try_into_i32(&u16::MAX).unwrap());
-    assert_eq!(u16::MIN as u32,     TryToByAdd::try_into_u32(&u16::MIN).unwrap());
-    assert_eq!(u16::MAX as u32,     TryToByAdd::try_into_u32(&u16::MAX).unwrap());
-    assert_eq!(i16::MIN as i64,     TryToByAdd::try_into_i64(&u16::MIN).unwrap());
-    assert_eq!(i16::MAX as i64,     TryToByAdd::try_into_i64(&u16::MAX).unwrap());
-    assert_eq!(u16::MIN as u64,     TryToByAdd::try_into_u64(&u16::MIN).unwrap());
-    assert_eq!(u16::MAX as u64,     TryToByAdd::try_into_u64(&u16::MAX).unwrap());
-    assert_eq!(i16::MIN as isize, TryToByAdd::try_into_isize(&u16::MIN).unwrap());
-    assert_eq!(i16::MAX as isize, TryToByAdd::try_into_isize(&u16::MAX).unwrap());
-    assert_eq!(u16::MIN as usize, TryToByAdd::try_into_usize(&u16::MIN).unwrap());
-    assert_eq!(u16::MAX as usize, TryToByAdd::try_into_usize(&u16::MAX).unwrap());
-    assert_eq!(i16::MIN as i128,   TryToByAdd::try_into_i128(&u16::MIN).unwrap());
-    assert_eq!(i16::MAX as i128,   TryToByAdd::try_into_i128(&u16::MAX).unwrap());
-    assert_eq!(u16::MIN as u128,   TryToByAdd::try_into_u128(&u16::MIN).unwrap());
-    assert_eq!(u16::MAX as u128,   TryToByAdd::try_into_u128(&u16::MAX).unwrap());
-}
+into_by_add_tests_ok! {i8;    u8, u8, i8; u8,  u16, i8;  u8,  u32, i8;  u8,  u64, i8;  u8,    usize, i8;    u8,    u128, i8}
+into_by_add_tests_ok! {i16;   u8, u8, i8; u16, u16, i16; u16, u32, i16; u16, u64, i16; u16,   usize, i16;   u16,   u128, i16}
+into_by_add_tests_ok! {i32;   u8, u8, i8; u16, u16, i16; u32, u32, i32; u32, u64, i32; u32,   usize, i32;   u32,   u128, i32}
+into_by_add_tests_ok! {i64;   u8, u8, i8; u16, u16, i16; u32, u32, i32; u64, u64, i64; u64,   usize, i64;   u64,   u128, i64}
+into_by_add_tests_ok! {isize; u8, u8, i8; u16, u16, i16; u32, u32, i32; u64, u64, i64; usize, usize, isize; usize, u128, isize}
+into_by_add_tests_ok! {i128;  u8, u8, i8; u16, u16, i16; u32, u32, i32; u64, u64, i64; usize, usize, isize; u128,  u128, i128}
 
-#[test]
-#[should_panic]
-fn try_into_err_i32() {
-    assert_eq!(i8::MIN,    TryToByAdd::try_into_i8(&((i8::MIN as i32) - 1)).unwrap());
-    assert_eq!(i8::MAX,    TryToByAdd::try_into_i8(&((i8::MAX as i32) + 1)).unwrap());
-    assert_eq!(u8::MIN,    TryToByAdd::try_into_u8(&((i8::MIN as i32) - 1)).unwrap());
-    assert_eq!(u8::MAX,    TryToByAdd::try_into_u8(&((i8::MAX as i32) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((i16::MIN as i32) - 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((i16::MAX as i32) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((i16::MIN as i32) - 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((i16::MAX as i32) + 1)).unwrap());
-}
+into_by_add_tests_ok! {u8;    u8, u8, u8; u8,  u16, u8;  u8,  u32, u8;  u8,  u64, u8;  u8,    usize, u8;    u8,    u128, u8}
+into_by_add_tests_ok! {u16;   u8, u8, u8; u16, u16, u16; u16, u32, u16; u16, u64, u16; u16,   usize, u16;   u16,   u128, u16}
+into_by_add_tests_ok! {u32;   u8, u8, u8; u16, u16, u16; u32, u32, u32; u32, u64, u32; u32,   usize, u32;   u32,   u128, u32}
+into_by_add_tests_ok! {u64;   u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64, u64; u64,   usize, u64;   u64,   u128, u64}
+into_by_add_tests_ok! {usize; u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64, u64; usize, usize, usize; usize, u128, usize}
+into_by_add_tests_ok! {u128;  u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64, u64; usize, usize, usize; u128,  u128, u128}
 
-#[test]
-fn try_into_ok_i32() {
-    assert_eq!(i8::MIN,    TryToByAdd::try_into_i8(&(i8::MIN as i32)).unwrap());
-    assert_eq!(i8::MAX,    TryToByAdd::try_into_i8(&(i8::MAX as i32)).unwrap());
-    assert_eq!(u8::MIN,    TryToByAdd::try_into_u8(&(i8::MIN as i32)).unwrap());
-    assert_eq!(u8::MAX,    TryToByAdd::try_into_u8(&(i8::MAX as i32)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(i16::MIN as i32)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(i16::MAX as i32)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(i16::MIN as i32)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(i16::MAX as i32)).unwrap());
-    assert_eq!(i32::MIN,              TryToByAdd::try_into_i32(&i32::MIN).unwrap());
-    assert_eq!(i32::MAX,              TryToByAdd::try_into_i32(&i32::MAX).unwrap());
-    assert_eq!(u32::MIN,              TryToByAdd::try_into_u32(&i32::MIN).unwrap());
-    assert_eq!(u32::MAX,              TryToByAdd::try_into_u32(&i32::MAX).unwrap());
-    assert_eq!(i32::MIN as i64,       TryToByAdd::try_into_i64(&i32::MIN).unwrap());
-    assert_eq!(i32::MAX as i64,       TryToByAdd::try_into_i64(&i32::MAX).unwrap());
-    assert_eq!(u32::MIN as u64,       TryToByAdd::try_into_u64(&i32::MIN).unwrap());
-    assert_eq!(u32::MAX as u64,       TryToByAdd::try_into_u64(&i32::MAX).unwrap());
-    assert_eq!(i32::MIN as isize,   TryToByAdd::try_into_isize(&i32::MIN).unwrap());
-    assert_eq!(i32::MAX as isize,   TryToByAdd::try_into_isize(&i32::MAX).unwrap());
-    assert_eq!(u32::MIN as usize,   TryToByAdd::try_into_usize(&i32::MIN).unwrap());
-    assert_eq!(u32::MAX as usize,   TryToByAdd::try_into_usize(&i32::MAX).unwrap());
-    assert_eq!(i32::MIN as i128,     TryToByAdd::try_into_i128(&i32::MIN).unwrap());
-    assert_eq!(i32::MAX as i128,     TryToByAdd::try_into_i128(&i32::MAX).unwrap());
-    assert_eq!(u32::MIN as u128,     TryToByAdd::try_into_u128(&i32::MIN).unwrap());
-    assert_eq!(u32::MAX as u128,     TryToByAdd::try_into_u128(&i32::MAX).unwrap());
-}
+into_by_add_tests_ok! {u8;    i8, i8, u8; i8,  i16, u8;  i8,  i32, u8;  i8,  i64, u8;  i8,    isize, u8;    i8,    i128, u8}
+into_by_add_tests_ok! {u16;   i8, i8, u8; i16, i16, u16; i16, i32, u16; i16, i64, u16; i16,   isize, u16;   i16,   i128, u16}
+into_by_add_tests_ok! {u32;   i8, i8, u8; i16, i16, u16; i32, i32, u32; i32, i64, u32; i32,   isize, u32;   i32,   i128, u32}
+into_by_add_tests_ok! {u64;   i8, i8, u8; i16, i16, u16; i32, i32, u32; i64, i64, u64; i64,   isize, u64;   i64,   i128, u64}
+into_by_add_tests_ok! {usize; i8, i8, u8; i16, i16, u16; i32, i32, u32; i64, i64, u64; isize, isize, usize; isize, i128, usize}
+into_by_add_tests_ok! {u128;  i8, i8, u8; i16, i16, u16; i32, i32, u32; i64, i64, u64; isize, isize, usize; i128,  i128, u128}
 
-#[test]
-#[should_panic]
-fn try_into_err_u32() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&((u8::MIN  as u32) + 1)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&((u8::MAX  as u32) + 1)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&((u8::MIN  as u32) + 1)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&((u8::MAX  as u32) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((u16::MIN as u32) + 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((u16::MAX as u32) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((u16::MIN as u32) + 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((u16::MAX as u32) + 1)).unwrap());
-}
+into_by_add_tests_max_err! {u16; i8, u8; u8, u8}
+into_by_add_tests_max_err! {u32; i8, u8; u8, u8; i16, u16; u16, u16}
+into_by_add_tests_max_err! {u64; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
+into_by_add_tests_max_err! {usize; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
+into_by_add_tests_max_err! {u128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; isize, usize; usize, usize}
 
-#[test]
-fn try_into_ok_u32() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&(u8::MIN  as u32)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&(u8::MAX  as u32)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&(u8::MIN  as u32)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&(u8::MAX  as u32)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(u16::MIN as u32)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(u16::MAX as u32)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(u16::MIN as u32)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(u16::MAX as u32)).unwrap());
-    assert_eq!(i32::MIN,              TryToByAdd::try_into_i32(&u32::MIN).unwrap());
-    assert_eq!(i32::MAX,              TryToByAdd::try_into_i32(&u32::MAX).unwrap());
-    assert_eq!(u32::MIN,              TryToByAdd::try_into_u32(&u32::MIN).unwrap());
-    assert_eq!(u32::MAX,              TryToByAdd::try_into_u32(&u32::MAX).unwrap());
-    assert_eq!(i32::MIN as i64,       TryToByAdd::try_into_i64(&u32::MIN).unwrap());
-    assert_eq!(i32::MAX as i64,       TryToByAdd::try_into_i64(&u32::MAX).unwrap());
-    assert_eq!(u32::MIN as u64,       TryToByAdd::try_into_u64(&u32::MIN).unwrap());
-    assert_eq!(u32::MAX as u64,       TryToByAdd::try_into_u64(&u32::MAX).unwrap());
-    assert_eq!(i32::MIN as isize,   TryToByAdd::try_into_isize(&u32::MIN).unwrap());
-    assert_eq!(i32::MAX as isize,   TryToByAdd::try_into_isize(&u32::MAX).unwrap());
-    assert_eq!(u32::MIN as usize,   TryToByAdd::try_into_usize(&u32::MIN).unwrap());
-    assert_eq!(u32::MAX as usize,   TryToByAdd::try_into_usize(&u32::MAX).unwrap());
-    assert_eq!(i32::MIN as i128,     TryToByAdd::try_into_i128(&u32::MIN).unwrap());
-    assert_eq!(i32::MAX as i128,     TryToByAdd::try_into_i128(&u32::MAX).unwrap());
-    assert_eq!(u32::MIN as u128,     TryToByAdd::try_into_u128(&u32::MIN).unwrap());
-    assert_eq!(u32::MAX as u128,     TryToByAdd::try_into_u128(&u32::MAX).unwrap());
-}
+into_by_add_tests_max_err! {i16; i8, u8; u8, u8}
+into_by_add_tests_max_err! {i32; i8, u8; u8, u8; i16, u16; u16, u16}
+into_by_add_tests_max_err! {i64; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
+into_by_add_tests_max_err! {isize; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
+into_by_add_tests_max_err! {i128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; isize, usize; usize, usize}
 
-#[test]
-#[should_panic]
-fn try_into_err_i64() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&((i8::MIN  as i64) - 1)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&((i8::MAX  as i64) + 1)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&((i8::MIN  as i64) - 1)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&((i8::MAX  as i64) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((i16::MIN as i64) - 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((i16::MAX as i64) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((i16::MIN as i64) - 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((i16::MAX as i64) + 1)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&((i32::MIN as i64) - 1)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&((i32::MAX as i64) + 1)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&((i32::MIN as i64) - 1)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&((i32::MAX as i64) + 1)).unwrap());
-}
+into_by_add_tests_min_err! {i16; i8, u8}
+into_by_add_tests_min_err! {i32; i8, u8; i16, u16}
+into_by_add_tests_min_err! {i64; i8, u8; i16, u16; i32, u32}
+into_by_add_tests_min_err! {isize; i8, u8; i16, u16; i32, u32}
+into_by_add_tests_min_err! {i128; i8, u8; i16, u16; i32, u32; i64, u64; isize, usize}
 
-#[test]
-fn try_into_ok_i64() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&(i8::MIN  as i64)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&(i8::MAX  as i64)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&(i8::MIN  as i64)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&(i8::MAX  as i64)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(i16::MIN as i64)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(i16::MAX as i64)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(i16::MIN as i64)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(i16::MAX as i64)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&(i32::MIN as i64)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&(i32::MAX as i64)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&(i32::MIN as i64)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&(i32::MAX as i64)).unwrap());
-    assert_eq!(i64::MIN,              TryToByAdd::try_into_i64(&i64::MIN).unwrap());
-    assert_eq!(i64::MAX,              TryToByAdd::try_into_i64(&i64::MAX).unwrap());
-    assert_eq!(u64::MIN,              TryToByAdd::try_into_u64(&i64::MIN).unwrap());
-    assert_eq!(u64::MAX,              TryToByAdd::try_into_u64(&i64::MAX).unwrap());
-    assert_eq!(i64::MIN as isize,   TryToByAdd::try_into_isize(&i64::MIN).unwrap());
-    assert_eq!(i64::MAX as isize,   TryToByAdd::try_into_isize(&i64::MAX).unwrap());
-    assert_eq!(u64::MIN as usize,   TryToByAdd::try_into_usize(&i64::MIN).unwrap());
-    assert_eq!(u64::MAX as usize,   TryToByAdd::try_into_usize(&i64::MAX).unwrap());
-    assert_eq!(i64::MIN as i128,     TryToByAdd::try_into_i128(&i64::MIN).unwrap());
-    assert_eq!(i64::MAX as i128,     TryToByAdd::try_into_i128(&i64::MAX).unwrap());
-    assert_eq!(u64::MIN as u128,     TryToByAdd::try_into_u128(&i64::MIN).unwrap());
-    assert_eq!(u64::MAX as u128,     TryToByAdd::try_into_u128(&i64::MAX).unwrap());
-}
-
-#[test]
-#[should_panic]
-fn try_into_err_u64() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&((u8::MIN  as u64) + 1)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&((u8::MAX  as u64) + 1)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&((u8::MIN  as u64) + 1)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&((u8::MAX  as u64) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((u16::MIN as u64) + 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((u16::MAX as u64) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((u16::MIN as u64) + 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((u16::MAX as u64) + 1)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&((u32::MIN as u64) + 1)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&((u32::MAX as u64) + 1)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&((u32::MIN as u64) + 1)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&((u32::MAX as u64) + 1)).unwrap());
-}
-
-#[test]
-fn try_into_ok_u64() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&(u8::MIN  as u64)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&(u8::MAX  as u64)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&(u8::MIN  as u64)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&(u8::MAX  as u64)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(u16::MIN as u64)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(u16::MAX as u64)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(u16::MIN as u64)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(u16::MAX as u64)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&(u32::MIN as u64)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&(u32::MAX as u64)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&(u32::MIN as u64)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&(u32::MAX as u64)).unwrap());
-    assert_eq!(i64::MIN,              TryToByAdd::try_into_i64(&u64::MIN).unwrap());
-    assert_eq!(i64::MAX,              TryToByAdd::try_into_i64(&u64::MAX).unwrap());
-    assert_eq!(u64::MIN,              TryToByAdd::try_into_u64(&u64::MIN).unwrap());
-    assert_eq!(u64::MAX,              TryToByAdd::try_into_u64(&u64::MAX).unwrap());
-    assert_eq!(i64::MIN as isize,   TryToByAdd::try_into_isize(&u64::MIN).unwrap());
-    assert_eq!(i64::MAX as isize,   TryToByAdd::try_into_isize(&u64::MAX).unwrap());
-    assert_eq!(u64::MIN as usize,   TryToByAdd::try_into_usize(&u64::MIN).unwrap());
-    assert_eq!(u64::MAX as usize,   TryToByAdd::try_into_usize(&u64::MAX).unwrap());
-    assert_eq!(i64::MIN as i128,     TryToByAdd::try_into_i128(&u64::MIN).unwrap());
-    assert_eq!(i64::MAX as i128,     TryToByAdd::try_into_i128(&u64::MAX).unwrap());
-    assert_eq!(u64::MIN as u128,     TryToByAdd::try_into_u128(&u64::MIN).unwrap());
-    assert_eq!(u64::MAX as u128,     TryToByAdd::try_into_u128(&u64::MAX).unwrap());
-}
-
-#[test]
-#[should_panic]
-fn try_into_err_isize() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&((i8::MIN  as isize) - 1)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&((i8::MAX  as isize) + 1)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&((i8::MIN  as isize) - 1)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&((i8::MAX  as isize) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((i16::MIN as isize) - 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((i16::MAX as isize) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((i16::MIN as isize) - 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((i16::MAX as isize) + 1)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&((i32::MIN as isize) - 1)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&((i32::MAX as isize) + 1)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&((i32::MIN as isize) - 1)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&((i32::MAX as isize) + 1)).unwrap());
-}
-
-#[test]
-fn try_into_ok_isize() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&(i8::MIN  as isize)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&(i8::MAX  as isize)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&(i8::MIN  as isize)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&(i8::MAX  as isize)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(i16::MIN as isize)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(i16::MAX as isize)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(i16::MIN as isize)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(i16::MAX as isize)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&(i32::MIN as isize)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&(i32::MAX as isize)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&(i32::MIN as isize)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&(i32::MAX as isize)).unwrap());
-    assert_eq!(i64::MIN,              TryToByAdd::try_into_i64(&isize::MIN).unwrap());
-    assert_eq!(i64::MAX,              TryToByAdd::try_into_i64(&isize::MAX).unwrap());
-    assert_eq!(u64::MIN,              TryToByAdd::try_into_u64(&isize::MIN).unwrap());
-    assert_eq!(u64::MAX,              TryToByAdd::try_into_u64(&isize::MAX).unwrap());
-    assert_eq!(isize::MIN,          TryToByAdd::try_into_isize(&isize::MIN).unwrap());
-    assert_eq!(isize::MAX,          TryToByAdd::try_into_isize(&isize::MAX).unwrap());
-    assert_eq!(usize::MIN,          TryToByAdd::try_into_usize(&isize::MIN).unwrap());
-    assert_eq!(usize::MAX,          TryToByAdd::try_into_usize(&isize::MAX).unwrap());
-    assert_eq!(isize::MIN as i128,   TryToByAdd::try_into_i128(&isize::MIN).unwrap());
-    assert_eq!(isize::MAX as i128,   TryToByAdd::try_into_i128(&isize::MAX).unwrap());
-    assert_eq!(usize::MIN as u128,   TryToByAdd::try_into_u128(&isize::MIN).unwrap());
-    assert_eq!(usize::MAX as u128,   TryToByAdd::try_into_u128(&isize::MAX).unwrap());
-}
-
-#[test]
-#[should_panic]
-fn try_into_err_usize() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&((u8::MIN  as usize) + 1)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&((u8::MAX  as usize) + 1)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&((u8::MIN  as usize) + 1)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&((u8::MAX  as usize) + 1)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&((u16::MIN as usize) + 1)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&((u16::MAX as usize) + 1)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&((u16::MIN as usize) + 1)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&((u16::MAX as usize) + 1)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&((u32::MIN as usize) + 1)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&((u32::MAX as usize) + 1)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&((u32::MIN as usize) + 1)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&((u32::MAX as usize) + 1)).unwrap());
-}
-
-#[test]
-fn try_into_ok_usize() {
-    assert_eq!(i8::MIN,   TryToByAdd::try_into_i8(&(u8::MIN  as usize)).unwrap());
-    assert_eq!(i8::MAX,   TryToByAdd::try_into_i8(&(u8::MAX  as usize)).unwrap());
-    assert_eq!(u8::MIN,   TryToByAdd::try_into_u8(&(u8::MIN  as usize)).unwrap());
-    assert_eq!(u8::MAX,   TryToByAdd::try_into_u8(&(u8::MAX  as usize)).unwrap());
-    assert_eq!(i16::MIN, TryToByAdd::try_into_i16(&(u16::MIN as usize)).unwrap());
-    assert_eq!(i16::MAX, TryToByAdd::try_into_i16(&(u16::MAX as usize)).unwrap());
-    assert_eq!(u16::MIN, TryToByAdd::try_into_u16(&(u16::MIN as usize)).unwrap());
-    assert_eq!(u16::MAX, TryToByAdd::try_into_u16(&(u16::MAX as usize)).unwrap());
-    assert_eq!(i32::MIN, TryToByAdd::try_into_i32(&(u32::MIN as usize)).unwrap());
-    assert_eq!(i32::MAX, TryToByAdd::try_into_i32(&(u32::MAX as usize)).unwrap());
-    assert_eq!(u32::MIN, TryToByAdd::try_into_u32(&(u32::MIN as usize)).unwrap());
-    assert_eq!(u32::MAX, TryToByAdd::try_into_u32(&(u32::MAX as usize)).unwrap());
-    assert_eq!(i64::MIN,              TryToByAdd::try_into_i64(&usize::MIN).unwrap());
-    assert_eq!(i64::MAX,              TryToByAdd::try_into_i64(&usize::MAX).unwrap());
-    assert_eq!(u64::MIN,              TryToByAdd::try_into_u64(&usize::MIN).unwrap());
-    assert_eq!(u64::MAX,              TryToByAdd::try_into_u64(&usize::MAX).unwrap());
-    assert_eq!(isize::MIN,          TryToByAdd::try_into_isize(&usize::MIN).unwrap());
-    assert_eq!(isize::MAX,          TryToByAdd::try_into_isize(&usize::MAX).unwrap());
-    assert_eq!(usize::MIN,          TryToByAdd::try_into_usize(&usize::MIN).unwrap());
-    assert_eq!(usize::MAX,          TryToByAdd::try_into_usize(&usize::MAX).unwrap());
-    assert_eq!(isize::MIN as i128,   TryToByAdd::try_into_i128(&usize::MIN).unwrap());
-    assert_eq!(isize::MAX as i128,   TryToByAdd::try_into_i128(&usize::MAX).unwrap());
-    assert_eq!(usize::MIN as u128,   TryToByAdd::try_into_u128(&usize::MIN).unwrap());
-    assert_eq!(usize::MAX as u128,   TryToByAdd::try_into_u128(&usize::MAX).unwrap());
-}
-
-#[test]
-#[should_panic]
-fn try_into_err_i128() {
-    assert_eq!(i8::MIN,       TryToByAdd::try_into_i8(&((i8::MIN    as i128) - 1)).unwrap());
-    assert_eq!(i8::MAX,       TryToByAdd::try_into_i8(&((i8::MAX    as i128) + 1)).unwrap());
-    assert_eq!(u8::MIN,       TryToByAdd::try_into_u8(&((i8::MIN    as i128) - 1)).unwrap());
-    assert_eq!(u8::MAX,       TryToByAdd::try_into_u8(&((i8::MAX    as i128) + 1)).unwrap());
-    assert_eq!(i16::MIN,     TryToByAdd::try_into_i16(&((i16::MIN   as i128) - 1)).unwrap());
-    assert_eq!(i16::MAX,     TryToByAdd::try_into_i16(&((i16::MAX   as i128) + 1)).unwrap());
-    assert_eq!(u16::MIN,     TryToByAdd::try_into_u16(&((i16::MIN   as i128) - 1)).unwrap());
-    assert_eq!(u16::MAX,     TryToByAdd::try_into_u16(&((i16::MAX   as i128) + 1)).unwrap());
-    assert_eq!(i32::MIN,     TryToByAdd::try_into_i32(&((i32::MIN   as i128) - 1)).unwrap());
-    assert_eq!(i32::MAX,     TryToByAdd::try_into_i32(&((i32::MAX   as i128) + 1)).unwrap());
-    assert_eq!(u32::MIN,     TryToByAdd::try_into_u32(&((i32::MIN   as i128) - 1)).unwrap());
-    assert_eq!(u32::MAX,     TryToByAdd::try_into_u32(&((i32::MAX   as i128) + 1)).unwrap());
-    assert_eq!(i64::MIN,     TryToByAdd::try_into_i64(&((i64::MIN   as i128) - 1)).unwrap());
-    assert_eq!(i64::MAX,     TryToByAdd::try_into_i64(&((i64::MAX   as i128) + 1)).unwrap());
-    assert_eq!(u64::MIN,     TryToByAdd::try_into_u64(&((i64::MIN   as i128) - 1)).unwrap());
-    assert_eq!(u64::MAX,     TryToByAdd::try_into_u64(&((i64::MAX   as i128) + 1)).unwrap());
-    assert_eq!(isize::MIN, TryToByAdd::try_into_isize(&((isize::MIN as i128) - 1)).unwrap());
-    assert_eq!(isize::MAX, TryToByAdd::try_into_isize(&((isize::MAX as i128) + 1)).unwrap());
-    assert_eq!(usize::MIN, TryToByAdd::try_into_usize(&((isize::MIN as i128) - 1)).unwrap());
-    assert_eq!(usize::MAX, TryToByAdd::try_into_usize(&((isize::MAX as i128) + 1)).unwrap());
-}
-
-#[test]
-fn try_into_ok_i128() {
-    assert_eq!(i8::MIN,       TryToByAdd::try_into_i8(&(i8::MIN    as i128)).unwrap());
-    assert_eq!(i8::MAX,       TryToByAdd::try_into_i8(&(i8::MAX    as i128)).unwrap());
-    assert_eq!(u8::MIN,       TryToByAdd::try_into_u8(&(i8::MIN    as i128)).unwrap());
-    assert_eq!(u8::MAX,       TryToByAdd::try_into_u8(&(i8::MAX    as i128)).unwrap());
-    assert_eq!(i16::MIN,     TryToByAdd::try_into_i16(&(i16::MIN   as i128)).unwrap());
-    assert_eq!(i16::MAX,     TryToByAdd::try_into_i16(&(i16::MAX   as i128)).unwrap());
-    assert_eq!(u16::MIN,     TryToByAdd::try_into_u16(&(i16::MIN   as i128)).unwrap());
-    assert_eq!(u16::MAX,     TryToByAdd::try_into_u16(&(i16::MAX   as i128)).unwrap());
-    assert_eq!(i32::MIN,     TryToByAdd::try_into_i32(&(i32::MIN   as i128)).unwrap());
-    assert_eq!(i32::MAX,     TryToByAdd::try_into_i32(&(i32::MAX   as i128)).unwrap());
-    assert_eq!(u32::MIN,     TryToByAdd::try_into_u32(&(i32::MIN   as i128)).unwrap());
-    assert_eq!(u32::MAX,     TryToByAdd::try_into_u32(&(i32::MAX   as i128)).unwrap());
-    assert_eq!(i64::MIN,     TryToByAdd::try_into_i64(&(i64::MIN   as i128)).unwrap());
-    assert_eq!(i64::MAX,     TryToByAdd::try_into_i64(&(i64::MAX   as i128)).unwrap());
-    assert_eq!(u64::MIN,     TryToByAdd::try_into_u64(&(i64::MIN   as i128)).unwrap());
-    assert_eq!(u64::MAX,     TryToByAdd::try_into_u64(&(i64::MAX   as i128)).unwrap());
-    assert_eq!(isize::MIN, TryToByAdd::try_into_isize(&(isize::MIN as i128)).unwrap());
-    assert_eq!(isize::MAX, TryToByAdd::try_into_isize(&(isize::MAX as i128)).unwrap());
-    assert_eq!(usize::MIN, TryToByAdd::try_into_usize(&(isize::MIN as i128)).unwrap());
-    assert_eq!(usize::MAX, TryToByAdd::try_into_usize(&(isize::MAX as i128)).unwrap());
-    assert_eq!(i128::MIN,                  TryToByAdd::try_into_i128(&i128::MIN).unwrap());
-    assert_eq!(i128::MAX,                  TryToByAdd::try_into_i128(&i128::MAX).unwrap());
-    assert_eq!(u128::MIN,                  TryToByAdd::try_into_u128(&i128::MIN).unwrap());
-    assert_eq!(u128::MAX,                  TryToByAdd::try_into_u128(&i128::MAX).unwrap());
-}
-
-#[test]
-#[should_panic]
-fn try_into_err_u128() {
-    assert_eq!(i8::MIN,       TryToByAdd::try_into_i8(&((u8::MIN    as u128) + 1)).unwrap());
-    assert_eq!(i8::MAX,       TryToByAdd::try_into_i8(&((u8::MAX    as u128) + 1)).unwrap());
-    assert_eq!(u8::MIN,       TryToByAdd::try_into_u8(&((u8::MIN    as u128) + 1)).unwrap());
-    assert_eq!(u8::MAX,       TryToByAdd::try_into_u8(&((u8::MAX    as u128) + 1)).unwrap());
-    assert_eq!(i16::MIN,     TryToByAdd::try_into_i16(&((u16::MIN   as u128) + 1)).unwrap());
-    assert_eq!(i16::MAX,     TryToByAdd::try_into_i16(&((u16::MAX   as u128) + 1)).unwrap());
-    assert_eq!(u16::MIN,     TryToByAdd::try_into_u16(&((u16::MIN   as u128) + 1)).unwrap());
-    assert_eq!(u16::MAX,     TryToByAdd::try_into_u16(&((u16::MAX   as u128) + 1)).unwrap());
-    assert_eq!(i32::MIN,     TryToByAdd::try_into_i32(&((u32::MIN   as u128) + 1)).unwrap());
-    assert_eq!(i32::MAX,     TryToByAdd::try_into_i32(&((u32::MAX   as u128) + 1)).unwrap());
-    assert_eq!(u32::MIN,     TryToByAdd::try_into_u32(&((u32::MIN   as u128) + 1)).unwrap());
-    assert_eq!(u32::MAX,     TryToByAdd::try_into_u32(&((u32::MAX   as u128) + 1)).unwrap());
-    assert_eq!(i64::MIN,     TryToByAdd::try_into_i64(&((u64::MIN   as u128) + 1)).unwrap());
-    assert_eq!(i64::MAX,     TryToByAdd::try_into_i64(&((u64::MAX   as u128) + 1)).unwrap());
-    assert_eq!(u64::MIN,     TryToByAdd::try_into_u64(&((u64::MIN   as u128) + 1)).unwrap());
-    assert_eq!(u64::MAX,     TryToByAdd::try_into_u64(&((u64::MAX   as u128) + 1)).unwrap());
-    assert_eq!(isize::MIN, TryToByAdd::try_into_isize(&((usize::MIN as u128) + 1)).unwrap());
-    assert_eq!(isize::MAX, TryToByAdd::try_into_isize(&((usize::MAX as u128) + 1)).unwrap());
-    assert_eq!(usize::MIN, TryToByAdd::try_into_usize(&((usize::MIN as u128) + 1)).unwrap());
-    assert_eq!(usize::MAX, TryToByAdd::try_into_usize(&((usize::MAX as u128) + 1)).unwrap());
-}
-
-#[test]
-fn try_into_ok_u128() {
-    assert_eq!(i8::MIN,       TryToByAdd::try_into_i8(&(u8::MIN    as u128)).unwrap());
-    assert_eq!(i8::MAX,       TryToByAdd::try_into_i8(&(u8::MAX    as u128)).unwrap());
-    assert_eq!(u8::MIN,       TryToByAdd::try_into_u8(&(u8::MIN    as u128)).unwrap());
-    assert_eq!(u8::MAX,       TryToByAdd::try_into_u8(&(u8::MAX    as u128)).unwrap());
-    assert_eq!(i16::MIN,     TryToByAdd::try_into_i16(&(u16::MIN   as u128)).unwrap());
-    assert_eq!(i16::MAX,     TryToByAdd::try_into_i16(&(u16::MAX   as u128)).unwrap());
-    assert_eq!(u16::MIN,     TryToByAdd::try_into_u16(&(u16::MIN   as u128)).unwrap());
-    assert_eq!(u16::MAX,     TryToByAdd::try_into_u16(&(u16::MAX   as u128)).unwrap());
-    assert_eq!(i32::MIN,     TryToByAdd::try_into_i32(&(u32::MIN   as u128)).unwrap());
-    assert_eq!(i32::MAX,     TryToByAdd::try_into_i32(&(u32::MAX   as u128)).unwrap());
-    assert_eq!(u32::MIN,     TryToByAdd::try_into_u32(&(u32::MIN   as u128)).unwrap());
-    assert_eq!(u32::MAX,     TryToByAdd::try_into_u32(&(u32::MAX   as u128)).unwrap());
-    assert_eq!(i64::MIN,     TryToByAdd::try_into_i64(&(u64::MIN   as u128)).unwrap());
-    assert_eq!(i64::MAX,     TryToByAdd::try_into_i64(&(u64::MAX   as u128)).unwrap());
-    assert_eq!(u64::MIN,     TryToByAdd::try_into_u64(&(u64::MIN   as u128)).unwrap());
-    assert_eq!(u64::MAX,     TryToByAdd::try_into_u64(&(u64::MAX   as u128)).unwrap());
-    assert_eq!(isize::MIN, TryToByAdd::try_into_isize(&(usize::MIN as u128)).unwrap());
-    assert_eq!(isize::MAX, TryToByAdd::try_into_isize(&(usize::MAX as u128)).unwrap());
-    assert_eq!(usize::MIN, TryToByAdd::try_into_usize(&(usize::MIN as u128)).unwrap());
-    assert_eq!(usize::MAX, TryToByAdd::try_into_usize(&(usize::MAX as u128)).unwrap());
-    assert_eq!(i128::MIN,                  TryToByAdd::try_into_i128(&u128::MIN).unwrap());
-    assert_eq!(i128::MAX,                  TryToByAdd::try_into_i128(&u128::MAX).unwrap());
-    assert_eq!(u128::MIN,                  TryToByAdd::try_into_u128(&u128::MIN).unwrap());
-    assert_eq!(u128::MAX,                  TryToByAdd::try_into_u128(&u128::MAX).unwrap());
-}
