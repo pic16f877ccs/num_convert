@@ -1,5 +1,6 @@
 use core::{i128, i16, i32, i64, i8, isize};
 use core::{u128, u16, u32, u64, u8, usize};
+use paste::paste;
 
 ///
 /// Convert from signed integers to signed values, see below for details.    
@@ -23,10 +24,10 @@ use core::{u128, u16, u32, u64, u8, usize};
 /// use num_convert::TryToByAdd;
 /// use std::fmt::Debug;
 ///
-/// fn convert_i8_to_u8<T>(min: T, max: T) -> (u8, u8) 
+/// fn convert_i8_to_u8<T>(min: T, max: T) -> (u8, u8)
 /// where
 ///     T: TryToByAdd,
-///     <T as TryToByAdd>::Error: Debug, 
+///     <T as TryToByAdd>::Error: Debug,
 /// {
 ///
 ///     (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
@@ -61,1134 +62,228 @@ pub trait TryToByAdd: Sized {
     fn try_into_u128(&self) -> Result<u128, Self::Error>;
 }
 
-impl TryToByAdd for i8 {
-    type Error = &'static str;
-    /// Returns an `i8` for compatibility.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `i8` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        Ok((*self as u8).wrapping_add(128))
-    }
-
-    /// Converts the value of `i8` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        Ok(*self as i16)
-    }
-
-    /// Converts the value of `i8` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        Ok((*self as u16).wrapping_add(128))
-    }
-
-    /// Converts the value of `i8` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(*self as i32)
-    }
-
-    /// Converts the value of `i8` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok((*self as u32).wrapping_add(128))
-    }
-
-    /// Converts the value of `i8` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(*self as i64)
-    }
-
-    /// Converts the value of `i8` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok((*self as u64).wrapping_add(128))
-    }
-
-    /// Converts the value of `i8` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(*self as isize)
-    }
-
-    /// Converts the value of `i8` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok((*self as usize).wrapping_add(128))
-    }
-
-    /// Converts the value of `i8` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self as i128)
-    }
-
-    /// Converts the value of `i8` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(128))
+macro_rules! signed_or_unsigned {
+    ( $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                Ok(*self as $to_type)
+            }
+        })*
     }
 }
 
-impl TryToByAdd for u8 {
-    type Error = &'static str;
-    /// Converts the value of `u8` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `u8` for compatibility.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `u8` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i16)
-    }
-
-    /// Converts the value of `u8` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        Ok(*self as u16)
-    }
-
-    /// Converts the value of `u8` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i32)
-    }
-
-    /// Converts the value of `u8` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok(*self as u32)
-    }
-
-    /// Converts the value of `u8` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i64)
-    }
-
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok(*self as u64)
-    }
-
-    /// Converts the value of `u8` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as isize)
-    }
-
-    /// Converts the value of `u8` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok(*self as usize)
-    }
-
-    /// Converts the value of `u8` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1) as i128)
-    }
-
-    /// Converts the value of `u8` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self as u128)
+macro_rules! if_signed {
+    ( $($value_min:expr, $value_max:expr),+; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                if *self >= $value_min && *self <= $value_max {
+                    Ok(*self as $to_type)
+                } else {
+                    Err("Cannot be converted")
+                }
+            }
+        })*
     }
 }
 
-impl TryToByAdd for i16 {
-    type Error = &'static str;
-
-    /// Converts the value of `i16` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok(*self as i8)
-        } else {
-            Err("Cannot be converted to type i8")
+macro_rules! signed_to_unsigned {
+    ( $for_type:expr; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                Ok((*self as $to_type).wrapping_add($for_type))
+            }
         }
-    }
-
-    /// Converts the value of `i16` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok((*self as u8).wrapping_add(128))
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Returns an `i16` for compatibility.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `i16` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        Ok((*self as u16).wrapping_add(32_768))
-    }
-
-    /// Converts the value of `i16` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(*self as i32)
-    }
-
-    /// Converts the value of `i16` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok((*self as u32).wrapping_add(32_768))
-    }
-
-    /// Converts the value of `i16` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(*self as i64)
-    }
-
-    /// Converts the value of `i16` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok((*self as u64).wrapping_add(32_768))
-    }
-
-    /// Converts the value of `i16` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(*self as isize)
-    }
-
-    /// Converts the value of `i16` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok((*self as usize).wrapping_add(32_768))
-    }
-
-    /// Converts the value of `i16` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self as i128)
-    }
-
-    /// Converts the value of `i16` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(32_768))
+        )*
     }
 }
 
-impl TryToByAdd for u16 {
-    type Error = &'static str;
-
-    /// Converts the value of `u16` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self <= 255 {
-            Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i8")
+macro_rules! if_signed_to_unsigned {
+    (  $($value_min:expr, $value_max:expr; $add_value:expr),+; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                if *self >= $value_min && *self <= $value_max {
+                    Ok((*self as $to_type).wrapping_add($add_value))
+                } else {
+                    Err("Cannot be converted")
+                }
+            }
         }
-    }
-
-    /// Converts the value of `u16` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self <= 255 {
-            Ok(*self as u8)
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `u16` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `u16` for compatibility.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `u16` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i32)
-    }
-
-    /// Converts the value of `u16` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok(*self as u32)
-    }
-
-    /// Converts the value of `u16` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i64)
-    }
-
-    /// Converts the value of `u16` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok(*self as u64)
-    }
-
-    /// Converts the value of `u16` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as isize)
-    }
-
-    /// Converts the value of `u16` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok(*self as usize)
-    }
-
-    /// Converts the value of `u16` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1) as i128)
-    }
-
-    /// Converts the value of `u16` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self as u128)
+        )*
     }
 }
 
-impl TryToByAdd for i32 {
-    type Error = &'static str;
-
-    /// Converts the value of `i32` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok(*self as i8)
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `i32` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok((*self as u8).wrapping_add(128))
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `i32` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok(*self as i16)
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `i32` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok((*self as u16).wrapping_add(32_768))
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Returns an `i32` for compatibility.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `i32` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok((*self as u32).wrapping_add(2_147_483_648))
-    }
-
-    /// Converts the value of `i32` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(*self as i64)
-    }
-
-    /// Converts the value of `i32` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok((*self as u64).wrapping_add(2_147_483_648))
-    }
-
-    /// Converts the value of `i32` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(*self as isize)
-    }
-
-    /// Converts the value of `i32` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok((*self as usize).wrapping_add(2_147_483_648))
-    }
-
-    /// Converts the value of `i32` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self as i128)
-    }
-
-    /// Converts the value of `i32` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(2_147_483_648))
+macro_rules! if_unsigned {
+    ( $($value_max:expr),+; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                if *self <= $value_max {
+                    Ok(*self as $to_type)
+                } else {
+                    Err("Cannot be converted")
+                }
+            }
+        })*
     }
 }
 
-impl TryToByAdd for u32 {
-    type Error = &'static str;
-
-    /// Converts the value of `u32` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self <= 255 {
-            Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `u32` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self <= 255 {
-            Ok(*self as u8)
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `u32` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `u32` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(*self as u16)
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Converts the value of `u32` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `u32` for compatibility.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `u32` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as i64)
-    }
-
-    /// Converts the value of `u32` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok(*self as u64)
-    }
-
-    /// Converts the value of `u32` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as isize)
-    }
-
-    /// Converts the value of `u32` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok(*self as usize)
-    }
-
-    /// Converts the value of `u32` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1) as i128)
-    }
-
-    /// Converts the value of `u32` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self as u128)
+macro_rules! unsigned_to_signed {
+    ( $for_type:ty; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                Ok(((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type)
+            }
+        })*
     }
 }
 
-impl TryToByAdd for i64 {
-    type Error = &'static str;
-
-    /// Converts the value of `i64` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok(*self as i8)
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `i64` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok((*self as u8).wrapping_add(128))
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `i64` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok(*self as i16)
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `i64` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok((*self as u16).wrapping_add(32_768))
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Converts the value of `i64` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok(*self as i32)
-        } else {
-            Err("Cannot be converted to type i32")
-        }
-    }
-
-    /// Converts the value of `i64` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok((*self as u32).wrapping_add(2_147_483_648))
-        } else {
-            Err("Cannot be converted to type u32")
-        }
-    }
-
-    /// Returns an `i64` for compatibility.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `i64` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok((*self as u64).wrapping_add(9_223_372_036_854_775_808))
-    }
-
-    /// Converts the value of `i64` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(*self as isize)
-    }
-
-    /// Converts the value of `i64` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok((*self as usize).wrapping_add(9_223_372_036_854_775_808))
-    }
-
-    /// Converts the value of `i64` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self as i128)
-    }
-
-    /// Converts the value of `i64` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(9_223_372_036_854_775_808))
+macro_rules! if_unsigned_to_signed {
+    ( $($value_max:expr; $for_type:ty),+; $($to_type:ty),+ ) => {
+        $( paste! {
+            fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
+                if *self <= $value_max {
+                    Ok(((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type)
+                } else {
+                    Err("Cannot be converted")
+                }
+            }
+        })*
     }
 }
 
-impl TryToByAdd for u64 {
-    type Error = &'static str;
+macro_rules! signed_impls {
+    ( $type_i8:ty, $type_i16:ty, $type_i32:ty, $type_i64:ty, $type_isize:ty, $type_i128:ty;
+      $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty;
+      $val_1:expr, $val_2:expr, $val_3:expr, $val_4:expr, $val_5:expr, $val_6:expr,
+      $val_7:expr, $val_8:expr, $val_9:expr, $val_10:expr, $val_11:expr, $val_12:expr) => {
 
-    /// Converts the value of `u64` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self <= 255 {
-            Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i8")
+        impl TryToByAdd for $type_i8 {
+            type Error = &'static str;
+
+            signed_or_unsigned!($type_i8, $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            signed_to_unsigned!($val_3; $type_u8, $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `u64` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self <= 255 {
-            Ok(*self as u8)
-        } else {
-            Err("Cannot be converted to type u8")
+        impl TryToByAdd for $type_i16 {
+            type Error = &'static str;
+
+            if_signed!($val_1, $val_2; $type_i8);
+            signed_or_unsigned!($type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3; $type_u8);
+            signed_to_unsigned!($val_6; $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `u64` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i16")
+        impl TryToByAdd for $type_i32 {
+            type Error = &'static str;
+
+            if_signed!($val_1, $val_2, $val_4, $val_5; $type_i8, $type_i16);
+            signed_or_unsigned!($type_i32, $type_i64, $type_isize, $type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3, $val_4, $val_5; $val_6; $type_u8, $type_u16);
+            signed_to_unsigned!($val_9; $type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `u64` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(*self as u16)
-        } else {
-            Err("Cannot be converted to type u16")
+        impl TryToByAdd for $type_i64 {
+            type Error = &'static str;
+
+            if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8; $type_i8, $type_i16, $type_i32);
+            signed_or_unsigned!($type_i64, $type_isize, $type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3, $val_4, $val_5; $val_6, $val_7, $val_8; $val_9; $type_u8, $type_u16, $type_u32);
+            signed_to_unsigned!($val_12; $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `u64` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i32")
+        impl TryToByAdd for $type_isize {
+            type Error = &'static str;
+
+            if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8; $type_i8, $type_i16, $type_i32);
+            signed_or_unsigned!($type_i64, $type_isize, $type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3, $val_4, $val_5; $val_6, $val_7, $val_8; $val_9; $type_u8, $type_u16, $type_u32);
+            signed_to_unsigned!($val_12; $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `u64` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(*self as u32)
-        } else {
-            Err("Cannot be converted to type u32")
+        impl TryToByAdd for $type_i128 {
+            type Error = &'static str;
+
+            if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8, $val_10, $val_11, $val_10, $val_11;
+                $type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
+            signed_or_unsigned!($type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3, $val_4, $val_5; $val_6, $val_7, $val_8; $val_9,
+                $val_10, $val_11; $val_12, $val_10, $val_11; $val_12; $type_u8, $type_u16, $type_u32, $type_u64, $type_usize);
+            signed_to_unsigned!(170_141_183_460_469_231_731_687_303_715_884_105_728; $type_u128);
         }
-    }
-
-    /// Converts the value of `u64` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `u64` for compatibility.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `u64` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1))
-    }
-
-    /// Converts the value of `u64` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok(*self as usize)
-    }
-
-    /// Converts the value of `u64` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1) as i128)
-    }
-
-    /// Converts the value of `u64` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self as u128)
     }
 }
 
-impl TryToByAdd for isize {
-    type Error = &'static str;
+macro_rules! unsigned_impls {
+    ( $type_i8:ty, $type_i16:ty, $type_i32:ty, $type_i64:ty, $type_isize:ty, $type_i128:ty;
+      $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty;
+      $value_8bit: expr, $value_16bit: expr, $value_32bit:expr, $value_64bit:expr ) => {
 
-    /// Converts the value of `isize` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok(*self as i8)
-        } else {
-            Err("Cannot be converted to type i8")
+        impl TryToByAdd for $type_u8 {
+            type Error = &'static str;
+
+            unsigned_to_signed!($type_i8; $type_i8, $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            signed_or_unsigned!($type_u8, $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `isize` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok((*self as u8).wrapping_add(128))
-        } else {
-            Err("Cannot be converted to type u8")
+        impl TryToByAdd for $type_u16 {
+            type Error = &'static str;
+
+            if_unsigned_to_signed!($value_8bit; $type_i8; $type_i8);
+            unsigned_to_signed!($type_i16; $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
+            if_unsigned!($value_8bit; $type_u8);
+            signed_or_unsigned!($type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `isize` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok(*self as i16)
-        } else {
-            Err("Cannot be converted to type i16")
+        impl TryToByAdd for $type_u32 {
+            type Error = &'static str;
+
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16; $type_i8, $type_i16);
+            unsigned_to_signed!($type_i32; $type_i32, $type_i64, $type_isize, $type_i128);
+            if_unsigned!($value_8bit, $value_16bit; $type_u8, $type_u16);
+            signed_or_unsigned!($type_u32, $type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `isize` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok((*self as u16).wrapping_add(32_768))
-        } else {
-            Err("Cannot be converted to type u16")
+        impl TryToByAdd for $type_u64 {
+            type Error = &'static str;
+
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32; $type_i8, $type_i16, $type_i32);
+            unsigned_to_signed!($type_i64; $type_i64, $type_isize, $type_i128);
+            if_unsigned!($value_8bit, $value_16bit, $value_32bit; $type_u8, $type_u16, $type_u32);
+            signed_or_unsigned!($type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `isize` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok(*self as i32)
-        } else {
-            Err("Cannot be converted to type i32")
+        impl TryToByAdd for $type_usize {
+            type Error = &'static str;
+
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32; $type_i8, $type_i16, $type_i32);
+            unsigned_to_signed!($type_isize; $type_i64, $type_isize, $type_i128);
+            if_unsigned!($value_8bit, $value_16bit, $value_32bit; $type_u8, $type_u16, $type_u32);
+            signed_or_unsigned!($type_u64, $type_usize, $type_u128);
         }
-    }
 
-    /// Converts the value of `isize` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok((*self as u32).wrapping_add(2_147_483_648))
-        } else {
-            Err("Cannot be converted to type u32")
+        impl TryToByAdd for $type_u128 {
+            type Error = &'static str;
+
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32,
+                $value_64bit; $type_i64, $value_64bit; $type_isize; $type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
+            unsigned_to_signed!($type_i128; $type_i128);
+            if_unsigned!($value_8bit, $value_16bit, $value_32bit, $value_64bit, $value_64bit;
+                $type_u8, $type_u16, $type_u32, $type_u64, $type_usize);
+            signed_or_unsigned!($type_u128);
         }
-    }
-
-    /// Converts the value of `isize` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(*self as i64)
-    }
-
-    /// Converts the value of `isize` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok((*self as u64).wrapping_add(9_223_372_036_854_775_808))
-    }
-
-    /// Returns an `isize` for compatibility.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `isize` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok((*self as usize).wrapping_add(9_223_372_036_854_775_808))
-    }
-
-    /// Converts the value of `isize` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self as i128)
-    }
-
-    /// Converts the value of `isize` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(9_223_372_036_854_775_808))
     }
 }
 
-impl TryToByAdd for usize {
-    type Error = &'static str;
+signed_impls!(
+    i8, i16, i32, i64, isize, i128;
+    u8, u16, u32, u64, usize, u128;
+    -128, 127, 128,
+    -32_768, 32_767, 32_768,
+    -2_147_483_648, 2_147_483_647, 2_147_483_648,
+    -9_223_372_036_854_775_808, 9_223_372_036_854_775_807, 9_223_372_036_854_775_808
+);
 
-    /// Converts the value of `usize` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self <= 255 {
-            Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `usize` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self <= 255 {
-            Ok(*self as u8)
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `usize` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `usize` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(*self as u16)
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Converts the value of `usize` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i32")
-        }
-    }
-
-    /// Converts the value of `usize` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(*self as u32)
-        } else {
-            Err("Cannot be converted to type u32")
-        }
-    }
-
-    /// Converts the value of `usize` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        Ok(((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1))
-    }
-
-    /// Converts the value of `usize` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        Ok(*self as u64)
-    }
-
-    /// Converts the value of `usize` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        Ok(((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `usize` for compatibility.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `usize` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1) as i128)
-    }
-
-    /// Converts the value of `usize` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self as u128)
-    }
-}
-
-impl TryToByAdd for i128 {
-    type Error = &'static str;
-
-    /// Converts the value of `i128` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok(*self as i8)
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `i128` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self >= -128 && *self <= 127 {
-            Ok((*self as u8).wrapping_add(128))
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `i128` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok(*self as i16)
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `i128` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self >= -32_768 && *self <= 32_767 {
-            Ok((*self as u16).wrapping_add(32_768))
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Converts the value of `i128` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok(*self as i32)
-        } else {
-            Err("Cannot be converted to type i32")
-        }
-    }
-
-    /// Converts the value of `i128` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self >= -2_147_483_648 && *self <= 2_147_483_647 {
-            Ok((*self as u32).wrapping_add(2_147_483_648))
-        } else {
-            Err("Cannot be converted to type u32")
-        }
-    }
-
-    /// Converts the value of `i128` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        if *self >= -9_223_372_036_854_775_808 && *self <= 9_223_372_036_854_775_807 {
-            Ok(*self as i64)
-        } else {
-            Err("Cannot be converted to type i64")
-        }
-    }
-
-    /// Converts the value of `i128` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        if *self >= -9_223_372_036_854_775_808 && *self <= 9_223_372_036_854_775_807 {
-            Ok((*self as u64).wrapping_add(9_223_372_036_854_775_808))
-        } else {
-            Err("Cannot be converted to type u64")
-        }
-    }
-
-    /// Converts the value of `i128` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        if *self >= -9_223_372_036_854_775_808 && *self <= 9_223_372_036_854_775_807 {
-            Ok(*self as isize)
-        } else {
-            Err("Cannot be converted to type isize")
-        }
-    }
-
-    /// Converts the value of `i128` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        if *self >= -9_223_372_036_854_775_808 && *self <= 9_223_372_036_854_775_807 {
-            Ok((*self as usize).wrapping_add(9_223_372_036_854_775_808))
-        } else {
-            Err("Cannot be converted to type usize")
-        }
-    }
-
-    /// Returns an `i128` for compatibility.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(*self)
-    }
-
-    /// Converts the value of `i128` to an `u128`.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok((*self as u128).wrapping_add(170_141_183_460_469_231_731_687_303_715_884_105_728))
-    }
-}
-
-impl TryToByAdd for u128 {
-    type Error = &'static str;
-
-    /// Converts the value of `u128` to an `i8`.
-    #[inline]
-    fn try_into_i8(&self) -> Result<i8, Self::Error> {
-        if *self <= 255 {
-            Ok(((*self as i8).wrapping_add(i8::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i8")
-        }
-    }
-
-    /// Converts the value of `u128` to an `u8`.
-    #[inline]
-    fn try_into_u8(&self) -> Result<u8, Self::Error> {
-        if *self <= 255 {
-            Ok(*self as u8)
-        } else {
-            Err("Cannot be converted to type u8")
-        }
-    }
-
-    /// Converts the value of `u128` to an `i16`.
-    #[inline]
-    fn try_into_i16(&self) -> Result<i16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(((*self as i16).wrapping_add(i16::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i16")
-        }
-    }
-
-    /// Converts the value of `u128` to an `u16`.
-    #[inline]
-    fn try_into_u16(&self) -> Result<u16, Self::Error> {
-        if *self <= 65_535 {
-            Ok(*self as u16)
-        } else {
-            Err("Cannot be converted to type u16")
-        }
-    }
-
-    /// Converts the value of `u128` to an `i32`.
-    #[inline]
-    fn try_into_i32(&self) -> Result<i32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(((*self as i32).wrapping_add(i32::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i32")
-        }
-    }
-
-    /// Converts the value of `u128` to an `u32`.
-    #[inline]
-    fn try_into_u32(&self) -> Result<u32, Self::Error> {
-        if *self <= 4_294_967_295 {
-            Ok(*self as u32)
-        } else {
-            Err("Cannot be converted to type u32")
-        }
-    }
-
-    /// Converts the value of `u128` to an `i64`.
-    #[inline]
-    fn try_into_i64(&self) -> Result<i64, Self::Error> {
-        if *self <= 18_446_744_073_709_551_615 {
-            Ok(((*self as i64).wrapping_add(i64::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type i64")
-        }
-    }
-
-    /// Converts the value of `u128` to an `u64`.
-    #[inline]
-    fn try_into_u64(&self) -> Result<u64, Self::Error> {
-        if *self <= 18_446_744_073_709_551_615 {
-            Ok(*self as u64)
-        } else {
-            Err("Cannot be converted to type u64")
-        }
-    }
-
-    /// Converts the value of `u128` to an `isize`.
-    #[inline]
-    fn try_into_isize(&self) -> Result<isize, Self::Error> {
-        if *self <= 18_446_744_073_709_551_615 {
-            Ok(((*self as isize).wrapping_add(isize::MAX)).wrapping_add(1))
-        } else {
-            Err("Cannot be converted to type isize")
-        }
-    }
-
-    /// Converts the value of `u128` to an `usize`.
-    #[inline]
-    fn try_into_usize(&self) -> Result<usize, Self::Error> {
-        if *self <= 18_446_744_073_709_551_615 {
-            Ok(*self as usize)
-        } else {
-            Err("Cannot be converted to type usize")
-        }
-    }
-
-    /// Converts the value of `u128` to an `i128`.
-    #[inline]
-    fn try_into_i128(&self) -> Result<i128, Self::Error> {
-        Ok(((*self as i128).wrapping_add(i128::MAX)).wrapping_add(1))
-    }
-
-    /// Returns an `u128` for compatibility.
-    #[inline]
-    fn try_into_u128(&self) -> Result<u128, Self::Error> {
-        Ok(*self)
-    }
-}
+unsigned_impls!(
+    i8, i16, i32, i64, isize, i128;
+    u8, u16, u32, u64, usize, u128;
+    255, 65_535, 4_294_967_295, 18_446_744_073_709_551_615
+);
