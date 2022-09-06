@@ -76,10 +76,10 @@ macro_rules! if_signed {
     ( $($value_min:expr, $value_max:expr),+; $($to_type:ty),+ ) => {
         $( paste! {
             fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
-                if *self >= $value_min && *self <= $value_max {
-                    Ok(*self as $to_type)
-                } else {
+                if *self < $value_min || *self > $value_max {
                     Err("Cannot be converted")
+                } else {
+                    Ok(*self as $to_type)
                 }
             }
         })*
@@ -101,10 +101,10 @@ macro_rules! if_signed_to_unsigned {
     (  $($value_min:expr, $value_max:expr; $add_value:expr),+; $($to_type:ty),+ ) => {
         $( paste! {
             fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
-                if *self >= $value_min && *self <= $value_max {
-                    Ok((*self as $to_type).wrapping_add($add_value))
-                } else {
+                if *self < $value_min || *self > $value_max {
                     Err("Cannot be converted")
+                } else {
+                    Ok((*self as $to_type).wrapping_add($add_value))
                 }
             }
         }
@@ -116,10 +116,10 @@ macro_rules! if_unsigned {
     ( $($value_max:expr),+; $($to_type:ty),+ ) => {
         $( paste! {
             fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
-                if *self <= $value_max {
-                    Ok(*self as $to_type)
-                } else {
+                if *self > $value_max {
                     Err("Cannot be converted")
+                } else {
+                    Ok(*self as $to_type)
                 }
             }
         })*
@@ -140,10 +140,10 @@ macro_rules! if_unsigned_to_signed {
     ( $($value_max:expr; $for_type:ty),+; $($to_type:ty),+ ) => {
         $( paste! {
             fn [<try_into_$to_type>](&self) -> Result<$to_type, Self::Error> {
-                if *self <= $value_max {
-                    Ok(((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type)
-                } else {
+                if *self > $value_max {
                     Err("Cannot be converted")
+                } else {
+                    Ok(((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type)
                 }
             }
         })*
