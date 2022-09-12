@@ -171,6 +171,7 @@ macro_rules! signed_impls {
             signed_to_unsigned!($val_6; $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
 
+        //#[cfg(target_pointer_width = "64")]
         impl TryToByAdd for $type_i32 {
             if_signed!($val_1, $val_2, $val_4, $val_5; $type_i8, $type_i16);
             signed_or_unsigned!($type_i32, $type_i64, $type_isize, $type_i128);
@@ -178,6 +179,7 @@ macro_rules! signed_impls {
             signed_to_unsigned!($val_9; $type_u32, $type_u64, $type_usize, $type_u128);
         }
 
+        //#[cfg(target_pointer_width = "64")]
         impl TryToByAdd for $type_i64 {
             if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8; $type_i8, $type_i16, $type_i32);
             signed_or_unsigned!($type_i64, $type_isize, $type_i128);
@@ -185,6 +187,15 @@ macro_rules! signed_impls {
             signed_to_unsigned!($val_12; $type_u64, $type_usize, $type_u128);
         }
 
+        #[cfg(target_pointer_width = "32")]
+        impl TryToByAdd for $type_isize {
+            if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8; $type_i8, $type_i16, $type_i32);
+            signed_or_unsigned!($type_i64, $type_isize, $type_i128);
+            if_signed_to_unsigned!($val_1, $val_2; $val_3, $val_4, $val_5; $val_6, $val_7, $val_8; $val_9; $type_u8, $type_u16, $type_u32);
+            signed_to_unsigned!($val_12; $type_u64, $type_usize, $type_u128);
+        }
+
+        #[cfg(target_pointer_width = "64")]
         impl TryToByAdd for $type_isize {
             if_signed!($val_1, $val_2, $val_4, $val_5, $val_7, $val_8; $type_i8, $type_i16, $type_i32);
             signed_or_unsigned!($type_i64, $type_isize, $type_i128);
@@ -227,6 +238,16 @@ macro_rules! unsigned_impls {
             signed_or_unsigned!($type_u32, $type_u64, $type_usize, $type_u128);
         }
 
+        #[cfg(target_pointer_width = "32")]
+        impl TryToByAdd for $type_u64 {
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32, $value_32bit; $type_usize;
+                $type_i8, $type_i16, $type_i32, $type_isize);
+            unsigned_to_signed!($type_i64; $type_i64, $type_i128);
+            if_unsigned!($value_8bit, $value_16bit, $value_32bit, $value_32bit; $type_u8, $type_u16, $type_u32, $type_usize);
+            signed_or_unsigned!($type_u64, $type_u128);
+        }
+
+        #[cfg(target_pointer_width = "64")]
         impl TryToByAdd for $type_u64 {
             if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32; $type_i8, $type_i16, $type_i32);
             unsigned_to_signed!($type_i64; $type_i64, $type_isize, $type_i128);
@@ -234,6 +255,15 @@ macro_rules! unsigned_impls {
             signed_or_unsigned!($type_u64, $type_usize, $type_u128);
         }
 
+        #[cfg(target_pointer_width = "32")]
+        impl TryToByAdd for $type_usize {
+            if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16; $type_i8, $type_i16);
+            unsigned_to_signed!($type_isize; $type_i32, $type_i64, $type_isize, $type_i128);
+            if_unsigned!($value_8bit, $value_16bit; $type_u8, $type_u16);
+            signed_or_unsigned!($type_u32, $type_u64, $type_usize, $type_u128);
+        }
+
+        #[cfg(target_pointer_width = "64")]
         impl TryToByAdd for $type_usize {
             if_unsigned_to_signed!($value_8bit; $type_i8, $value_16bit; $type_i16, $value_32bit; $type_i32; $type_i8, $type_i16, $type_i32);
             unsigned_to_signed!($type_isize; $type_i64, $type_isize, $type_i128);
@@ -266,3 +296,4 @@ unsigned_impls!(
     u8, u16, u32, u64, usize, u128;
     255, 65_535, 4_294_967_295, 18_446_744_073_709_551_615
 );
+
