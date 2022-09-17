@@ -32,30 +32,30 @@ use paste::paste;
 /// }
 /// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
 ///
-/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&i8::MIN).unwrap());
-/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&i8::MAX).unwrap());
-/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&i8::MIN).unwrap());
-/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&i8::MAX).unwrap());
-/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&u8::MIN).unwrap());
-/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&u8::MAX).unwrap());
-/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&u8::MIN).unwrap());
-/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&u8::MAX).unwrap());
+/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(i8::MIN).unwrap());
+/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(i8::MAX).unwrap());
+/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(i8::MIN).unwrap());
+/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
+/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
+/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(u8::MAX).unwrap());
+/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
+/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(u8::MAX).unwrap());
 ///
 /// ```
 
 pub trait TryToByAdd {
-    fn try_into_i8(&self) -> Option<i8>;
-    fn try_into_u8(&self) -> Option<u8>;
-    fn try_into_i16(&self) -> Option<i16>;
-    fn try_into_u16(&self) -> Option<u16>;
-    fn try_into_i32(&self) -> Option<i32>;
-    fn try_into_u32(&self) -> Option<u32>;
-    fn try_into_i64(&self) -> Option<i64>;
-    fn try_into_u64(&self) -> Option<u64>;
-    fn try_into_isize(&self) -> Option<isize>;
-    fn try_into_usize(&self) -> Option<usize>;
-    fn try_into_i128(&self) -> Option<i128>;
-    fn try_into_u128(&self) -> Option<u128>;
+    fn try_into_i8(self) -> Option<i8>;
+    fn try_into_u8(self) -> Option<u8>;
+    fn try_into_i16(self) -> Option<i16>;
+    fn try_into_u16(self) -> Option<u16>;
+    fn try_into_i32(self) -> Option<i32>;
+    fn try_into_u32(self) -> Option<u32>;
+    fn try_into_i64(self) -> Option<i64>;
+    fn try_into_u64(self) -> Option<u64>;
+    fn try_into_isize(self) -> Option<isize>;
+    fn try_into_usize(self) -> Option<usize>;
+    fn try_into_i128(self) -> Option<i128>;
+    fn try_into_u128(self) -> Option<u128>;
 }
 
 //the type self is equivalent to intotype
@@ -63,8 +63,8 @@ macro_rules! signed_or_unsigned_eq {
     ( $to_type:ty ) => {
         paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                Some(*self)
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                Some(self)
             }
         }
     };
@@ -75,8 +75,8 @@ macro_rules! signed_or_unsigned_le {
     ( $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                Some(*self as $to_type)
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                Some(self as $to_type)
             }
         })*
     }
@@ -87,11 +87,11 @@ macro_rules! signed_to_signed_gt {
     ( $($to_type:ty, $value_min:expr, $value_max:expr);+ ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                if *self < $value_min || *self > $value_max {
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                if self < $value_min || self > $value_max {
                     None
                 } else {
-                    Some(*self as $to_type)
+                    Some(self as $to_type)
                 }
             }
         })*
@@ -103,8 +103,8 @@ macro_rules! signed_to_unsigned_eq_le {
     ( $($to_type:ty),+; $add_type:expr ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                Some((*self as $to_type).wrapping_add($add_type))
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                Some((self as $to_type).wrapping_add($add_type))
             }
         }
         )*
@@ -116,11 +116,11 @@ macro_rules! signed_to_unsigned_gt {
     (  $($to_type:ty, $value_min:expr, $value_max:expr, $add_value:expr);+ ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                if *self < $value_min || *self > $value_max {
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                if self < $value_min || self > $value_max {
                     None
                 } else {
-                    Some((*self as $to_type).wrapping_add($add_value))
+                    Some((self as $to_type).wrapping_add($add_value))
                 }
             }
         }
@@ -134,11 +134,11 @@ macro_rules! unsigned_to_signed_gt {
     ( $($to_type:ty, $value_max:expr);+ ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                if *self > $value_max {
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                if self > $value_max {
                     None
                 } else {
-                    Some(((*self as $to_type).wrapping_add(<$to_type>::MAX)).wrapping_add(1))
+                    Some(((self as $to_type).wrapping_add(<$to_type>::MAX)).wrapping_add(1))
                 }
             }
         })*
@@ -150,11 +150,11 @@ macro_rules! unsigned_to_unsigned_gt {
     ( $($to_type:ty, $value_max:expr);+ ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                if *self > $value_max {
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                if self > $value_max {
                     None
                 } else {
-                    Some(*self as $to_type)
+                    Some(self as $to_type)
                 }
             }
         })*
@@ -166,8 +166,8 @@ macro_rules! unsigned_to_signed_eq {
     ( $($to_type:ty),+ ) => {
        $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                Some(((*self as $to_type).wrapping_add(<$to_type>::MAX)).wrapping_add(1))
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                Some(((self as $to_type).wrapping_add(<$to_type>::MAX)).wrapping_add(1))
             }
         })*
     }
@@ -178,8 +178,8 @@ macro_rules! unsigned_to_signed_le {
     ( $($to_type:ty),+; $add_type:ty ) => {
         $( paste! {
             #[inline]
-            fn [<try_into_$to_type>](&self) -> Option<$to_type> {
-                Some(((*self as $add_type).wrapping_add(<$add_type>::MAX)).wrapping_add(1) as $to_type)
+            fn [<try_into_$to_type>](self) -> Option<$to_type> {
+                Some(((self as $add_type).wrapping_add(<$add_type>::MAX)).wrapping_add(1) as $to_type)
             }
         })*
     }

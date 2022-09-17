@@ -8,13 +8,13 @@ use paste::paste;
                     #[test]
                     fn [<ok_$from _try_into_$into _min>]() {
                        assert_eq!(<$left_type>::MIN as $into,
-                           paste! {TryToByAdd::[<try_into_$into>](&(<$right_type>::MIN as $from)).unwrap()});
+                           paste! {TryToByAdd::[<try_into_$into>](<$right_type>::MIN as $from).unwrap()});
                     }
 
                     #[test]
                     fn [<ok_$from _try_into_$into _max>]() {
                        assert_eq!(<$left_type>::MAX as $into,
-                           paste! {TryToByAdd::[<try_into_$into>](&(<$right_type>::MAX as $from)).unwrap()});
+                           paste! {TryToByAdd::[<try_into_$into>](<$right_type>::MAX as $from).unwrap()});
                     }
                 }
             )*
@@ -29,7 +29,7 @@ use paste::paste;
                     #[should_panic]
                     fn [<err_$from _try_into_$into _min>]() {
                        assert_eq!(<$into>::MIN,
-                           paste! {TryToByAdd::[<try_into_$into>](&((<$right_type>::MIN as $from) - 1)).unwrap()});
+                           paste! {TryToByAdd::[<try_into_$into>]((<$right_type>::MIN as $from) - 1).unwrap()});
                     }
                 }
             )*
@@ -44,7 +44,7 @@ use paste::paste;
                     #[should_panic]
                     fn [<err_$from _try_into_$into _max>]() {
                        assert_eq!(<$into>::MAX,
-                           paste! {TryToByAdd::[<try_into_$into>](&((<$right_type>::MAX as $from) + 1)).unwrap()});
+                           paste! {TryToByAdd::[<try_into_$into>]((<$right_type>::MAX as $from) + 1).unwrap()});
                     }
                 }
             )*

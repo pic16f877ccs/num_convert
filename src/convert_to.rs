@@ -18,57 +18,57 @@ use paste::paste;
 /// }
 /// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
 ///
-/// assert_eq!(i8::MIN, ToByAdd::into_i8(&i8::MIN));
-/// assert_eq!(i8::MAX, ToByAdd::into_i8(&i8::MAX));
-/// assert_eq!(u8::MIN, ToByAdd::into_u8(&i8::MIN));
-/// assert_eq!(u8::MAX, ToByAdd::into_u8(&i8::MAX));
+/// assert_eq!(i8::MIN, ToByAdd::into_i8(i8::MIN));
+/// assert_eq!(i8::MAX, ToByAdd::into_i8(i8::MAX));
+/// assert_eq!(u8::MIN, ToByAdd::into_u8(i8::MIN));
+/// assert_eq!(u8::MAX, ToByAdd::into_u8(i8::MAX));
 ///
 /// ```
 
 pub trait ToByAdd {
     /// Converts the value of `self` to an `i8`.
-    fn into_i8(&self) -> i8;
+    fn into_i8(self) -> i8;
 
     /// Converts the value of `self` to an `u8`.
-    fn into_u8(&self) -> u8;
+    fn into_u8(self) -> u8;
 
     /// Converts the value of `self` to an `i16`.
-    fn into_i16(&self) -> i16;
+    fn into_i16(self) -> i16;
 
     /// Converts the value of `self` to an `u16`.
-    fn into_u16(&self) -> u16;
+    fn into_u16(self) -> u16;
 
     /// Converts the value of `self` to an `i32`.
-    fn into_i32(&self) -> i32;
+    fn into_i32(self) -> i32;
 
     /// Converts the value of `self` to an `u32`.
-    fn into_u32(&self) -> u32;
+    fn into_u32(self) -> u32;
 
     /// Converts the value of `self` to an `i64`.
-    fn into_i64(&self) -> i64;
+    fn into_i64(self) -> i64;
 
     /// Converts the value of `self` to an `u64`.
-    fn into_u64(&self) -> u64;
+    fn into_u64(self) -> u64;
 
     /// Converts the value of `self` to an `isize`.
-    fn into_isize(&self) -> isize;
+    fn into_isize(self) -> isize;
 
     /// Converts the value of `self` to an `usize`.
-    fn into_usize(&self) -> usize;
+    fn into_usize(self) -> usize;
 
     /// Converts the value of `self` to an `i128`.
-    fn into_i128(&self) -> i128;
+    fn into_i128(self) -> i128;
 
     /// Converts the value of `self` to an `u128`.
-    fn into_u128(&self) -> u128;
+    fn into_u128(self) -> u128;
 }
 
 macro_rules! return_self_value {
     ( $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<into_$to_type>](&self) -> $to_type {
-                *self
+            fn [<into_$to_type>](self) -> $to_type {
+                self
             }
         })*
     }
@@ -78,8 +78,8 @@ macro_rules! signed_or_unsigned {
     ( $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<into_$to_type>](&self) -> $to_type {
-                *self as $to_type
+            fn [<into_$to_type>](self) -> $to_type {
+                self as $to_type
             }
         })*
     }
@@ -89,7 +89,7 @@ macro_rules! unreach_func {
     ( $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<into_$to_type>](&self) -> $to_type {
+            fn [<into_$to_type>](self) -> $to_type {
                 unreachable!();
             }
         })*
@@ -100,8 +100,8 @@ macro_rules! signed_to_unsigned {
     ( $for_type:expr; $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<into_$to_type>](&self) -> $to_type {
-                (*self as $to_type).wrapping_add($for_type)
+            fn [<into_$to_type>](self) -> $to_type {
+                (self as $to_type).wrapping_add($for_type)
             }
         })*
     }
@@ -111,8 +111,8 @@ macro_rules! unsigned_to_signed {
     ( $for_type:ty; $($to_type:ty),+ ) => {
         $( paste! {
             #[inline]
-            fn [<into_$to_type>](&self) -> $to_type {
-                ((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type
+            fn [<into_$to_type>](self) -> $to_type {
+                ((self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type
             }
         })*
     }

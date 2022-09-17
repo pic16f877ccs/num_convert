@@ -7,12 +7,12 @@ macro_rules! to_by_add_tests {
                 paste! {
                     #[test]
                     fn [<$from _into_$into _min>]() {
-                       assert_eq!(<$type>::MIN as $into, paste! {ToByAdd::[<into_$into>](&<$from>::MIN)});
+                       assert_eq!(<$type>::MIN as $into, paste! {ToByAdd::[<into_$into>](<$from>::MIN)});
                     }
 
                     #[test]
                     fn [<$from _into_$into _max>]() {
-                       assert_eq!(<$type>::MAX as $into, paste! {ToByAdd::[<into_$into>](&<$from>::MAX)});
+                       assert_eq!(<$type>::MAX as $into, paste! {ToByAdd::[<into_$into>](<$from>::MAX)});
                     }
                 }
             )*
