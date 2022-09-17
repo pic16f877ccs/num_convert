@@ -66,6 +66,7 @@ pub trait ToByAdd {
 macro_rules! return_self_value {
     ( $($to_type:ty),+ ) => {
         $( paste! {
+            #[inline]
             fn [<into_$to_type>](&self) -> $to_type {
                 *self
             }
@@ -76,6 +77,7 @@ macro_rules! return_self_value {
 macro_rules! signed_or_unsigned {
     ( $($to_type:ty),+ ) => {
         $( paste! {
+            #[inline]
             fn [<into_$to_type>](&self) -> $to_type {
                 *self as $to_type
             }
@@ -86,6 +88,7 @@ macro_rules! signed_or_unsigned {
 macro_rules! unreach_func {
     ( $($to_type:ty),+ ) => {
         $( paste! {
+            #[inline]
             fn [<into_$to_type>](&self) -> $to_type {
                 unreachable!();
             }
@@ -96,6 +99,7 @@ macro_rules! unreach_func {
 macro_rules! signed_to_unsigned {
     ( $for_type:expr; $($to_type:ty),+ ) => {
         $( paste! {
+            #[inline]
             fn [<into_$to_type>](&self) -> $to_type {
                 (*self as $to_type).wrapping_add($for_type)
             }
@@ -106,6 +110,7 @@ macro_rules! signed_to_unsigned {
 macro_rules! unsigned_to_signed {
     ( $for_type:ty; $($to_type:ty),+ ) => {
         $( paste! {
+            #[inline]
             fn [<into_$to_type>](&self) -> $to_type {
                 ((*self as $for_type).wrapping_add(<$for_type>::MAX)).wrapping_add(1) as $to_type
             }

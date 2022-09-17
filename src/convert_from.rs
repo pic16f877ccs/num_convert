@@ -42,6 +42,7 @@ macro_rules! fns {
     //from unsigned = to unsigned
     ( equ $from_type:ty; $to_type:ty ) => {
         paste!{
+            #[inline]
             fn [<from_$from_type>](n: $from_type) -> $to_type {
                 n
             }
@@ -54,6 +55,7 @@ macro_rules! fns {
     ( as equ $($from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
+            #[inline]
             fn [<from_$from_type>](n: $from_type) -> $to_type {
                 n as $to_type
             }
@@ -66,6 +68,7 @@ macro_rules! fns {
     ( $($from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
+            #[inline]
             fn [<from_$from_type>](_n: $from_type) -> $to_type {
                 unreachable!();
             }
@@ -78,6 +81,7 @@ macro_rules! fns {
     ( $($as_type:ty = $from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
+            #[inline]
             fn [<from_$from_type>](n: $from_type) -> $to_type {
                 ((n as $as_type).wrapping_add($as_type::MAX)).wrapping_add(1) as $to_type
             }
@@ -89,6 +93,7 @@ macro_rules! fns {
     ( sig $($from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
+            #[inline]
             fn [<from_$from_type>](n: $from_type) -> $to_type {
                 ((n as $to_type).wrapping_add($to_type::MAX)).wrapping_add(1)
             }
@@ -100,6 +105,7 @@ macro_rules! fns {
     ( $($add_value:expr, $from_type:ty),+; $to_type:ty ) => {
         $(
         paste!{
+            #[inline]
             fn [<from_$from_type>](n: $from_type) -> $to_type {
                 (n as $to_type).wrapping_add($add_value)
             }
