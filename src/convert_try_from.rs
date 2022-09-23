@@ -747,7 +747,15 @@ impl TryFromByAdd for i64 {
         Some(n as i64)
     }
 
-    /// Converts the value of `usize` to an `i64`.
+    /// Converts the value of `usize` to an `i64`, 32 bit.
+    #[cfg(target_pointer_width = "32")]
+    #[inline]
+    fn try_from_usize(n: usize) -> Option<i64> {
+        Some(((n as isize).wrapping_add(isize::MAX)).wrapping_add(1) as i64)
+    }
+
+    /// Converts the value of `usize` to an `i64`, 64 bit.
+    #[cfg(target_pointer_width = "64")]
     #[inline]
     fn try_from_usize(n: usize) -> Option<i64> {
         Some(((n as i64).wrapping_add(i64::MAX)).wrapping_add(1))
@@ -1039,7 +1047,6 @@ impl TryFromByAdd for usize {
     #[cfg(target_pointer_width = "32")]
     #[inline]
     fn try_from_u64(n: u64) -> Option<usize> {
-        todo!();
         if n <= 4_294_967_295 {
             Some(n as usize)
         } else {
@@ -1079,7 +1086,7 @@ impl TryFromByAdd for usize {
     #[inline]
     fn try_from_i128(n: i128) -> Option<usize> {
         if n >= -2_147_483_648 && n <= 2_147_483_647 {
-            Some((n as usize).wrapping_add(9_223_372_036_854_775_808))
+            Some((n as usize).wrapping_add(2_147_483_648))
         } else {
             None
         }

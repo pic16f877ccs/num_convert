@@ -110,7 +110,7 @@ use paste::paste;
     into_by_add_tests_max_err! {usize; i8, u8; u8, u8; i16, u16; u16, u16}
     #[cfg(target_pointer_width = "64")]
     into_by_add_tests_max_err! {usize; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
-    into_by_add_tests_max_err! {u128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; isize, usize; usize, usize}
+    into_by_add_tests_max_err! {u128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; u64, u64; isize, usize; usize, usize}
     
     into_by_add_tests_max_err! {i16; i8, u8; u8, u8}
     into_by_add_tests_max_err! {i32; i8, u8; u8, u8; i16, u16; u16, u16}
@@ -122,7 +122,7 @@ use paste::paste;
     into_by_add_tests_max_err! {isize; i8, u8; u8, u8; i16, u16; u16, u16}
     #[cfg(target_pointer_width = "64")]
     into_by_add_tests_max_err! {isize; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32}
-    into_by_add_tests_max_err! {i128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; isize, usize; usize, usize}
+    into_by_add_tests_max_err! {i128; i8, u8; u8, u8; i16, u16; u16, u16; i32, u32; u32, u32; i64, u64; u64, u64; isize, usize; usize, usize}
 
     into_by_add_tests_min_err! {i16; i8, u8}
     into_by_add_tests_min_err! {i32; i8, u8; i16, u16}
