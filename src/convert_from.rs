@@ -1,37 +1,43 @@
-use core::{i128, i16, i32, i64, i8, isize};
-use core::{u128, u16, u32, u64, u8, usize};
 use paste::paste;
 
+/// # A generic trait for converting from possible types.
 ///
-/// Convert from signed integers to unsigned in the full range of values or
-/// convert from unsigned integers to signed in the full range of values or
-///
-/// # A generic trait for converting value types.
 ///
 
 pub trait FromByAdd {
     /// Converts the value from `i8` to `self`.
     fn from_i8(n: i8) -> Self;
+
     /// Converts the value from `u8` to `self`.
     fn from_u8(n: u8) -> Self;
+
     /// Converts the value from `i16` to `self`.
     fn from_i16(n: i16) -> Self;
+
     /// Converts the value from `u16` to `self`.
     fn from_u16(n: u16) -> Self;
+
     /// Converts the value from `i32` to `self`.
     fn from_i32(n: i32) -> Self;
+
     /// Converts the value from `u32` to `self`.
     fn from_u32(n: u32) -> Self;
+
     /// Converts the value from `i64` to `self`.
     fn from_i64(n: i64) -> Self;
+
     /// Converts the value from `u64` to `self`.
     fn from_u64(n: u64) -> Self;
+
     /// Converts the value from `isize` to `self`.
     fn from_isize(n: isize) -> Self;
+
     /// Converts the value from `usize` to `self`.
     fn from_usize(n: usize) -> Self;
+
     /// Converts the value from `i128` to `self`.
     fn from_i128(n: i128) -> Self;
+
     /// Converts the value from `u128` to `self`.
     fn from_u128(n: u128) -> Self;
 }

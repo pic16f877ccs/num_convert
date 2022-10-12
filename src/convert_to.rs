@@ -1,27 +1,19 @@
-use core::{i128, i16, i32, i64, i8, isize};
-use core::{u128, u16, u32, u64, u8, usize};
 use paste::paste;
 
+/// # A generic trait for converting into possible types.
 ///
-/// Convert from signed integers to unsigned in the full range of values or
-/// convert from unsigned integers to signed in the full range of values or
-///
-/// # A generic trait for converting value types.
-///
-/// # Examples
+/// ## Examples
 ///
 /// ```
 /// use num_convert::ToByAdd;
 ///
-/// fn convert_i8_to_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
+/// fn convert_into_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
 ///     (min.into_u8(), max.into_u8())
 /// }
-/// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
 ///
-/// assert_eq!(i8::MIN, ToByAdd::into_i8(i8::MIN));
-/// assert_eq!(i8::MAX, ToByAdd::into_i8(i8::MAX));
-/// assert_eq!(u8::MIN, ToByAdd::into_u8(i8::MIN));
-/// assert_eq!(u8::MAX, ToByAdd::into_u8(i8::MAX));
+/// assert_eq!(i128::MIN, ToByAdd::into_i128(u128::MIN));
+/// assert_eq!(u8::MAX as u64, ToByAdd::into_u64(i8::MAX));
 ///
 /// ```
 

@@ -1,45 +1,29 @@
-use core::{i128, i16, i32, i64, i8, isize};
-use core::{u128, u16, u32, u64, u8, usize};
 use paste::paste;
 
+/// # A generic trait for converting into value types.
 ///
-/// Convert from signed integers to signed values, see below for details.    
-/// -128_i8 -> -128_i8 ... -128_i8 -> -128_i128, -128_i128 -> -128_i8
-/// 127_i8 -> 127_i8 ... 127_i8 -> 127_i128, 127_i128 -> 127_i8
-/// convert from unsigned integers to unsigned values, see below for details.
-/// 0_u8 -> 0_u8 ... 0_u8 -> 0_u128, 0_u128 -> 0_u8
-/// 255_u8 -> 255_u8 ... 255_u8 -> 255_u128, 255_u128 -> 255_u8
-/// Convert from signed integers to unsigned values, see below for details.
-/// -128_i8 -> 0_u8 ... -128_i8 -> 0_u128, -128_i128 -> 0_u8
-/// 127_i8 -> 255_u8 ... 127_i8 -> 255_u128, 127_i128 -> 255_u8
-/// convert from unsigned integers to signed values, see below for details.
-/// 0_u8 -> -128_i8 ... 0_u8 -> -128_i128, 255_u128 -> -128_i8
-/// 255_u8 -> 127_i8 ... 255_u8 -> 127_i128, 255_u128 -> 127_i8
+/// A trait that converts integers from negative to positive and positive to negative.
+/// For the compatibility of negative to negative and positive to positive.
+/// The conversion is within the possible range of values.
 ///
-/// # A generic trait for converting value types.
-///
-/// # Examples
+/// ## Examples
 ///
 /// ```
 /// use num_convert::TryToByAdd;
 ///
-/// fn convert_i8_to_u8<T>(min: T, max: T) -> (u8, u8)
+/// fn convert_into_u8<T>(min: T, max: T) -> (u8, u8)
 /// where
 ///     T: TryToByAdd,
 /// {
 ///
 ///     (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
 /// }
-/// assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
+/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN as i64, i8::MAX as i64));
 ///
-/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(i8::MIN).unwrap());
-/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(i8::MAX).unwrap());
-/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(i8::MIN).unwrap());
 /// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
 /// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
-/// assert_eq!(i8::MAX, TryToByAdd::try_into_i8(u8::MAX).unwrap());
 /// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
-/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(u8::MAX).unwrap());
 ///
 /// ```
 

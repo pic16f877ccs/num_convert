@@ -1,25 +1,17 @@
-
+/// # A generic trait for converting from value types.
+/// A trait that converts integers from negative to positive and positive to negative.
+/// For the compatibility of negative to negative and positive to positive.
+/// The conversion is within the possible range of values.
 ///
-/// Convert from signed integers to signed values, see below for details.    
-/// -128_i8 -> -128_i8 ... -128_i8 -> -128_i128, -128_i128 -> -128_i8
-/// 127_i8 -> 127_i8 ... 127_i8 -> 127_i128, 127_i128 -> 127_i8
-/// convert from unsigned integers to unsigned values, see below for details.
-/// 0_u8 -> 0_u8 ... 0_u8 -> 0_u128, 0_u128 -> 0_u8
-/// 255_u8 -> 255_u8 ... 255_u8 -> 255_u128, 255_u128 -> 255_u8
-/// Convert from signed integers to unsigned values, see below for details.
-/// -128_i8 -> 0_u8 ... -128_i8 -> 0_u128, -128_i128 -> 0_u8
-/// 127_i8 -> 255_u8 ... 127_i8 -> 255_u128, 127_i128 -> 255_u8
-/// convert from unsigned integers to signed values, see below for details.
-/// 0_u8 -> -128_i8 ... 0_u8 -> -128_i128, 255_u128 -> -128_i8
-/// 255_u8 -> 127_i8 ... 255_u8 -> 127_i128, 255_u128 -> 127_i8
-///
-/// # A generic trait for converting value types.
-///
-/// # Examples
+/// ## Examples
 ///
 /// ```
-///
-///
+/// use num_convert::TryFromByAdd;
+/// 
+/// // -128_i8 -> 0_u8
+/// assert_eq!(<u8>::MIN, <u8 as TryFromByAdd>::try_from_i8(<i8>::MIN).unwrap());
+/// // 127_i8 -> 255_u8
+/// assert_eq!(<u8>::MAX, <u8 as TryFromByAdd>::try_from_i8(<i8>::MAX).unwrap());
 ///
 /// ```
 
