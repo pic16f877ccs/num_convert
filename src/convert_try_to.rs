@@ -1,6 +1,6 @@
 use paste::paste;
 
-/// # A generic trait for converting into value types.
+/// # A generic trait for converting into possible value types.
 ///
 /// A trait that converts integers from negative to positive and positive to negative.
 /// For the compatibility of negative to negative and positive to positive.

@@ -1,4 +1,4 @@
-/// # A generic trait for converting from value types.
+/// # A generic trait for converting from possible value types.
 /// A trait that converts integers from negative to positive and positive to negative.
 /// For the compatibility of negative to negative and positive to positive.
 /// The conversion is within the possible range of values.
