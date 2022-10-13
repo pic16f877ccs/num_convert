@@ -2,7 +2,7 @@
 name = "num_convert"
 version = "0.3.2"
 edition = "2021"
-authors = ["Karl Wulfert" <pic16f877.ccs@emailn.de>]
+authors = ["Karl Wulfert <pic16f877.ccs@emailn.de>"]
 readme = "README.md"
 repository = "https://github.com/pic16f877ccs/num_convert"
 homepage = "https://github.com/pic16f877ccs/num_convert"
