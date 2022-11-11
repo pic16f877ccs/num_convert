@@ -25,7 +25,7 @@ Type converting library.
 #### Add this to your Cargo.toml
 ```
 [dependencies]
-num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.2.0" }
+num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.3.2" }
 ```
 #### Or using cargo
 ```
@@ -35,45 +35,33 @@ cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
 #### Examples
 ```
  use num_convert::ToByAdd;
- 
- fn convert_i8_to_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
-     (min.to_u8(), max.to_u8())
+
+ fn convert_into_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
+     (min.into_u8(), max.into_u8())
  }
- assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+ assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
+
+ assert_eq!(i128::MIN, ToByAdd::into_i128(u128::MIN));
+ assert_eq!(u8::MAX as u64, ToByAdd::into_u64(i8::MAX));
 ```
 
 ```
- assert_eq!(i8::MIN, ToByAdd::to_i8(&i8::MIN));
- assert_eq!(i8::MAX, ToByAdd::to_i8(&i8::MAX));
- assert_eq!(u8::MIN, ToByAdd::to_u8(&i8::MIN));
- assert_eq!(u8::MAX, ToByAdd::to_u8(&i8::MAX));
-```
+ use num_convert::TryToByAdd;
 
-```
-use num_convert::TryToByAdd;
-use std::fmt::Debug;
+ fn convert_into_u8<T>(min: T, max: T) -> (u8, u8)
+ where
+     T: TryToByAdd,
+ {
 
-fn convert_i8_to_u8<T>(min: T, max: T) -> (u8, u8)
-where
-    T: TryToByAdd,
-    <T as TryToByAdd>::Error: Debug, 
-{
-  
-    (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
-}   
-assert_eq!((u8::MIN, u8::MAX), convert_i8_to_u8(i8::MIN, i8::MAX));
+     (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
+ }
+ assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
+ assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN as i64, i8::MAX as i64));
+
+ assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
+ assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
+ assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
 ```  
-
-```
-assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&i8::MIN).unwrap());
-assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&i8::MAX).unwrap());
-assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&i8::MIN).unwrap());
-assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&i8::MAX).unwrap());
-assert_eq!(i8::MIN, TryToByAdd::try_into_i8(&u8::MIN).unwrap());
-assert_eq!(i8::MAX, TryToByAdd::try_into_i8(&u8::MAX).unwrap());
-assert_eq!(u8::MIN, TryToByAdd::try_into_u8(&u8::MIN).unwrap());
-assert_eq!(u8::MAX, TryToByAdd::try_into_u8(&u8::MAX).unwrap());
-```
 
 ## License
 GNU General Public License v3.0
