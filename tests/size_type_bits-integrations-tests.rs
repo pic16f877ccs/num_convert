@@ -2,11 +2,12 @@ use num_convert::Tbits;
 use paste::paste;
 
 macro_rules! tbits_tests {
-   ( $($value_type:ty, $var_value:expr);* ) => {
+   ( $($value_type:ty, $value:expr);* ) => {
        $( paste! {
+
            #[test]
            fn [<get_tbits_$value_type>]() {
-               assert_eq!($value_type::get_bits(), $var_value);
+               assert_eq!($value_type::get_bits(), $value);
            }
        })*
    }
