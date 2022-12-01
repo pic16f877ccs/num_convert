@@ -34,3 +34,10 @@ min_zero_max_tests! { max_u32; u32, u64, usize, u128; 4_294_967_295 }
 min_zero_max_tests! { max_u64; u64, usize, u128; 18_446_744_073_709_551_615 }
 min_zero_max_tests! { max_usize; u64, usize, u128; 18_446_744_073_709_551_615 }
 min_zero_max_tests! { max_u128; u128; 340_282_366_920_938_463_463_374_607_431_768_211_455 }
+
+min_zero_max_tests! { min_u8; u8; 0 }
+min_zero_max_tests! { min_u16; u16; 0 }
+min_zero_max_tests! { min_u32; u32; 0 }
+min_zero_max_tests! { min_u64; u64; 0 }
+min_zero_max_tests! { min_usize; u64; 0 }
+min_zero_max_tests! { min_u128; u128; 0 }
