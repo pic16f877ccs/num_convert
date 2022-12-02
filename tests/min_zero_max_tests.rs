@@ -39,5 +39,5 @@ min_zero_max_tests! { min_u8; u8; 0 }
 min_zero_max_tests! { min_u16; u16; 0 }
 min_zero_max_tests! { min_u32; u32; 0 }
 min_zero_max_tests! { min_u64; u64; 0 }
-min_zero_max_tests! { min_usize; u64; 0 }
+min_zero_max_tests! { min_usize; usize; 0 }
 min_zero_max_tests! { min_u128; u128; 0 }

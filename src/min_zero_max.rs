@@ -40,9 +40,9 @@ min_zero_max_impl! { TmaxU64,   max_u64; u64, usize, u128; 18_446_744_073_709_55
 min_zero_max_impl! { TmaxUsize, max_usize; u64, usize, u128; 18_446_744_073_709_551_615 }
 min_zero_max_impl! { TmaxU128,  max_u128; u128; 340_282_366_920_938_463_463_374_607_431_768_211_455 }
 
-min_zero_max_impl! { TminU8,    min_u8;    u8; 0 }
-min_zero_max_impl! { TminU16,   min_u16;   u16; 0 }
-min_zero_max_impl! { TminU32,   min_u32;   u32; 0 }
-min_zero_max_impl! { TminU64,   min_u64;   u64; 0 }
-min_zero_max_impl! { TminUsize, min_usize; u64; 0 }
-min_zero_max_impl! { TminU128,  min_u128;  u128; 0 }
+min_zero_max_impl! { TminU8,    min_u8;    u8; 0_u8 }
+min_zero_max_impl! { TminU16,   min_u16;   u16; 0_u16 }
+min_zero_max_impl! { TminU32,   min_u32;   u32; 0_u32 }
+min_zero_max_impl! { TminU64,   min_u64;   u64; 0_u64 }
+min_zero_max_impl! { TminUsize, min_usize; usize; 0_usize }
+min_zero_max_impl! { TminU128,  min_u128;  u128; 0_u128 }
