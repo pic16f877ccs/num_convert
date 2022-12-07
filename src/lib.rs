@@ -21,12 +21,16 @@
 
 mod convert_from;
 mod convert_to;
+mod convert_from_as;
+mod convert_to_as;
 mod convert_try_from;
 mod convert_try_to;
 mod size_type_bits;
 pub mod min_zero_max;
 pub use crate::convert_from::FromByAdd;
 pub use crate::convert_to::ToByAdd;
+pub use crate::convert_from_as::FromAs;
+pub use crate::convert_to_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_to::TryToByAdd;
 pub use crate::size_type_bits::Tbits;
