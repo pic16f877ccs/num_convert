@@ -13,11 +13,15 @@ Type converting library.
 - Supports generics types.
 - Not all value types support conversions.
 
-### Trait TryToByAdd or TryFromByAdd 
+### Trait TryToByAdd and TryFromByAdd 
 - Convert into or from signed integers to unsigned in the full range of values or possible values.
 - Convert into or from unsigned integers to signed in the full range of values or possible values.
 - Convert into or from signed integers to signed in the full range of values or possible values.
 - Convert into or from unsigned integers to unsigned in the full range of values or possible values.
+- Supports generics types.
+
+### Trait IntoAs and FromAs
+- Signed and unsigned casts, similar to the as operator.
 - Supports generics types.
 
 ## Usage
@@ -61,7 +65,14 @@ cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
  assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
  assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
  assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
-```  
+```
+
+```
+use num_convert:: { FromAs, IntoAs };
+
+ assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);                                                                     
+ assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
+```
 
 ## License
 GNU General Public License v3.0
