@@ -1,6 +1,6 @@
 [package]
 name = "num_convert"
-version = "0.3.9"
+version = "0.4.0"
 edition = "2021"
 authors = ["Karl Wulfert <pic16f877.ccs@emailn.de>"]
 readme = "README.md"
@@ -8,7 +8,7 @@ repository = "https://github.com/pic16f877ccs/num_convert"
 homepage = "https://github.com/pic16f877ccs/num_convert"
 license = "GPL-3.0-or-later"
 description = "Type converting library, conversions integers by overflow addition, \nsupports generics types."
-keywords = ["trait", "generic", "converting", "integers", "overflow-addition"]
+keywords = ["trait", "generic", "any-converting", "integers", "overflow-addition"]
 categories = ["algorithms"]
 
 [dependencies]
