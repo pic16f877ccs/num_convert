@@ -49,7 +49,7 @@ cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
 
-pub trait FromAs<T> {
+pub trait FromAs<T>: CastInto {
     fn from_as(n: T) -> Self;
 }
 
