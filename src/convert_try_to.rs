@@ -1,21 +1,18 @@
 use paste::paste;
 
-/// # A generic trait for converting into possible value types.
+/// A trait that converts negative integers to positive and positive to negative.
 ///
-/// A trait that converts integers from negative to positive and positive to negative.
-/// For the compatibility of negative to negative and positive to positive.
 /// The conversion is within the possible range of values.
 ///
-/// ## Examples
+/// # Examples
+/// Usage:
 ///
 /// ```
-/// use num_convert::TryToByAdd;
-///
+/// # use num_convert::TryToByAdd;
 /// fn convert_into_u8<T>(min: T, max: T) -> (u8, u8)
 /// where
 ///     T: TryToByAdd,
 /// {
-///
 ///     (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
 /// }
 /// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
@@ -24,21 +21,32 @@ use paste::paste;
 /// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
 /// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
 /// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
-///
 /// ```
 
 pub trait TryToByAdd {
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i8(self) -> Option<i8>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_u8(self) -> Option<u8>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i16(self) -> Option<i16>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_u16(self) -> Option<u16>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i32(self) -> Option<i32>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_u32(self) -> Option<u32>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i64(self) -> Option<i64>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_u64(self) -> Option<u64>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_isize(self) -> Option<isize>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_usize(self) -> Option<usize>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i128(self) -> Option<i128>;
+    /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_u128(self) -> Option<u128>;
 }
 

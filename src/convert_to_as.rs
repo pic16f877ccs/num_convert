@@ -49,7 +49,9 @@ cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
 
+/// The IntoAs trait for conversion from integers with overflow. 
 pub trait IntoAs<T>: CastFrom {
+    /// Conversion into integers with overflow.
     fn into_as(self) -> T;
 }
 

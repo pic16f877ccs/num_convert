@@ -1,33 +1,41 @@
-/// # A generic trait for converting from possible value types.
 /// A trait that converts integers from negative to positive and positive to negative.
-/// For the compatibility of negative to negative and positive to positive.
-/// The conversion is within the possible range of values.
 ///
-/// ## Examples
+/// The conversion is within the possible range of values.
+/// # Examples
+/// Usage:
 ///
 /// ```
-/// use num_convert::TryFromByAdd;
-/// 
+/// # use num_convert::TryFromByAdd;
 /// // -128_i8 -> 0_u8
 /// assert_eq!(<u8>::MIN, <u8 as TryFromByAdd>::try_from_i8(<i8>::MIN).unwrap());
 /// // 127_i8 -> 255_u8
 /// assert_eq!(<u8>::MAX, <u8 as TryFromByAdd>::try_from_i8(<i8>::MAX).unwrap());
-///
 /// ```
 
 pub trait TryFromByAdd: Sized {
-
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i8(n: i8) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_u8(n: u8) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i16(n: i16) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_u16(n: u16) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i32(n: i32) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_u32(n: u32) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i64(n: i64) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_u64(n: u64) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_isize(n: isize) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_usize(n: usize) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i128(n: i128) -> Option<Self>;
+    /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_u128(n: u128) -> Option<Self>;
 }
 

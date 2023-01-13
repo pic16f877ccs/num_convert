@@ -1,12 +1,12 @@
 use paste::paste;
 
-/// # A generic trait for converting from possible types.
+/// A generic trait for converting from possible types.
 ///
-/// ## Examples
+/// # Examples
+/// Usage:
 ///
 /// ```
-/// use num_convert::FromByAdd;
-/// 
+/// # use num_convert::FromByAdd;
 /// // -128_i8 -> 0_u32
 /// assert_eq!(<u8>::MIN as u32, <u32 as FromByAdd>::from_i8(<i8>::MIN));
 /// // 127_i8 -> 255_u64

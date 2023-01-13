@@ -1,12 +1,12 @@
 use paste::paste;
 
-/// # A generic trait for converting into possible types.
+/// A generic trait for converting into possible types.
 ///
-/// ## Examples
+/// # Examples
+/// Usage:
 ///
 /// ```
-/// use num_convert::ToByAdd;
-///
+/// # use num_convert::ToByAdd;
 /// fn convert_into_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
 ///     (min.into_u8(), max.into_u8())
 /// }

@@ -1,6 +1,6 @@
 use paste::paste;
 
-trait CastInto {
+pub trait CastInto {
     fn into_i8(self) -> i8;
     fn into_i16(self) -> i16;
     fn into_i32(self) -> i32;
@@ -49,7 +49,9 @@ cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
 
+/// The FromAs trait for conversion from integers with overflow. 
 pub trait FromAs<T>: CastInto {
+    /// Conversion from integers with overflow.
     fn from_as(n: T) -> Self;
 }
 

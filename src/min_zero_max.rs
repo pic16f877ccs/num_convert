@@ -1,8 +1,10 @@
-use std::cmp::PartialEq;
+use core::cmp::PartialEq;
 
 macro_rules! min_zero_max_impl {
     ( $trait_name:ident, $fn_name:ident; $($value_type:ty),*; $value:expr) => {
+        /// Traits for implementation upper and lower bounds of types.
         pub trait $trait_name: Sized + PartialEq + Copy {
+            /// Returns upper and lower bounds of types.
             fn $fn_name() -> Self;
         }
         $(
