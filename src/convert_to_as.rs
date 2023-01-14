@@ -15,12 +15,10 @@ use paste::paste;
 ///     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
 /// {
 ///     let mut count = 0;
-///
 ///     // Using the Std library.
 ///     //let ten = <T as TryFrom<u8>>::try_from(10u8).unwrap();
 ///     // There will never be a conversion error here.
 ///     let ten = 10u8.into_as();
-///
 ///     // Using the Std library.
 ///     //let zero = <T as TryFrom<u8>>::try_from(0u8).unwrap();
 ///     // There will never be a conversion error here.

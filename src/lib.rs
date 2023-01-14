@@ -19,6 +19,15 @@
 //! # Examples
 //! Usage:
 //!
+//! Convert from negative into positive and positive into negative.
+//! ```
+//! # use num_convert::FromByAdd;
+//! assert_eq!(<u8 as FromByAdd>::from_i8(-128i8), 0u8);
+//! assert_eq!(<i8 as FromByAdd>::from_u8(255u8), 127i8);
+//! ```
+//!
+//! Usage:
+//!
 //! Convert a negative value to a positive.
 //! ```
 //! # use num_convert::ToByAdd;
@@ -47,6 +56,15 @@
 //! let val: Vec<u8> = arr.iter().map(|var| u8::from_digits(*var).unwrap_or(255u8) ).collect::<_>();
 //! assert_eq!(val, [71, 91, 255, 255, 101, 243]);
 //! ```
+//!
+//! Usage:
+//!
+//! The size of integer values in bits.
+//! ```
+//! # use num_convert::Sbits;
+//! assert_eq!((-128i8).sbits(), 8u32);
+//! assert_eq!(u64::MAX.sbits(), 64u32);
+//! ```
 
 mod convert_from;
 mod convert_from_as;
@@ -55,6 +73,7 @@ mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
 mod convert_try_to;
+#[cfg(feature = "bits")]
 mod size_type_bits;
 
 /// Module for implementation upper and lower bounds of types.
@@ -68,5 +87,7 @@ pub use crate::convert_to_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
+#[cfg(feature = "bits")]
 pub use crate::size_type_bits::Sbits;
+#[cfg(feature = "bits")]
 pub use crate::size_type_bits::Tbits;

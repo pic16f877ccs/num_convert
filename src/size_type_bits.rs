@@ -42,6 +42,7 @@ macro_rules! sbits_impls {
     ($($type:ty),*) => {
         $(
             impl Sbits for $type {
+                #[inline]
                 fn sbits(&self) -> u32 {
                     <$type>::BITS
                 }

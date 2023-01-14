@@ -2,8 +2,6 @@ use paste::paste;
 
 /// A trait that converts negative integers to positive and positive to negative.
 ///
-/// The conversion is within the possible range of values.
-///
 /// # Examples
 /// Usage:
 ///
@@ -22,6 +20,7 @@ use paste::paste;
 /// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
 /// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
 /// ```
+/// The conversion is within the possible range of values.
 
 pub trait TryToByAdd {
     /// Converting into negative integers to positive or vice versa, that can fail.
