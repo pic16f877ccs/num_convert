@@ -1,6 +1,5 @@
 /// A trait that converts integers from negative to positive and positive to negative.
 ///
-/// The conversion is within the possible range of values.
 /// # Examples
 /// Usage:
 ///
@@ -11,6 +10,7 @@
 /// // 127_i8 -> 255_u8
 /// assert_eq!(<u8>::MAX, <u8 as TryFromByAdd>::try_from_i8(<i8>::MAX).unwrap());
 /// ```
+/// The conversion is within the possible range of values.
 
 pub trait TryFromByAdd: Sized {
     /// Converting from negative integers to positive or vice versa, that can fail.

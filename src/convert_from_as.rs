@@ -1,5 +1,33 @@
 use paste::paste;
 
+/// The FromAs trait for convert from value between integer types with overflow. 
+/// ```
+/// # use num_convert::FromAs;
+/// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
+/// assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
+/// ```
+
+pub trait FromAs<T>: CastInto {
+
+    /// Convert from value between integer types with overflow. 
+    fn from_as(n: T) -> Self;
+}
+
+macro_rules! from_as_impl {
+    ($($type:ty),*) => {
+        $( paste! {
+            impl<T: CastInto> FromAs<T> for $type {
+                #[inline]
+                fn from_as(n: T) -> Self {
+                    <T as CastInto>::[<into_$type>](n)
+                }
+            }
+        })*
+    }
+}
+
+from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
+
 // issue #34537 https://github.com/rust-lang/rust/issues/34537
 pub trait CastInto {
     fn into_i8(self) -> i8;
@@ -49,34 +77,6 @@ cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
-
-/// The FromAs trait for convert from value between integer types with possible overflow. 
-/// ```
-/// # use num_convert::FromAs;
-/// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
-/// assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
-/// ```
-
-pub trait FromAs<T>: CastInto {
-
-    /// Convert from value between integer types with possible overflow. 
-    fn from_as(n: T) -> Self;
-}
-
-macro_rules! from_as_impl {
-    ($($type:ty),*) => {
-        $( paste! {
-            impl<T: CastInto> FromAs<T> for $type {
-                #[inline]
-                fn from_as(n: T) -> Self {
-                    <T as CastInto>::[<into_$type>](n)
-                }
-            }
-        })*
-    }
-}
-
-from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 
 #[cfg(test)]
 mod cast_into_test {

@@ -9,7 +9,7 @@
 //! - The TryToByAdd trait for converting into negative integers to positive or vice versa, that can fail.
 //! - The FromAs trait for conversion from integers with overflow.
 //! - The IntoAs trait for conversion into integers with overflow.
-//! - The TryFromDigits trait for converting from digits as a number of possible value types.
+//! - The TryFromDigits trait for converting from digits as a number, with possible value types.
 //!
 //! # Generic traits for define the size of the integers in bits.
 //!
@@ -22,47 +22,30 @@
 //! Convert a negative value to a positive.
 //! ```
 //! # use num_convert::ToByAdd;
-//!
 //! fn convert_into_u16<T: ToByAdd>(min: T, max: T) -> (u16, u16) {
 //!     (min.into_u16(), max.into_u16())
 //! }
 //! assert_eq!((u16::MIN, u16::MAX), convert_into_u16(i16::MIN, i16::MAX));
 //! ```
+//!
 //! Usage:
 //!
-//! Convert the u8 type to a generic T type.
+//! Conversions type U16 in U8 without overflow and with overflow.
 //! ```
-//! # use num_convert::{FromAs, IntoAs};
-//! # use std::ops::Div;
+//! # use num_convert::{IntoAs, FromAs};
+//! assert_eq!(<u16 as IntoAs<u8>>::into_as(255u16), 255u8);
+//! assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
+//! assert_eq!(<u8 as FromAs<u16>>::from_as(261u16), 5u8);
+//! ```
 //!
-//! fn primitive_type_len<T>(mut num: T) -> usize
-//! where
-//!     // Using the Std library.
-//!     //T: Eq + Div<Output = T> + TryFrom<u8> + Copy + IntoAs<T>,
-//!     //<T as TryFrom<u8>>::Error: Debug,
-//!     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
-//! {
-//!     let mut count = 0;
+//! Usage:
 //!
-//!     // Using the Std library.
-//!     //let ten = <T as TryFrom<u8>>::try_from(10u8).unwrap();
-//!     // There will never be a conversion error here.
-//!     let ten = 10u8.into_as();
-//!
-//!     // Using the Std library.
-//!     //let zero = <T as TryFrom<u8>>::try_from(0u8).unwrap();
-//!     // There will never be a conversion error here.
-//!     let zero = 0u8.into_as();
-//!     while num != zero {
-//!         num = num / ten;
-//!         count += 1;
-//!     }
-//!     if count == 0 {
-//!         1
-//!     } else {
-//!         count
-//!     }
-//! }
+//! Converting from digits as a number.
+//! ```
+//! # use num_convert::TryFromDigits;
+//! let arr: [u32; 6] = [25_635_071, 25_634_091, 25_633_334, 25_636_309, 25_637_101, 25_636_243]; 
+//! let val: Vec<u8> = arr.iter().map(|var| u8::from_digits(*var).unwrap_or(255u8) ).collect::<_>();
+//! assert_eq!(val, [71, 91, 255, 255, 101, 243]);
 //! ```
 
 mod convert_from;
@@ -75,6 +58,7 @@ mod convert_try_to;
 mod size_type_bits;
 
 /// Module for implementation upper and lower bounds of types.
+#[cfg(feature = "bounds")]
 pub mod min_zero_max;
 
 pub use crate::convert_from::FromByAdd;

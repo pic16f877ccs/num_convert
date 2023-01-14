@@ -14,7 +14,6 @@ use paste::paste;
 ///
 /// assert_eq!(i128::MIN, ToByAdd::into_i128(u128::MIN));
 /// assert_eq!(u8::MAX as u64, ToByAdd::into_u64(i8::MAX));
-///
 /// ```
 
 pub trait ToByAdd {

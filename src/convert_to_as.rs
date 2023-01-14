@@ -1,5 +1,62 @@
 use paste::paste;
 
+/// The IntoAs trait for convert into value between integer types with overflow. 
+///
+/// Usage:
+///
+/// ```
+/// # use num_convert::IntoAs;
+/// # use std::ops::Div;
+/// fn primitive_type_len<T>(mut num: T) -> usize
+/// where
+///     // Using the Std library.
+///     //T: Eq + Div<Output = T> + TryFrom<u8> + Copy + IntoAs<T>,
+///     //<T as TryFrom<u8>>::Error: Debug,
+///     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
+/// {
+///     let mut count = 0;
+///
+///     // Using the Std library.
+///     //let ten = <T as TryFrom<u8>>::try_from(10u8).unwrap();
+///     // There will never be a conversion error here.
+///     let ten = 10u8.into_as();
+///
+///     // Using the Std library.
+///     //let zero = <T as TryFrom<u8>>::try_from(0u8).unwrap();
+///     // There will never be a conversion error here.
+///     let zero = 0u8.into_as();
+///     while num != zero {
+///         num = num / ten;
+///         count += 1;
+///     }
+///     if count == 0 {
+///         1
+///     } else {
+///         count
+///     }
+/// }
+/// ```
+
+pub trait IntoAs<T>: CastFrom {
+    /// Convert value into between integer types with overflow.
+    fn into_as(self) -> T;
+}
+
+macro_rules! into_as_impl {
+    ($($type:ty),*) => {
+        $( paste! {
+            impl<T: CastFrom> IntoAs<T> for $type {
+                #[inline]
+                fn into_as(self) -> T {
+                    <T as CastFrom>::[<from_$type>](self)
+                }
+            }
+        })*
+    }
+}
+
+into_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
+
 // issue #34537 https://github.com/rust-lang/rust/issues/34537
 pub trait CastFrom {
     fn from_i8(n: i8) -> Self;
@@ -49,33 +106,6 @@ cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32}
 cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
-
-/// The IntoAs trait for convert into value between integer types with possible overflow. 
-/// ```
-/// # use num_convert::IntoAs;
-/// assert_eq!(<u16 as IntoAs<u8>>::into_as(255u16), 255u8);
-/// assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
-/// ```
-
-pub trait IntoAs<T>: CastFrom {
-    /// Convert value into between integer types with possible overflow.
-    fn into_as(self) -> T;
-}
-
-macro_rules! into_as_impl {
-    ($($type:ty),*) => {
-        $( paste! {
-            impl<T: CastFrom> IntoAs<T> for $type {
-                #[inline]
-                fn into_as(self) -> T {
-                    <T as CastFrom>::[<from_$type>](self)
-                }
-            }
-        })*
-    }
-}
-
-into_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 
 #[cfg(test)]
 mod cast_from_test {
