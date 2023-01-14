@@ -1,5 +1,6 @@
 use paste::paste;
 
+// issue #34537 https://github.com/rust-lang/rust/issues/34537
 pub trait CastInto {
     fn into_i8(self) -> i8;
     fn into_i16(self) -> i16;
@@ -49,9 +50,16 @@ cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
 cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
 
-/// The FromAs trait for conversion from integers with overflow. 
+/// The FromAs trait for convert from value between integer types with possible overflow. 
+/// ```
+/// # use num_convert::FromAs;
+/// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
+/// assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
+/// ```
+
 pub trait FromAs<T>: CastInto {
-    /// Conversion from integers with overflow.
+
+    /// Convert from value between integer types with possible overflow. 
     fn from_as(n: T) -> Self;
 }
 

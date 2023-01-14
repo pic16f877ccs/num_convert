@@ -72,9 +72,11 @@ mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
 mod convert_try_to;
+mod size_type_bits;
+
 /// Module for implementation upper and lower bounds of types.
 pub mod min_zero_max;
-mod size_type_bits;
+
 pub use crate::convert_from::FromByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_to::ToByAdd;
