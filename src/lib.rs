@@ -34,7 +34,7 @@
 //! fn convert_into_u16<T: ToByAdd>(min: T, max: T) -> (u16, u16) {
 //!     (min.into_u16(), max.into_u16())
 //! }
-//! assert_eq!((u16::MIN, u16::MAX), convert_into_u16(i16::MIN, i16::MAX));
+//! assert_eq!(convert_into_u16(i16::MIN, i16::MAX), (u16::MIN, u16::MAX));
 //! ```
 //!
 //! Usage:
@@ -64,6 +64,15 @@
 //! # use num_convert::Sbits;
 //! assert_eq!((-128i8).sbits(), 8u32);
 //! assert_eq!(u64::MAX.sbits(), 64u32);
+//! ```
+//!
+//! Usage:
+//!
+//! The size of integer type in bits.
+//! ```
+//! # use num_convert::Tbits;
+//! assert_eq!(i8::tbits(), 8u32);
+//! assert_eq!(u64::tbits(), 64u32);
 //! ```
 
 mod convert_from;

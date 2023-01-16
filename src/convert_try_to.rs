@@ -13,12 +13,12 @@ use paste::paste;
 /// {
 ///     (min.try_into_u8().unwrap(), max.try_into_u8().unwrap())
 /// }
-/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
-/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN as i64, i8::MAX as i64));
+/// assert_eq!(convert_into_u8(i8::MIN, i8::MAX), (u8::MIN, u8::MAX));
+/// assert_eq!( convert_into_u8(i8::MIN as i64, i8::MAX as i64), (u8::MIN, u8::MAX));
 ///
-/// assert_eq!(u8::MAX, TryToByAdd::try_into_u8(i8::MAX).unwrap());
-/// assert_eq!(i8::MIN, TryToByAdd::try_into_i8(u8::MIN).unwrap());
-/// assert_eq!(u8::MIN, TryToByAdd::try_into_u8(u8::MIN).unwrap());
+/// assert_eq!(TryToByAdd::try_into_u8(i8::MAX).unwrap(), u8::MAX);
+/// assert_eq!(TryToByAdd::try_into_i8(u8::MIN).unwrap(), i8::MIN);
+/// assert_eq!(TryToByAdd::try_into_u8(u8::MIN).unwrap(), u8::MIN);
 /// ```
 /// The conversion is within the possible range of values.
 

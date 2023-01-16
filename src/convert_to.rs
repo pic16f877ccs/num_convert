@@ -10,10 +10,10 @@ use paste::paste;
 /// fn convert_into_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
 ///     (min.into_u8(), max.into_u8())
 /// }
-/// assert_eq!((u8::MIN, u8::MAX), convert_into_u8(i8::MIN, i8::MAX));
+/// assert_eq!(convert_into_u8(i8::MIN, i8::MAX), (u8::MIN, u8::MAX));
 ///
-/// assert_eq!(i128::MIN, ToByAdd::into_i128(u128::MIN));
-/// assert_eq!(u8::MAX as u64, ToByAdd::into_u64(i8::MAX));
+/// assert_eq!(ToByAdd::into_i128(u128::MIN), i128::MIN);
+/// assert_eq!(ToByAdd::into_u64(i8::MAX), u8::MAX as u64);
 /// ```
 
 pub trait ToByAdd {

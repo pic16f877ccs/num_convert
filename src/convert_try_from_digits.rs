@@ -9,7 +9,7 @@ macro_rules! try_from_digits_impls {
     ///
     /// ```
     /// # use num_convert::TryFromDigits;
-    /// // 65_255u16 -> 255_u8
+    /// // 65_**255**u16 -> 255_u8
     /// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255u16), Ok(255u8));
     /// // 100_000u32 -> 0_u8
     /// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000u32), Ok(0u8));

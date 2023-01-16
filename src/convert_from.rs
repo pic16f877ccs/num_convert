@@ -8,9 +8,9 @@ use paste::paste;
 /// ```
 /// # use num_convert::FromByAdd;
 /// // -128_i8 -> 0_u32
-/// assert_eq!(<u8>::MIN as u32, <u32 as FromByAdd>::from_i8(<i8>::MIN));
+/// assert_eq!(<u32 as FromByAdd>::from_i8(<i8>::MIN), <u8>::MIN as u32);
 /// // 127_i8 -> 255_u64
-/// assert_eq!(<u8>::MAX as u64, <u64 as FromByAdd>::from_i8(<i8>::MAX));
+/// assert_eq!(<u64 as FromByAdd>::from_i8(<i8>::MAX), <u8>::MAX as u64);
 /// ```
 
 pub trait FromByAdd {
