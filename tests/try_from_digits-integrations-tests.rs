@@ -20,7 +20,7 @@ macro_rules! from_digits_tests {
         $(
             paste! {
                 #[test]
-                fn [<from_$from_value _digits_$to_type>]() {
+                fn [<from_$from_value:lower _digits_$to_type>]() {
                     assert_eq!(<$to_type as TryFromDigits<$from_type>>::from_digits($from_value), Ok($to_value));
                 }
             }
@@ -58,7 +58,7 @@ macro_rules! from_digits_tests_err {
         $(
             paste! {
                 #[test]
-                fn [<from_$from_value _digits_$to_type _err>]() {
+                fn [<from_$from_value:lower _digits_$to_type _err>]() {
                     assert!(<$to_type as TryFromDigits<$from_type>>::from_digits($from_value).is_err());
                 }
             }

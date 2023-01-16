@@ -29,19 +29,19 @@ min_zero_max_impl! { TminIsize, min_isize; i64, isize, i128; -9_223_372_036_854_
 min_zero_max_impl! {
     TminI128,  min_i128; i128; -170_141_183_460_469_231_731_687_303_715_884_105_728 }
 
-min_zero_max_impl! { TmaxI8,    max_i8; i8, i16, i32, i64, isize, i128; 127 }
-min_zero_max_impl! { TmaxI16,   max_i16; i16, i32, i64, isize, i128; 32_767 }
-min_zero_max_impl! { TmaxI32,   max_i32; i32, i64, isize, i128; 2_147_483_647 }
-min_zero_max_impl! { TmaxI64,   max_i64; i64, isize, i128; 9_223_372_036_854_775_807 }
-min_zero_max_impl! { TmaxIsize, max_isize; i64, isize, i128; 9_223_372_036_854_775_807 }
+min_zero_max_impl! { TmaxI8,    max_i8; i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; 127 }
+min_zero_max_impl! { TmaxI16,   max_i16; i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; 32_767 }
+min_zero_max_impl! { TmaxI32,   max_i32; i32, i64, isize, i128, u32, u64, usize, u128; 2_147_483_647 }
+min_zero_max_impl! { TmaxI64,   max_i64; i64, isize, i128, u64, usize, u128; 9_223_372_036_854_775_807 }
+min_zero_max_impl! { TmaxIsize, max_isize; i64, isize, i128, u64, usize, u128; 9_223_372_036_854_775_807 }
 min_zero_max_impl! {
-    TmaxI128,  max_i128; i128; 170_141_183_460_469_231_731_687_303_715_884_105_727 }
+    TmaxI128,  max_i128; i128, u128; 170_141_183_460_469_231_731_687_303_715_884_105_727 }
 
-min_zero_max_impl! { TmaxU8,    max_u8; u8, u16, u32, u64, usize, u128; 255 }
-min_zero_max_impl! { TmaxU16,   max_u16; u16, u32, u64, usize, u128; 65_535 }
-min_zero_max_impl! { TmaxU32,   max_u32; u32, u64, usize, u128; 4_294_967_295 }
-min_zero_max_impl! { TmaxU64,   max_u64; u64, usize, u128; 18_446_744_073_709_551_615 }
-min_zero_max_impl! { TmaxUsize, max_usize; u64, usize, u128; 18_446_744_073_709_551_615 }
+min_zero_max_impl! { TmaxU8,    max_u8; i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; 255 }
+min_zero_max_impl! { TmaxU16,   max_u16; i32, i64, isize, i128, u16, u32, u64, usize, u128; 65_535 }
+min_zero_max_impl! { TmaxU32,   max_u32; i64, isize, i128, u32, u64, usize, u128; 4_294_967_295 }
+min_zero_max_impl! { TmaxU64,   max_u64; i128, u64, usize, u128; 18_446_744_073_709_551_615 }
+min_zero_max_impl! { TmaxUsize, max_usize; i128, u64, usize, u128; 18_446_744_073_709_551_615 }
 min_zero_max_impl! {
     TmaxU128,  max_u128; u128; 340_282_366_920_938_463_463_374_607_431_768_211_455 }
 

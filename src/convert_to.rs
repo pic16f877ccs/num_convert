@@ -81,7 +81,7 @@ macro_rules! unreach_func {
         $( paste! {
             #[inline]
             fn [<into_$to_type>](self) -> $to_type {
-                unreachable!();
+                unimplemented!();
             }
         })*
     }

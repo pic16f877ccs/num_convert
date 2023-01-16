@@ -21,18 +21,18 @@ min_zero_max_tests! { min_i64; i64, isize, i128; -9_223_372_036_854_775_808 }
 min_zero_max_tests! { min_isize; i64, isize, i128; -9_223_372_036_854_775_808 }
 min_zero_max_tests! { min_i128; i128; -170_141_183_460_469_231_731_687_303_715_884_105_728 }
 
-min_zero_max_tests! { max_i8; i8, i16, i32, i64, isize, i128; 127 }
-min_zero_max_tests! { max_i16; i16, i32, i64, isize, i128; 32_767 }
-min_zero_max_tests! { max_i32; i32, i64, isize, i128; 2_147_483_647 }
-min_zero_max_tests! { max_i64; i64, isize, i128; 9_223_372_036_854_775_807 }
-min_zero_max_tests! { max_isize; i64, isize, i128; 9_223_372_036_854_775_807 }
+min_zero_max_tests! { max_i8; i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; 127 }
+min_zero_max_tests! { max_i16; i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; 32_767 }
+min_zero_max_tests! { max_i32; i32, i64, isize, i128, u32, u64, usize, u128; 2_147_483_647 }
+min_zero_max_tests! { max_i64; i64, isize, i128, u64, usize, u128; 9_223_372_036_854_775_807 }
+min_zero_max_tests! { max_isize; i64, isize, i128, u64, usize, u128; 9_223_372_036_854_775_807 }
 min_zero_max_tests! { max_i128; i128; 170_141_183_460_469_231_731_687_303_715_884_105_727 }
 
-min_zero_max_tests! { max_u8; u8, u16, u32, u64, usize, u128; 255 }
-min_zero_max_tests! { max_u16; u16, u32, u64, usize, u128; 65_535 }
-min_zero_max_tests! { max_u32; u32, u64, usize, u128; 4_294_967_295 }
-min_zero_max_tests! { max_u64; u64, usize, u128; 18_446_744_073_709_551_615 }
-min_zero_max_tests! { max_usize; u64, usize, u128; 18_446_744_073_709_551_615 }
+min_zero_max_tests! { max_u8; i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; 255 }
+min_zero_max_tests! { max_u16; i32, i64, isize, i128, u16, u32, u64, usize, u128; 65_535 }
+min_zero_max_tests! { max_u32; i64, isize, i128, u32, u64, usize, u128; 4_294_967_295 }
+min_zero_max_tests! { max_u64; i128, u64, usize, u128; 18_446_744_073_709_551_615 }
+min_zero_max_tests! { max_usize; i128, u64, usize, u128; 18_446_744_073_709_551_615 }
 min_zero_max_tests! { max_u128; u128; 340_282_366_920_938_463_463_374_607_431_768_211_455 }
 
 min_zero_max_tests! { min_u8; u8; 0 }

@@ -85,7 +85,7 @@ macro_rules! fns {
         paste!{
             #[inline]
             fn [<from_$from_type>](_n: $from_type) -> $to_type {
-                unreachable!();
+                unimplemented!();
             }
         }
         )*
