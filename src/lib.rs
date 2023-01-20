@@ -82,6 +82,7 @@ mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
 mod convert_try_to;
+
 #[cfg(feature = "bits")]
 mod size_type_bits;
 
@@ -96,7 +97,15 @@ pub use crate::convert_to_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
+
+#[cfg(feature = "cast-info")]
+pub use crate::convert_from_as::CastInto;
+
+#[cfg(feature = "cast-from")]
+pub use crate::convert_to_as::CastFrom;
+
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Sbits;
+
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Tbits;

@@ -61,7 +61,7 @@ macro_rules! signed_or_unsigned_eq {
     };
 }
 
-//self is less than infotype
+//self is less than intotype
 macro_rules! signed_or_unsigned_le {
     ( $($to_type:ty),+ ) => {
         $( paste! {
@@ -152,7 +152,7 @@ macro_rules! unsigned_to_unsigned_gt {
     }
 }
 
-//self is less than infotype
+//self is less than intotype
 macro_rules! unsigned_to_signed_eq {
     ( $($to_type:ty),+ ) => {
        $( paste! {
@@ -164,7 +164,7 @@ macro_rules! unsigned_to_signed_eq {
     }
 }
 
-//self is less than infotype
+//self is less than intotype
 macro_rules! unsigned_to_signed_le {
     ( $($to_type:ty),+; $add_type:ty ) => {
         $( paste! {

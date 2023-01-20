@@ -19,7 +19,7 @@ macro_rules! from_as_impl {
             impl<T: CastInto> FromAs<T> for $type {
                 #[inline]
                 fn from_as(n: T) -> Self {
-                    <T as CastInto>::[<into_$type>](n)
+                    <T>::[<into_$type>](n)
                 }
             }
         })*

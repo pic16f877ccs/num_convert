@@ -39,6 +39,9 @@ tbits_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 /// fn get_bits_from_value<T: Sbits>(value: T) -> u32 {
 ///     value.sbits()
 /// }
+///
+/// assert_eq!(get_bits_from_value(-128_i8), 8_u32);
+/// assert_eq!(get_bits_from_value(65535_u16), 16_u32);
 /// ```
 pub trait Sbits {
     /// Method returns the size of integers value in bits.

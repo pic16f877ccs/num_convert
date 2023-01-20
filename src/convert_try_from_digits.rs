@@ -9,10 +9,12 @@ macro_rules! try_from_digits_impls {
     ///
     /// ```
     /// # use num_convert::TryFromDigits;
-    /// // 65_**255**u16 -> 255_u8
+    /// // 65_255u16 -> 255_u8
     /// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255u16), Ok(255u8));
     /// // 100_000u32 -> 0_u8
     /// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000u32), Ok(0u8));
+    /// // 10_000_965_535_i64 -> 65535u16
+    /// assert_eq!(<u16 as TryFromDigits<i64>>::from_digits(10_000_965_535i64), Ok(65_535_u16));
     /// // 10_000_000_256u64 -> Error
     /// assert!(<u8 as TryFromDigits<u64>>::from_digits(10_000_000_256u64).is_err());
     /// ```
