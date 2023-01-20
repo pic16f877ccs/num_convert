@@ -1,6 +1,6 @@
 [package]
 name = "num_convert"
-version = "0.4.5"
+version = "0.4.6"
 edition = "2021"
 authors = ["Karl Wulfert <pic16f877.ccs@emailn.de>"]
 readme = "README.md"
@@ -17,6 +17,6 @@ paste = "1.0.8"
 [features]
 bounds = []
 bits = []
-default = ["bounds", "bits"]
 cast-from = []
 cast-into = []
+default = ["bounds", "bits"]

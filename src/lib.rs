@@ -11,6 +11,9 @@
 //! - The IntoAs trait for conversion into integers with overflow.
 //! - The TryFromDigits trait for converting from digits as a number, with possible value types.
 //!
+//! - The CastInto trait for simple convert into between integer types with possible overflow. 
+//! - The CastFrom trait for simple convert from between integer types with possible overflow. 
+//!
 //! # Generic traits for define the size of the integers in bits.
 //!
 //! - The Sbit trait for define the size of integer value in bits.
@@ -98,7 +101,7 @@ pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
 
-#[cfg(feature = "cast-info")]
+#[cfg(feature = "cast-into")]
 pub use crate::convert_from_as::CastInto;
 
 #[cfg(feature = "cast-from")]
