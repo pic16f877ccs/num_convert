@@ -16,5 +16,5 @@ fn overflow_cnt<T, O>(num: T) -> (O, T)
 fn main() {
     assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
     assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
-    println!("Overlow value and counts => {:?}", overflow_cnt::<_, u16>(u32::MAX));
+    println!("Overflow value and counts => {:?}", overflow_cnt::<_, u16>(u32::MAX));
 }
