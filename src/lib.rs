@@ -7,8 +7,8 @@
 //! - The ToByAdd trait for converting into negative integers to positive or vice versa.
 //! - The TryFromByAdd trait for converting from negative integers to positive or vice versa, that can fail.
 //! - The TryToByAdd trait for converting into negative integers to positive or vice versa, that can fail.
-//! - The FromAs trait for conversion from integers with overflow.
-//! - The IntoAs trait for conversion into integers with overflow.
+//! - The FromAs generic trait for conversion from integers with possible overflow.
+//! - The IntoAs generic trait for conversion into integers with possible overflow.
 //! - The TryFromDigits trait for converting from digits as a number, with possible value types.
 //!
 //! - The CastInto trait for simple convert into between integer types with possible overflow. 

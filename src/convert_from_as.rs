@@ -32,7 +32,7 @@ macro_rules! from_as_impl {
 
 from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 
-/// The CastInto trait for convert self value between integer types with possible overflow. 
+/// The CastInto trait for simple convert self value between integer types with possible overflow. 
 ///
 /// # Examples
 /// Usage:
