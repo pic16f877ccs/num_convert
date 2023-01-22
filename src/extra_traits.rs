@@ -11,6 +11,7 @@ impl<T> IntegerLen for T
 where
     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
 {
+    #[inline]
     fn len(mut self) -> usize {
         let mut count = 0;
         let ten = 10.into_as();
