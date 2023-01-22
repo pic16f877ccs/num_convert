@@ -100,7 +100,7 @@ mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
 mod convert_try_to;
-mod integer_len;
+mod extra_traits;
 
 #[cfg(feature = "bits")]
 mod size_type_bits;
@@ -116,7 +116,7 @@ pub use crate::convert_to_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
-pub use crate::integer_len::IntegerLen;
+pub use crate::extra_traits::IntegerLen;
 
 #[cfg(feature = "cast-into")]
 pub use crate::convert_from_as::CastInto;
