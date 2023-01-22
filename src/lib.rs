@@ -19,6 +19,10 @@
 //! - The Sbit trait for define the size of integer value in bits.
 //! - The Tbit trait for define the size of integer type in bits.
 //!
+//! # Other traits for integers.
+//!
+//! - A trait IntegerLen to determine the number of digits of integers.
+//!
 //! # Examples
 //! Usage:
 //!
@@ -77,6 +81,17 @@
 //! assert_eq!(i8::tbits(), 8u32);
 //! assert_eq!(u64::tbits(), 64u32);
 //! ```
+//!
+//! Usage:
+//!
+//! Determining the number of digits of integers.
+//! ```
+//! # use num_convert::IntegerLen;
+//! assert_eq!(0i8.len(), 1usize);
+//! assert_eq!(i8::MAX.len(), 3usize);
+//! assert_eq!(i128::MAX.len(), 39usize);
+//! assert_eq!(u128::MAX.len(), 39usize);
+//! ```
 
 mod convert_from;
 mod convert_from_as;
@@ -85,6 +100,7 @@ mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
 mod convert_try_to;
+mod integer_len;
 
 #[cfg(feature = "bits")]
 mod size_type_bits;
@@ -100,6 +116,7 @@ pub use crate::convert_to_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
+pub use crate::integer_len::IntegerLen;
 
 #[cfg(feature = "cast-into")]
 pub use crate::convert_from_as::CastInto;
