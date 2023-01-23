@@ -1,15 +1,15 @@
 use num_convert::IntegerLen;
 use paste::paste;
 
-macro_rules! int_len_tests {
-    (pos $type:ty) => {
+macro_rules! pos_len_tests {
+    ( $type:ty ) => {
         paste!{
             #[test]
             fn [<int_len_$type _pos>]() {
                 let mut digits: $type = 1;
+
                 while digits < $type::MAX {
                     assert_eq!(digits.len(), digits.to_string().trim_start_matches('-').len());
-                    println!("test len -> {} string len {}", digits.len(), digits.to_string().trim_start_matches('-').len());
                     match digits.checked_mul(10) {
                         Some(val) => {digits = val;},
                         _ => break,
@@ -17,16 +17,18 @@ macro_rules! int_len_tests {
                 }
             }
         }
-    };
+    }
+}
 
-    (neg $type:ty) => {
+macro_rules! neg_len_tests {
+    ( $type:ty ) => {
         paste!{
             #[test]
             fn [<int_len_$type _neg>]() {
-                let mut digits: $type = -1;
+                let mut digits: $type = 1;
+
                 while digits < $type::MAX {
                     assert_eq!(digits.len(), digits.to_string().trim_start_matches('-').len());
-                    println!("test len -> {} string len {}", digits.len(), digits.to_string().trim_start_matches('-').len());
                     match digits.checked_mul(10) {
                         Some(val) => {digits = val;},
                         _ => break,
@@ -34,51 +36,42 @@ macro_rules! int_len_tests {
                 }
             }
         }
-    };
+    }
+}
 
-    (zero $type:ty) => {
+macro_rules! zero_len_tests {
+    ( $type:ty ) => {
         paste!{
             #[test]
             fn [<int_len_$type _zero>]() {
-                let digits: $type = 0;
+                let mut digits: $type = 0;
+
                 assert_eq!(digits.len(), digits.to_string().trim_start_matches('-').len());
-                println!("test len -> {} string len {}", digits.len(), digits.to_string().trim_start_matches('-').len());
             }
         }
+    }
+}
+
+macro_rules! len_tests {
+    ( pos $($type:ty),* ) => {
+        $(
+            pos_len_tests!{$type}
+        )*
+    };
+    ( neg $($type:ty),* ) => {
+        $(
+            neg_len_tests!{$type}
+        )*
+    };
+    ( zero $($type:ty),* ) => {
+        $(
+            zero_len_tests!{$type}
+        )*
     };
 }
 
-int_len_tests!{neg i8}
-int_len_tests!{neg i16}
-int_len_tests!{neg i32}
-int_len_tests!{neg i64}
-int_len_tests!{neg isize}
-int_len_tests!{neg i128}
-
-int_len_tests!{pos u8}
-int_len_tests!{pos u16}
-int_len_tests!{pos u32}
-int_len_tests!{pos u64}
-int_len_tests!{pos usize}
-int_len_tests!{pos u128}
-int_len_tests!{pos i8}
-int_len_tests!{pos i16}
-int_len_tests!{pos i32}
-int_len_tests!{pos i64}
-int_len_tests!{pos isize}
-int_len_tests!{pos i128}
-
-int_len_tests!{zero u8}
-int_len_tests!{zero u16}
-int_len_tests!{zero u32}
-int_len_tests!{zero u64}
-int_len_tests!{zero usize}
-int_len_tests!{zero u128}
-int_len_tests!{zero i8}
-int_len_tests!{zero i16}
-int_len_tests!{zero i32}
-int_len_tests!{zero i64}
-int_len_tests!{zero isize}
-int_len_tests!{zero i128}
+len_tests!{zero i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128}
+len_tests!{pos i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128}
+len_tests!{neg i8, i16, i32, i64, isize, i128}
 
 

@@ -28,15 +28,15 @@ where
     }
 }
 
-trait IsType {
-    fn is_type() -> &'static str;
+pub trait TypeInfo {
+    fn info() -> &'static str;
 }
-macro_rules! is_type_impls {
+macro_rules! type_info_impls {
     ($($type:ty, $type_str:expr);* ) => {
         $(
-            impl IsType for $type {
+            impl TypeInfo for $type {
                 #[inline]
-                fn is_type() -> &'static str {
+                fn info() -> &'static str {
                     $type_str
                 }
             }
@@ -44,19 +44,19 @@ macro_rules! is_type_impls {
     }
 }
 
-is_type_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
-is_type_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
+type_info_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
+type_info_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
 
-trait IsValueType {
-    fn is_value_type(self) -> &'static str;
+pub trait ValTypeInfo {
+    fn info(self) -> &'static str;
 }
 
-macro_rules! is_val_type_impls {
+macro_rules! val_type_info_impls {
     ($($type:ty, $type_str:expr);* ) => {
         $(
-            impl IsValueType for $type {
+            impl ValTypeInfo for $type {
                 #[inline]
-                fn is_value_type(self) -> &'static str {
+                fn info(self) -> &'static str {
                     $type_str
                 }
             }
@@ -64,5 +64,5 @@ macro_rules! is_val_type_impls {
     }
 }
 
-is_val_type_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
-is_val_type_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
+val_type_info_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
+val_type_info_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }

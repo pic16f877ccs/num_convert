@@ -117,6 +117,8 @@ pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_to::TryToByAdd;
 pub use crate::extra_traits::IntegerLen;
+pub use crate::extra_traits::TypeInfo;
+pub use crate::extra_traits::ValTypeInfo;
 
 #[cfg(feature = "cast-into")]
 pub use crate::convert_from_as::CastInto;
