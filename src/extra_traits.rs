@@ -27,3 +27,42 @@ where
         }
     }
 }
+
+trait IsType {
+    fn is_type() -> &'static str;
+}
+macro_rules! is_type_impls {
+    ($($type:ty, $type_str:expr);* ) => {
+        $(
+            impl IsType for $type {
+                #[inline]
+                fn is_type() -> &'static str {
+                    $type_str
+                }
+            }
+        )*
+    }
+}
+
+is_type_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
+is_type_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
+
+trait IsValueType {
+    fn is_value_type(self) -> &'static str;
+}
+
+macro_rules! is_val_type_impls {
+    ($($type:ty, $type_str:expr);* ) => {
+        $(
+            impl IsValueType for $type {
+                #[inline]
+                fn is_value_type(self) -> &'static str {
+                    $type_str
+                }
+            }
+        )*
+    }
+}
+
+is_val_type_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
+is_val_type_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
