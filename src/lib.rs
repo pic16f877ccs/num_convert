@@ -11,17 +11,13 @@
 //! - The IntoAs generic trait for conversion into integers with possible overflow.
 //! - The TryFromDigits trait for converting from digits as a number, with possible value types.
 //!
-//! - The CastInto trait for simple convert into between integer types with possible overflow. 
-//! - The CastFrom trait for simple convert from between integer types with possible overflow. 
-//!
-//! # Generic traits for define the size of the integers in bits.
-//!
-//! - The Sbit trait for define the size of integer value in bits.
-//! - The Tbit trait for define the size of integer type in bits.
-//!
 //! # Other traits for integers.
 //!
 //! - A trait IntegerLen to determine the number of digits of integers.
+//! - The Sbit trait for define the size of integer value in bits.
+//! - The Tbit trait for define the size of integer type in bits.
+//! - The CastInto trait for simple convert into between integer types with possible overflow. 
+//! - The CastFrom trait for simple convert from between integer types with possible overflow. 
 //!
 //! # Examples
 //! Usage:
