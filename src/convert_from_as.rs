@@ -10,27 +10,7 @@ use paste::paste;
 /// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
 /// assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
 /// ```
-//
-//pub trait FromAs<T>: CastInto {
-//
-//    /// Convert from value between integer types with overflow. 
-//    fn from_as(n: T) -> Self;
-//}
 
-//macro_rules! from_as_impl {
-//    ($($type:ty),*) => {
-//        $( paste! {
-//            impl<T: CastInto> FromAs<T> for $type {
-//                #[inline]
-//                fn from_as(n: T) -> Self {
-//                    <T>::[<into_$type>](n)
-//                }
-//            }
-//        })*
-//    }
-//}
-//
-//from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 pub trait FromAs<T>: CastInto {
 
     /// Convert from value between integer types with overflow. 
