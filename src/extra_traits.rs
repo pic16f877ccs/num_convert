@@ -1,4 +1,4 @@
-use crate::{ FromAs, IntoAs };
+use crate::{FromAs, IntoAs};
 use core::ops::Div;
 
 /// A trait IntegerLen to determine the number of digits of integers.
@@ -32,6 +32,7 @@ where
 pub trait TypeInfo {
     fn info() -> &'static str;
 }
+
 macro_rules! type_info_impls {
     ($($type:ty, $type_str:expr);* ) => {
         $(

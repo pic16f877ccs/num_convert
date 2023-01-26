@@ -21,7 +21,6 @@ use paste::paste;
 /// assert_eq!(TryToByAdd::try_into_u8(u8::MIN).unwrap(), u8::MIN);
 /// ```
 /// The conversion is within the possible range of values.
-
 pub trait TryToByAdd {
     /// Converting into negative integers to positive or vice versa, that can fail.
     fn try_into_i8(self) -> Option<i8>;

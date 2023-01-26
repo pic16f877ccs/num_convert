@@ -1,3 +1,4 @@
+//! Module for implementation upper and lower bounds of types.
 use core::cmp::PartialEq;
 
 macro_rules! min_zero_max_impl {

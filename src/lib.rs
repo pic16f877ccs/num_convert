@@ -16,8 +16,8 @@
 //! - A trait IntegerLen to determine the number of digits of integers.
 //! - The Sbit trait for define the size of integer value in bits.
 //! - The Tbit trait for define the size of integer type in bits.
-//! - The CastInto trait for simple convert into between integer types with possible overflow. 
-//! - The CastFrom trait for simple convert from between integer types with possible overflow. 
+//! - The CastInto trait for simple convert into between integer types with possible overflow.
+//! - The CastFrom trait for simple convert from between integer types with possible overflow.
 //!
 //! # Examples
 //! Usage:
@@ -55,7 +55,7 @@
 //! Converting from digits as a number.
 //! ```
 //! # use num_convert::TryFromDigits;
-//! let arr: [u32; 6] = [25_635_071, 25_634_091, 25_633_334, 25_636_309, 25_637_101, 25_636_243]; 
+//! let arr: [u32; 6] = [25_635_071, 25_634_091, 25_633_334, 25_636_309, 25_637_101, 25_636_243];
 //! let val: Vec<u8> = arr.iter().map(|var| u8::from_digits(*var).unwrap_or(255u8) ).collect::<_>();
 //! assert_eq!(val, [71, 91, 255, 255, 101, 243]);
 //! ```
@@ -101,7 +101,6 @@ mod extra_traits;
 #[cfg(feature = "bits")]
 mod size_type_bits;
 
-/// Module for implementation upper and lower bounds of types.
 #[cfg(feature = "bounds")]
 pub mod min_zero_max;
 

@@ -82,7 +82,7 @@ from_by_add_tests_ok! {u128;  u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64
 from_by_add_tests_max_err! {i8, i16, i8; i8, i32, i8; i16, i32, i16; u8, i16, i8; u8, i32, u8; u16, i32, i16}
 #[cfg(target_pointer_width = "32")]
 from_by_add_tests_max_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32; isize, i64, isize; u8, i64, i8;
-    u16, i64, i16; u32, i64, i32; usize, i64, isize}
+u16, i64, i16; u32, i64, i32; usize, i64, isize}
 #[cfg(target_pointer_width = "64")]
 from_by_add_tests_max_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32; u8, i64, i8; u16, i64, i16; u32, i64, i32}
 #[cfg(target_pointer_width = "32")]
@@ -90,7 +90,7 @@ from_by_add_tests_max_err! {i8, isize, i8; i16, isize, i16; u8, isize, i8; u16, 
 #[cfg(target_pointer_width = "64")]
 from_by_add_tests_max_err! {i8, isize, i8; i16, isize, i16; i32, isize, i32; u8, isize, i8; u16, isize, i16; u32, isize, i32}
 from_by_add_tests_max_err! {i8, i128, i8; i16, i128, i16; i32, i128, i32; i64, i128, i64; isize, i128, isize;
-    u8, i128, i8; u16, i128, u16; u32, i128, i32; u64, i128, i64; usize, i128, isize}
+u8, i128, i8; u16, i128, u16; u32, i128, i32; u64, i128, i64; usize, i128, isize}
 
 from_by_add_tests_min_err! {i8, i16, i8; i8, i32, i8; i16, i32, i16}
 #[cfg(target_pointer_width = "32")]
@@ -106,7 +106,7 @@ from_by_add_tests_min_err! {i8, i128, i8; i16, i128, i16; i32, i128, i32; i64, i
 from_by_add_tests_max_err! {i8, u16, u8; i8, u32, u8; i16, u32, u16; u8, u16, u8; u8, u32, u8; u16, u32, u16}
 #[cfg(target_pointer_width = "32")]
 from_by_add_tests_max_err! {i8, u64, u8; i16, u64, u16; i32, u64, u32; isize, u64, usize; u8, u64, u8;
-    u16, u64, u16; u32, u64, u32; usize, u64, usize}
+u16, u64, u16; u32, u64, u32; usize, u64, usize}
 #[cfg(target_pointer_width = "64")]
 from_by_add_tests_max_err! {i8, u64, u8; i16, u64, u16; i32, u64, u32; u8, u64, u8; u16, u64, u16; u32, u64, u32}
 #[cfg(target_pointer_width = "32")]
@@ -114,5 +114,4 @@ from_by_add_tests_max_err! {i8, usize, u8; i16, usize, u16; u8, usize, u8; u16, 
 #[cfg(target_pointer_width = "64")]
 from_by_add_tests_max_err! {i8, usize, u8; i16, usize, u16; i32, usize, u32; u8, usize, u8; u16, usize, u16; u32, usize, u32}
 from_by_add_tests_max_err! {i8, u128, u8; i16, u128, u16; i32, u128, u32; i64, u128, u64; isize, u128, usize;
-    u8, u128, u8; u16, u128, u16; u32, u128, u32; u64, u128, u64; usize, u128, usize}
-
+u8, u128, u8; u16, u128, u16; u32, u128, u32; u64, u128, u64; usize, u128, usize}

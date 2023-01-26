@@ -11,7 +11,6 @@
 /// assert_eq!(<u8 as TryFromByAdd>::try_from_i8(<i8>::MAX).unwrap(), <u8>::MAX);
 /// ```
 /// The conversion is within the possible range of values.
-
 pub trait TryFromByAdd: Sized {
     /// Converting from negative integers to positive or vice versa, that can fail.
     fn try_from_i8(n: i8) -> Option<Self>;
@@ -391,7 +390,6 @@ impl TryFromByAdd for u16 {
     fn try_from_i16(n: i16) -> Option<u16> {
         Some((n as u16).wrapping_add(32_768))
     }
-
 
     /// Returns an `u16` for compatibility.
     #[inline]
@@ -783,7 +781,6 @@ impl TryFromByAdd for i64 {
 }
 
 impl TryFromByAdd for u64 {
-
     /// Converts the value of `i8` to an `u64`.
     #[inline]
     fn try_from_i8(n: i8) -> Option<u64> {
@@ -874,7 +871,6 @@ impl TryFromByAdd for u64 {
 }
 
 impl TryFromByAdd for isize {
-
     /// Converts the value of `i8` to an `isize`.
     #[inline]
     fn try_from_i8(n: i8) -> Option<isize> {
@@ -992,7 +988,6 @@ impl TryFromByAdd for isize {
 }
 
 impl TryFromByAdd for usize {
-
     /// Converts the value of `i8` to an `usize`.
     #[inline]
     fn try_from_i8(n: i8) -> Option<usize> {
@@ -1201,7 +1196,6 @@ impl TryFromByAdd for i128 {
 }
 
 impl TryFromByAdd for u128 {
-
     /// Converts the value of `i8` to an `u128`.
     #[inline]
     fn try_from_i8(n: i8) -> Option<u128> {
@@ -1232,19 +1226,17 @@ impl TryFromByAdd for u128 {
         Some((n as u128).wrapping_add(2_147_483_648))
     }
 
-   /// Converts the value of `u32` to an `u128`.
-   #[inline]
-   fn try_from_u32(n: u32) -> Option<u128> {
-       Some(n as u128)
-   }
-
+    /// Converts the value of `u32` to an `u128`.
+    #[inline]
+    fn try_from_u32(n: u32) -> Option<u128> {
+        Some(n as u128)
+    }
 
     /// Converts the value of `i64` to an `u128`.
     #[inline]
     fn try_from_i64(n: i64) -> Option<u128> {
         Some((n as u128).wrapping_add(9_223_372_036_854_775_808))
     }
-
 
     /// Converts the value of `u64` to an `u128`.
     #[inline]

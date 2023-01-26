@@ -12,7 +12,6 @@ use paste::paste;
 /// // 127_i8 -> 255_u64
 /// assert_eq!(<u64 as FromByAdd>::from_i8(<i8>::MAX), <u8>::MAX as u64);
 /// ```
-
 pub trait FromByAdd {
     /// Converts the value from `i8` to `self`.
     fn from_i8(n: i8) -> Self;

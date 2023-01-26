@@ -1,4 +1,4 @@
-use num_convert::{ Tbits, Sbits };
+use num_convert::{Sbits, Tbits};
 use paste::paste;
 
 macro_rules! tbits_tests {
@@ -29,7 +29,7 @@ macro_rules! sbits_tests_eq {
 }
 
 sbits_tests_eq! { 1i8, 8; 2u8, 8; 3i16, 16; 4u16, 16; 5i32, 32; 6u32, 32;
-    7i64, 64; 8u64, 64; 9isize, 64; 10usize, 64; 11i128, 128; 12u128, 128 }
+7i64, 64; 8u64, 64; 9isize, 64; 10usize, 64; 11i128, 128; 12u128, 128 }
 
 macro_rules! sbits_tests_ne {
     ($($value:expr, $bits:expr);*) => {
@@ -45,4 +45,4 @@ macro_rules! sbits_tests_ne {
 }
 
 sbits_tests_ne! { 1i8, 1; 2u8, 2; 3i16, 3; 4u16, 4; 5i32, 5; 6u32, 6;
-    7i64, 7; 8u64, 8; 9isize, 9; 10usize, 10; 11i128, 11; 12u128, 12 }
+7i64, 7; 8u64, 8; 9isize, 9; 10usize, 10; 11i128, 11; 12u128, 12 }

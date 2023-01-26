@@ -15,7 +15,6 @@ use paste::paste;
 /// assert_eq!(ToByAdd::into_i128(u128::MIN), i128::MIN);
 /// assert_eq!(ToByAdd::into_u64(i8::MAX), u8::MAX as u64);
 /// ```
-
 pub trait ToByAdd {
     /// Converts the value of `self` to an `i8`.
     fn into_i8(self) -> i8;
