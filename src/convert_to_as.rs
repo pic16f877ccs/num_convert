@@ -13,6 +13,7 @@ use paste::paste;
 ///     //T: Eq + Div<Output = T> + TryFrom<u8> + Copy + IntoAs<T>,
 ///     //<T as TryFrom<u8>>::Error: Debug,
 ///     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
+///     u8: IntoAs<T>,
 /// {
 ///     let mut count = 0;
 ///     // Using the Std library.
@@ -40,20 +41,53 @@ pub trait IntoAs<T>: CastFrom {
     fn into_as(self) -> T;
 }
 
-macro_rules! into_as_impl {
-    ($($type:ty),*) => {
-        $( paste! {
-            impl<T: CastFrom> IntoAs<T> for $type {
+macro_rules! into_as_impls {
+    ( $($type:ty),*; $for_type:ty ) => {
+        impl IntoAs<$for_type> for $for_type {
+            #[inline]
+            fn into_as(self) -> $for_type {
+                self
+            }
+        }
+
+        $(
+            impl IntoAs<$type> for $for_type {
                 #[inline]
-                fn into_as(self) -> T {
-                    <T as CastFrom>::[<from_$type>](self)
+                fn into_as(self) -> $type {
+                    self as $type
                 }
             }
-        })*
+        )*
     }
 }
 
-into_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
+into_as_impls!{ u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; i8 }
+into_as_impls!{ i8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; u8 }
+into_as_impls!{ i8, u8, u16, i32, u32, i64, u64, isize, usize, i128, u128; i16 }
+into_as_impls!{ i8, u8, i16, i32, u32, i64, u64, isize, usize, i128, u128; u16 }
+into_as_impls!{ i8, u8, i16, u16, u32, i64, u64, isize, usize, i128, u128; i32 }
+into_as_impls!{ i8, u8, i16, u16, i32, i64, u64, isize, usize, i128, u128; u32 }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, u64, isize, usize, i128, u128; i64 }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, i64, isize, usize, i128, u128; u64 }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, usize, i128, u128; isize }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, i128, u128; usize }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, u128; i128 }
+into_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128; u128 }
+
+//macro_rules! into_as_impl {
+//    ($($type:ty),*) => {
+//        $( paste! {
+//            impl<T: CastFrom> IntoAs<T> for $type {
+//                #[inline]
+//                fn into_as(self) -> T {
+//                    <T as CastFrom>::[<from_$type>](self)
+//                }
+//            }
+//        })*
+//    }
+//}
+//
+//into_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 
 /// The CastFrom trait for simple convert from value between integer types with possible overflow.
 ///

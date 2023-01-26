@@ -1,4 +1,4 @@
-use crate::IntoAs;
+use crate::{ FromAs, IntoAs };
 use core::ops::Div;
 
 /// A trait IntegerLen to determine the number of digits of integers.
@@ -9,13 +9,14 @@ pub trait IntegerLen {
 
 impl<T> IntegerLen for T
 where
-    T: Eq + Copy + Div<Output = T> + IntoAs<T>,
+    T: Eq + Copy + Div<Output = T> + IntoAs<T> + FromAs<u8>,
+    u8: IntoAs<T>,
 {
     #[inline]
     fn len(mut self) -> usize {
         let mut count = 0;
         let ten = 10.into_as();
-        let zero = <T>::from_u8(0);
+        let zero = <T>::from_as(0);
         while self != zero {
             self = self / ten;
             count += 1;

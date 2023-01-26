@@ -11,7 +11,7 @@ where
 {
     fn len(mut self) -> usize {
         let mut count = 0;
-        let ten = 10.into_as();
+        let ten = <T>::from_u8(10);
         let zero = <T>::from_u8(0);
         while self != zero {
             self = self / ten;
