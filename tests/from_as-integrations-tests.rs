@@ -8,7 +8,7 @@ macro_rules! from_as_tests {
         paste! {
             $(
                 #[test]
-                fn [<$type _from_as_test_$from_type>]() {
+                fn [<$type _from_as_$from_type>]() {
                     assert_eq!( 
                         <$type as FromAs<$from_type>>::from_as(($type::MAX as $from_type) + 1),
                         $type::MIN);
@@ -20,7 +20,7 @@ macro_rules! from_as_tests {
     ($type:ty) => {
         paste! {
             #[test]
-            fn [<$type from_as_test_$type>]() {
+            fn [<$type _from_as_$type>]() {
                 assert_eq!( <$type as FromAs<$type>>::from_as($type::MAX), $type::MAX);
             }
         }
@@ -30,7 +30,7 @@ macro_rules! from_as_tests {
         paste! {
             $(
                 #[test]
-                fn [<$type from_as_test_$from_type>]() {
+                fn [<$type _from_as_$from_type>]() {
                     assert_eq!(
                         <$type as FromAs<$from_type>>::from_as($from_type::MAX),
                         $from_type::MAX as $type);

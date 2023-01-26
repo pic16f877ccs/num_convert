@@ -10,27 +10,65 @@ use paste::paste;
 /// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
 /// assert_eq!(<u8 as FromAs<u16>>::from_as(258u16), 2u8);
 /// ```
+//
+//pub trait FromAs<T>: CastInto {
+//
+//    /// Convert from value between integer types with overflow. 
+//    fn from_as(n: T) -> Self;
+//}
 
+//macro_rules! from_as_impl {
+//    ($($type:ty),*) => {
+//        $( paste! {
+//            impl<T: CastInto> FromAs<T> for $type {
+//                #[inline]
+//                fn from_as(n: T) -> Self {
+//                    <T>::[<into_$type>](n)
+//                }
+//            }
+//        })*
+//    }
+//}
+//
+//from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 pub trait FromAs<T>: CastInto {
 
     /// Convert from value between integer types with overflow. 
     fn from_as(n: T) -> Self;
 }
 
-macro_rules! from_as_impl {
-    ($($type:ty),*) => {
-        $( paste! {
-            impl<T: CastInto> FromAs<T> for $type {
+macro_rules! from_as_impls {
+    ( $($type:ty),*; $for_type:ty ) => {
+        impl FromAs<$for_type> for $for_type {
+            #[inline]
+            fn from_as(num: $for_type) -> Self {
+                num
+            }
+        }
+
+        $(
+            impl FromAs<$type> for $for_type {
                 #[inline]
-                fn from_as(n: T) -> Self {
-                    <T>::[<into_$type>](n)
+                fn from_as(num: $type) -> Self {
+                    num as Self
                 }
             }
-        })*
+        )*
     }
 }
 
-from_as_impl! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
+from_as_impls!{ u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; i8 }
+from_as_impls!{ i8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; u8 }
+from_as_impls!{ i8, u8, u16, i32, u32, i64, u64, isize, usize, i128, u128; i16 }
+from_as_impls!{ i8, u8, i16, i32, u32, i64, u64, isize, usize, i128, u128; u16 }
+from_as_impls!{ i8, u8, i16, u16, u32, i64, u64, isize, usize, i128, u128; i32 }
+from_as_impls!{ i8, u8, i16, u16, i32, i64, u64, isize, usize, i128, u128; u32 }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, u64, isize, usize, i128, u128; i64 }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, i64, isize, usize, i128, u128; u64 }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, usize, i128, u128; isize }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, i128, u128; usize }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, u128; i128 }
+from_as_impls!{ i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128; u128 }
 
 /// The CastInto trait for simple convert self value between integer types with possible overflow. 
 ///
