@@ -93,6 +93,7 @@ mod cast_from_by_add;
 mod convert_from_by_add;
 mod convert_from_as;
 mod convert_to;
+mod convert_into_by_add;
 mod convert_to_as;
 mod convert_try_from;
 mod convert_try_from_digits;
@@ -106,6 +107,7 @@ mod size_type_bits;
 pub mod min_zero_max;
 
 pub use crate::convert_from_by_add::FromByAdd;
+pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::cast_from_by_add::CastFromByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_to::ToByAdd;
