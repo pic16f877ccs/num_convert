@@ -6,11 +6,11 @@ use paste::paste;
 /// Usage:
 ///
 /// ```
-/// # use num_convert::FromByAdd;
+/// # use num_convert::CastByAdd;
 /// // -128_i8 -> 0_u32
-/// assert_eq!(<u32 as FromByAdd>::from_i8(<i8>::MIN), <u8>::MIN as u32);
+/// assert_eq!(<u32 as CastByAdd>::from_i8(<i8>::MIN), <u8>::MIN as u32);
 /// // 127_i8 -> 255_u64
-/// assert_eq!(<u64 as FromByAdd>::from_i8(<i8>::MAX), <u8>::MAX as u64);
+/// assert_eq!(<u64 as CastByAdd>::from_i8(<i8>::MAX), <u8>::MAX as u64);
 /// ```
 pub trait FromByAdd {
     /// Converts the value from `i8` to `self`.

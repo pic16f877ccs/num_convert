@@ -25,8 +25,8 @@
 //! Convert from negative into positive and positive into negative.
 //! ```
 //! # use num_convert::FromByAdd;
-//! assert_eq!(<u8 as FromByAdd>::from_i8(-128i8), 0u8);
-//! assert_eq!(<i8 as FromByAdd>::from_u8(255u8), 127i8);
+//! assert_eq!(<u8>::from_by_add(-128i8), 0u8);
+//! assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255u8), 127i8);
 //! ```
 //!
 //! Usage:
@@ -90,6 +90,7 @@
 //! ```
 
 mod convert_from;
+mod convert_from_by_add;
 mod convert_from_as;
 mod convert_to;
 mod convert_to_as;
@@ -104,7 +105,8 @@ mod size_type_bits;
 #[cfg(feature = "bounds")]
 pub mod min_zero_max;
 
-pub use crate::convert_from::FromByAdd;
+pub use crate::convert_from_by_add::FromByAdd;
+pub use crate::convert_from::FromByAdd as CastByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_to::ToByAdd;
 pub use crate::convert_to_as::IntoAs;

@@ -1,23 +1,23 @@
-use num_convert::CastByAdd;
+use num_convert::FromByAdd;
 use paste::paste;
 
 macro_rules! from_by_add_tests {
-        ( $into:ty; $($from:ty, $type:ty);+ ) => {
-            $(
-                paste! {
-                    #[test]
-                    fn [<$into _from_$from _min>]() {
-                       assert_eq!(<$type>::MIN as $into, paste! {<$into as CastByAdd>::[<from_$from>](<$from>::MIN)});
-                    }
-
-                    #[test]
-                    fn [<$into _form_$from _max>]() {
-                       assert_eq!(<$type>::MAX as $into, paste! {<$into as CastByAdd>::[<from_$from>](<$from>::MAX)});
-                    }
+    ( $into:ty; $($from:ty, $type:ty);+ ) => {
+        $(
+            paste! {
+                #[test]
+                fn [<$into _from_$from _min>]() {
+                   assert_eq!(<$type>::MIN as $into, <$into>::from_by_add(<$from>::MIN));
                 }
-            )*
-        }
+
+                #[test]
+                fn [<$into _form_$from _max>]() {
+                   assert_eq!(<$type>::MAX as $into, <$into>::from_by_add(<$from>::MAX));
+                }
+            }
+        )*
     }
+}
 
 from_by_add_tests! {i8;   i8, i8}
 from_by_add_tests! {i8;   u8, i8}
@@ -96,3 +96,4 @@ from_by_add_tests! {usize;  u8, u8; u16, u16; u32, u32; u64, u64; usize, usize}
 
 from_by_add_tests! {u128; i8, u8; i16, u16; i32, u32; i64, u64; isize, usize; i128, u128}
 from_by_add_tests! {u128; u8, u8; u16, u16; u32, u32; u64, u64; usize, usize; u128, u128}
+
