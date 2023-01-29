@@ -89,7 +89,7 @@
 //! assert_eq!(u128::MAX.len(), 39usize);
 //! ```
 
-mod convert_from;
+mod cast_from_by_add;
 mod convert_from_by_add;
 mod convert_from_as;
 mod convert_to;
@@ -106,7 +106,7 @@ mod size_type_bits;
 pub mod min_zero_max;
 
 pub use crate::convert_from_by_add::FromByAdd;
-pub use crate::convert_from::FromByAdd as CastByAdd;
+pub use crate::cast_from_by_add::CastFromByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_to::ToByAdd;
 pub use crate::convert_to_as::IntoAs;
@@ -121,10 +121,10 @@ pub use crate::extra_traits::TypeInfo;
 #[cfg(feature = "val-type-info")]
 pub use crate::extra_traits::ValTypeInfo;
 
-#[cfg(feature = "cast-into")]
+#[cfg(feature = "cast-into_as")]
 pub use crate::convert_from_as::CastInto;
 
-#[cfg(feature = "cast-from")]
+#[cfg(feature = "cast-from_as")]
 pub use crate::convert_to_as::CastFrom;
 
 #[cfg(feature = "bits")]

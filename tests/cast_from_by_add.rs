@@ -1,4 +1,4 @@
-use num_convert::CastByAdd;
+use num_convert::CastFromByAdd;
 use paste::paste;
 
 macro_rules! from_by_add_tests {
@@ -7,12 +7,12 @@ macro_rules! from_by_add_tests {
                 paste! {
                     #[test]
                     fn [<$into _from_$from _min>]() {
-                       assert_eq!(<$type>::MIN as $into, paste! {<$into as CastByAdd>::[<from_$from>](<$from>::MIN)});
+                       assert_eq!(<$type>::MIN as $into, paste! {<$into as CastFromByAdd>::[<from_$from>](<$from>::MIN)});
                     }
 
                     #[test]
                     fn [<$into _form_$from _max>]() {
-                       assert_eq!(<$type>::MAX as $into, paste! {<$into as CastByAdd>::[<from_$from>](<$from>::MAX)});
+                       assert_eq!(<$type>::MAX as $into, paste! {<$into as CastFromByAdd>::[<from_$from>](<$from>::MAX)});
                     }
                 }
             )*
