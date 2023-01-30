@@ -26,18 +26,19 @@
 //! ```
 //! # use num_convert::FromByAdd;
 //! assert_eq!(<u8>::from_by_add(-128i8), 0u8);
-//! assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255u8), 127i8);
+//! assert_eq!(<i8>::from_by_add(255u8), 127i8);
 //! ```
 //!
 //! Usage:
 //!
-//! Convert a negative value to a positive.
+//! Convert into between integer types.
 //! ```
-//! # use num_convert::ToByAdd;
-//! fn convert_into_u16<T: ToByAdd>(min: T, max: T) -> (u16, u16) {
-//!     (min.into_u16(), max.into_u16())
+//! # use num_convert::IntoByAdd;
+//! fn integer_to_integer<T1: IntoByAdd<U1>, T2: IntoByAdd<U2>, U1, U2>(min: T1, max: T2) -> (U1, U2) {
+//!     (min.into_by_add(), max.into_by_add())
 //! }
-//! assert_eq!(convert_into_u16(i16::MIN, i16::MAX), (u16::MIN, u16::MAX));
+//! assert_eq!(integer_to_integer(i16::MIN, u16::MAX), (u16::MIN, i16::MAX));
+//! assert_eq!(integer_to_integer(u16::MIN, u16::MAX), (i16::MIN, i16::MAX));
 //! ```
 //!
 //! Usage:
@@ -47,7 +48,7 @@
 //! # use num_convert::{IntoAs, FromAs};
 //! assert_eq!(<u16 as IntoAs<u8>>::into_as(255u16), 255u8);
 //! assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
-//! assert_eq!(<u8 as FromAs<u16>>::from_as(261u16), 5u8);
+//! assert_eq!(<u8>::from_as(261u16), 5u8);
 //! ```
 //!
 //! Usage:
