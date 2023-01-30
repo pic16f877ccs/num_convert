@@ -91,14 +91,14 @@
 //! ```
 
 mod cast_from_by_add;
+mod cast_into_by_add;
 mod convert_from_by_add;
-mod convert_from_as;
-mod convert_to;
 mod convert_into_by_add;
-mod convert_to_as;
+mod convert_from_as;
+mod convert_into_as;
 mod convert_try_from;
+mod convert_try_into;
 mod convert_try_from_digits;
-mod convert_try_to;
 mod extra_traits;
 
 #[cfg(feature = "bits")]
@@ -107,15 +107,15 @@ mod size_type_bits;
 #[cfg(feature = "bounds")]
 pub mod min_zero_max;
 
+pub use crate::cast_from_by_add::CastFromByAdd;
+pub use crate::cast_into_by_add::ToByAdd;
 pub use crate::convert_from_by_add::FromByAdd;
 pub use crate::convert_into_by_add::IntoByAdd;
-pub use crate::cast_from_by_add::CastFromByAdd;
 pub use crate::convert_from_as::FromAs;
-pub use crate::convert_to::ToByAdd;
-pub use crate::convert_to_as::IntoAs;
+pub use crate::convert_into_as::IntoAs;
 pub use crate::convert_try_from::TryFromByAdd;
+pub use crate::convert_try_into::TryToByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
-pub use crate::convert_try_to::TryToByAdd;
 pub use crate::extra_traits::IntegerLen;
 
 #[cfg(feature = "type-info")]
@@ -128,7 +128,7 @@ pub use crate::extra_traits::ValTypeInfo;
 pub use crate::convert_from_as::CastInto;
 
 #[cfg(feature = "cast-from_as")]
-pub use crate::convert_to_as::CastFrom;
+pub use crate::convert_into_as::CastFrom;
 
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Sbits;
