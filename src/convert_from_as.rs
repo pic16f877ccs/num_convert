@@ -96,7 +96,7 @@ pub trait CastInto {
     fn into_u128(self) -> u128;
 }
 
-macro_rules! cast_into_impl {
+macro_rules! cast_into_impls {
     ($($from_type:ty),+; $type:ty ) => {
         impl CastInto for $type {
             paste!{
@@ -106,26 +106,26 @@ macro_rules! cast_into_impl {
                 }
             }
             $(
-            paste!{
-                #[inline]
-                fn [<into_$from_type>](self) -> $from_type {
-                    self as $from_type
+                paste!{
+                    #[inline]
+                    fn [<into_$from_type>](self) -> $from_type {
+                        self as $from_type
+                    }
                 }
-            }
             )*
         }
     }
 }
 
-cast_into_impl! {i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i8}
-cast_into_impl! {i8, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i16}
-cast_into_impl! {i8, i16, i64, isize, i128, u8, u16, u32, u64, usize, u128; i32}
-cast_into_impl! {i8, i16, i32, isize, i128, u8, u16, u32, u64, usize, u128; i64}
-cast_into_impl! {i8, i16, i32, i64, i128, u8, u16, u32, u64, usize, u128; isize}
-cast_into_impl! {i8, i16, i32, i64, isize, u8, u16, u32, u64, usize, u128; i128}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; u8}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u32, u64, usize, u128; u16}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
-cast_into_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
+cast_into_impls! { i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i8 }
+cast_into_impls! { i8, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i16 }
+cast_into_impls! { i8, i16, i64, isize, i128, u8, u16, u32, u64, usize, u128; i32 }
+cast_into_impls! { i8, i16, i32, isize, i128, u8, u16, u32, u64, usize, u128; i64 }
+cast_into_impls! { i8, i16, i32, i64, i128, u8, u16, u32, u64, usize, u128; isize }
+cast_into_impls! { i8, i16, i32, i64, isize, u8, u16, u32, u64, usize, u128; i128 }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; u8 }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u8, u32, u64, usize, u128; u16 }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32 }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64 }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize }
+cast_into_impls! { i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128 }
