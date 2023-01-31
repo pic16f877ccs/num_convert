@@ -39,7 +39,7 @@ macro_rules! try_from_digits_impls {
 }
 
 try_from_digits_impls! { i8,Thousands; u8, Thousands; i16, HundredThousands; u16, HundredThousands;
-i32, TenBillions; u32, TenBillions; i64, BigSigned; u64, BigUnsigned; isize, BigSigned; usize, BigUnsigned }
+i32, TenBillions; u32, TenBillions; i64, BigTen; u64, BigHundred; isize, BigTen; usize, BigHundred }
 
 trait Thousands {
     fn num() -> Self;
@@ -98,11 +98,11 @@ macro_rules! ten_billions_impls {
 
 ten_billions_impls! { i64, u64, isize, usize, i128, u128; 10_000_000_000 }
 
-trait BigUnsigned {
+trait BigTen {
     fn num() -> Self;
 }
 
-trait BigSigned {
+trait BigHundred {
     fn num() -> Self;
 }
 
@@ -119,15 +119,15 @@ macro_rules! big_impls {
     }
 }
 
-big_impls! { BigSigned, i128, 10_000_000_000_000_000_000; BigUnsigned, u128, 100_000_000_000_000_000_000 }
-big_impls! { BigSigned, u128, 10_000_000_000_000_000_000; BigUnsigned, i128, 100_000_000_000_000_000_000 }
+big_impls! { BigTen, i128, 10_000_000_000_000_000_000; BigHundred, u128, 100_000_000_000_000_000_000 }
+big_impls! { BigTen, u128, 10_000_000_000_000_000_000; BigHundred, i128, 100_000_000_000_000_000_000 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use paste::paste;
 
-    macro_rules! digits_tests {
+    macro_rules! try_from_digits {
         ( $trait_name:ident; $($type:ty),* ; $value:expr ) => {
             $( paste! {
                 #[test]
@@ -139,11 +139,11 @@ mod tests {
         }
     }
 
-    digits_tests! { Thousands; i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; 1000 }
-    digits_tests! { HundredThousands; i32, u32, i64, u64, isize, usize, i128, u128; 100_000 }
-    digits_tests! { TenBillions; i64, u64, isize, usize, i128, u128; 10_000_000_000 }
-    digits_tests! { BigSigned; i128; 10_000_000_000_000_000_000 }
-    digits_tests! { BigSigned; u128; 10_000_000_000_000_000_000 }
-    digits_tests! { BigUnsigned; u128; 100_000_000_000_000_000_000 }
-    digits_tests! { BigUnsigned; i128; 100_000_000_000_000_000_000 }
+    try_from_digits! { Thousands; i16, u16, i32, u32, i64, u64, isize, usize, i128, u128; 1000 }
+    try_from_digits! { HundredThousands; i32, u32, i64, u64, isize, usize, i128, u128; 100_000 }
+    try_from_digits! { TenBillions; i64, u64, isize, usize, i128, u128; 10_000_000_000 }
+    try_from_digits! { BigTen; i128; 10_000_000_000_000_000_000 }
+    try_from_digits! { BigTen; u128; 10_000_000_000_000_000_000 }
+    try_from_digits! { BigHundred; u128; 100_000_000_000_000_000_000 }
+    try_from_digits! { BigHundred; i128; 100_000_000_000_000_000_000 }
 }
