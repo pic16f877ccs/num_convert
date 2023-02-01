@@ -98,6 +98,7 @@ mod convert_from_as;
 mod convert_into_as;
 mod convert_try_from;
 mod convert_try_into;
+mod convert_try_into_by_add;
 mod convert_try_from_digits;
 mod extra_traits;
 
@@ -113,6 +114,7 @@ pub use crate::convert_from_by_add::FromByAdd;
 pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_into_as::IntoAs;
+pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::convert_try_from::TryFromByAdd;
 pub use crate::convert_try_into::TryToByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
