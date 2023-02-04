@@ -155,11 +155,18 @@ macro_rules! unsigned_to_signed_impls {
     };
 }
 
+unsigned_to_signed_impls!{ i8, u8; }
+unsigned_to_signed_impls!{ i16, u16; i8, u8}
+unsigned_to_signed_impls!{ i32, u32; i8, u8; i16, u16}
+unsigned_to_signed_impls!{ i64, u64; i8, u8; i16, u16; i32, u32; isize, usize }
+unsigned_to_signed_impls!{ isize, usize; i8, u8; i16, u16; i32, u32; i64, u64 }
+unsigned_to_signed_impls!{ i128, u128; i8, u8; i16, u16; i32, u32; i64, u64; isize, usize }
+
 macro_rules! signed_to_unsigned_impls {
     //from signed < to unsigned
-    ( $for_type:ty; $($add_value:expr, $from_type:ty);*) => {
+    ( $from_type:ty, $add_value:expr; $($into_type:ty),*) => {
         $(
-            impl TryFromByAdd<$from_type> for $for_type {
+            impl TryFromByAdd<$from_type> for $into_type {
                 #[inline]
                 fn try_from_by_add(n: $from_type) -> Option<Self> {
                     Some((n as Self).wrapping_add($add_value))
@@ -169,18 +176,9 @@ macro_rules! signed_to_unsigned_impls {
     };
 }
 
-
-signed_to_unsigned_impls!{ u8; 128, i8}
-signed_to_unsigned_impls!{ u16; 128, i8; 32_768, i16 }
-signed_to_unsigned_impls!{ u32; 128, i8; 32_768, i16; 2_147_483_648, i32 }
-signed_to_unsigned_impls!{ u64; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize }
-signed_to_unsigned_impls!{ usize; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize }
-signed_to_unsigned_impls!{ u128; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize;
-170_141_183_460_469_231_731_687_303_715_884_105_728, i128 }
-
-unsigned_to_signed_impls!{ i8, u8; }
-unsigned_to_signed_impls!{ i16, u16; i8, u8}
-unsigned_to_signed_impls!{ i32, u32; i8, u8; i16, u16}
-unsigned_to_signed_impls!{ i64, u64; i8, u8; i16, u16; i32, u32; isize, usize }
-unsigned_to_signed_impls!{ isize, usize; i8, u8; i16, u16; i32, u32; i64, u64 }
-unsigned_to_signed_impls!{ i128, u128; i8, u8; i16, u16; i32, u32; i64, u64; isize, usize }
+signed_to_unsigned_impls! { i8, 128; u8, u16, u32, u64, usize, u128 }
+signed_to_unsigned_impls! { i16, 32_768; u16, u32, u64, usize, u128 }
+signed_to_unsigned_impls! { i32, 2_147_483_648; u32, u64, usize, u128 }
+signed_to_unsigned_impls! { i64, 9_223_372_036_854_775_808; u64, usize, u128 }
+signed_to_unsigned_impls! { isize, 9_223_372_036_854_775_808; u64, usize, u128 }
+signed_to_unsigned_impls! { i128, (i128::MAX as u128) + 1; u128 }
