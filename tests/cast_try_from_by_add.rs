@@ -1,186 +1,117 @@
-/// A generic trait for converting from possible types.
-///
-/// # Examples
-/// Usage:
-///
-/// ```
-/// # use num_convert::TryFromByAdd;
-/// // -128_i8 -> 0_u32
-/// assert_eq!(<u32 as TryFromByAdd<i8>>::try_from_by_add(<i8>::MIN), <u8>::MIN as u32);
-/// // 127_i8 -> 255_u64
-/// assert_eq!(<u64 as TryFromByAdd<i8>>::try_from_by_add(<i8>::MAX), <u8>::MAX as u64);
-/// ```
-pub trait TryFromByAdd<T> {
-    /// Converts the value from `T` to `self`.
-    fn try_from_by_add(n: T) -> Option<Self> where Self: Sized;
-}
+use num_convert::TryFmByAdd as TryFromByAdd;
+use paste::paste;
 
-macro_rules! signed_or_unsigned_impls {
-    ( $( $for_type:ty; $($from_type:ty),* );* ) => {
-        //from signed = to signed
-        //from unsigned = to unsigned
-        $(
-            impl TryFromByAdd<$for_type> for $for_type {
-                #[inline]
-                fn try_from_by_add(n: Self) -> Option<Self> {
-                    Some(n)
-                }
-            }
-
+macro_rules! from_by_add_tests_ok {
+        ( $into:ty; $($left_type:ty, $from:ty, $right_type:ty);+ ) => {
             $(
-                //from signed < to signed
-                //from unsigned < to unsigned
-                impl TryFromByAdd<$from_type> for $for_type {
-                    #[inline]
-                    fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        Some(n as Self)
+                paste! {
+                    #[test]
+                    fn [<$into _try_from_$from _min>]() {
+                       assert_eq!(<$left_type>::MIN as $into,
+                           paste! {<$into as TryFromByAdd>::[<try_from_$from>](<$right_type>::MIN as $from).unwrap()});
+                    }
+
+                    #[test]
+                    fn [<$into _try_from_$from _max>]() {
+                       assert_eq!(<$left_type>::MAX as $into,
+                           paste! {<$into as TryFromByAdd>::[<try_from_$from>](<$right_type>::MAX as $from).unwrap()});
                     }
                 }
             )*
-        )*
-    }
-}
-
-signed_or_unsigned_impls!{ i8; ; i16; i8; i32; i8, i16; i64; i8, i16, i32, isize; isize; i8, i16, i32, i64; i128; i8, i16, i32, i64, isize }
-signed_or_unsigned_impls!{ u8; ; u16; u8; u32; u8, u16; u64; u8, u16, u32, usize; usize; u8, u16, u32, u64; u128; u8, u16, u32, u64, usize }
-
-macro_rules! signed_gt_signed_impls {
-    ( $( $for_type:ty; $($from_type:ty),* );* ) => {
-        $(
-            $(
-                //from signed > to signed
-                impl TryFromByAdd<$from_type> for $for_type {
-                    #[inline]
-                    fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n >= <$for_type>::MIN && n <= <$for_type>::MAX {
-                            Some(n as Self)
-                        } else {
-                            None
-                        }
-                    }
-                }
-            )*
-        )*
-    }
-}
-
-signed_gt_signed_impls!{ i8; i16, i32, i64, isize, i128; i16; i32, i64, isize, i128; i32; i64, isize, i128; i64; i128; isize; i128  }
-
-macro_rules! signed_gt_unsigned_impls {
-    ( $( $for_type:ty, $max_value:expr; $($from_type:ty),* );* ) => {
-        $(
-            $(
-                //from signed > to unsigned
-                impl TryFromByAdd<$from_type> for $for_type {
-                    #[inline]
-                    fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n <= $max_value {
-                            Some(n as Self)
-                        } else {
-                            None
-                        }
-                    }
-                }
-            )*
-        )*
-    }
-}
-
-signed_gt_unsigned_impls!{ i8, 255; u16, u32, u64, usize, u128; i16, 65_535; u32, u64, usize, u128; i32, 4_294_967_295; u64, usize, u128;
-    i64, 18_446_744_073_709_551_615; u128; isize, 18_446_744_073_709_551_615; u128  }
-
-macro_rules! unsigned_gt_unsigned_impls {
-    ( $( $for_type:ty; $($from_type:ty),* );* ) => {
-        $(
-            $(
-                //from unsigned > to unsigned
-                impl TryFromByAdd<$from_type> for $for_type {
-                    #[inline]
-                    fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n <= <$for_type>::MAX {
-                            Some(n as Self)
-                        } else {
-                            None
-                        }
-                    }
-                }
-            )*
-        )*
-    }
-}
-
-unsigned_gt_unsigned_impls!{ u8; u16, u32, u64, usize, u128; u16; u32, u64, usize, u128; u32; u64, usize, u128; u64; u128; usize; u128  }
-
-macro_rules! unsigned_gt_signed_impls {
-    ( $( $for_type:ty, $type:ty, $add_value:expr; $($from_type:ty),* );* ) => {
-        $(
-            $(
-                //from unsigned < to signed
-                impl TryFromByAdd<$from_type> for $for_type {
-                    #[inline]
-                    fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n >= <$type>::MIN && n <= <$type>::MAX {
-                            Some((n as Self).wrapping_add(128))
-                        } else {
-                            None
-                        }
-                    }
-                }
-            )*
-        )*
-    }
-}
-
-unsigned_gt_signed_impls!{ u8, i8, 128; i16, i32, i64, isize, i128; u16, i16, 32_768; i32, i64, isize, i128;
-    u32, i32, 2_147_483_648; i64, isize, i128; u64, i64, 9_223_372_036_854_775_808; i128; usize, isize, 9_223_372_036_854_775_808; i128  }
-
-macro_rules! unsigned_to_signed_impls {
-    ( $for_type:ty, $type:ty; $($as_type:ty, $from_type:ty);* ) => {
-        //from unsigned = to signed
-        impl TryFromByAdd<$type> for $for_type {
-            #[inline]
-            fn try_from_by_add(n: $type) -> Option<Self> {
-                Some(((n as Self).wrapping_add(<Self>::MAX)).wrapping_add(1))
-            }
         }
-        $(
-            //from unsigned < to signed
-            impl TryFromByAdd<$from_type> for $for_type {
-                #[inline]
-                fn try_from_by_add(n: $from_type) -> Option<Self> {
-                    Some(((n as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1) as Self)
+    }
+
+macro_rules! from_by_add_tests_min_err {
+        ($($left_type:ty, $from:ty, $right_type:ty);+ ) => {
+            $(
+                paste! {
+                    #[test]
+                    #[should_panic]
+                    fn [<err_$left_type _try_from_$from _min>]() {
+                       assert_eq!(<$left_type>::MIN,
+                           paste! {<$left_type as TryFromByAdd>::[<try_from_$from>]((<$right_type>::MIN as $from) - 1).unwrap()});
+                    }
                 }
-            }
-        )*
-    };
-}
+            )*
+        }
+    }
 
-macro_rules! signed_to_unsigned_impls {
-    //from signed < to unsigned
-    ( $for_type:ty; $($add_value:expr, $from_type:ty);*) => {
-        $(
-            impl TryFromByAdd<$from_type> for $for_type {
-                #[inline]
-                fn try_from_by_add(n: $from_type) -> Option<Self> {
-                    Some((n as Self).wrapping_add($add_value))
+macro_rules! from_by_add_tests_max_err {
+        ($($left_type:ty, $from:ty, $right_type:ty);+ ) => {
+            $(
+                paste! {
+                    #[test]
+                    #[should_panic]
+                    fn [<err_$left_type _try_from_$from _max>]() {
+                       assert_eq!(<$left_type>::MAX,
+                           paste! {<$left_type as TryFromByAdd>::[<try_from_$from>]((<$right_type>::MAX as $from) + 1).unwrap()});
+                    }
                 }
-            }
-        )*
-    };
-}
+            )*
+        }
+    }
 
+from_by_add_tests_ok! {i8; i8, i8, i8; i8, i16, i8; i8, i32, i8; i8, i64, i8; i8, isize, i8; i8, i128, i8}
+from_by_add_tests_ok! {i16; i8, i8, i8; i16, i16, i16; i16, i32, i16; i16, i64, i16; i16, isize, i16; i16, i128, i16}
+from_by_add_tests_ok! {i32; i8, i8, i8; i16, i16, i16; i32, i32, i32; i32, i64, i32; i32, isize, i32; i32, i128, i32}
+from_by_add_tests_ok! {i64; i8, i8, i8; i16, i16, i16; i32, i32, i32; i64, i64, i64; isize, isize, isize; i64, i128, i64}
+from_by_add_tests_ok! {isize; i8, i8, i8; i16, i16, i16; i32, i32, i32; isize, i64, isize; isize, isize, isize; isize, i128, isize}
+from_by_add_tests_ok! {i128; i8, i8, i8; i16, i16, i16; i32, i32, i32; i64, i64, i64; isize, isize, isize; i128, i128, i128}
 
-signed_to_unsigned_impls!{ u8; 128, i8}
-signed_to_unsigned_impls!{ u16; 128, i8; 32_768, i16 }
-signed_to_unsigned_impls!{ u32; 128, i8; 32_768, i16; 2_147_483_648, i32 }
-signed_to_unsigned_impls!{ u64; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize }
-signed_to_unsigned_impls!{ usize; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize }
-signed_to_unsigned_impls!{ u128; 128, i8; 32_768, i16; 2_147_483_648, i32; 9_223_372_036_854_775_808, i64; 9_223_372_036_854_775_808, isize;
-170_141_183_460_469_231_731_687_303_715_884_105_728, i128 }
+from_by_add_tests_ok! {u8;    u8, i8, i8; u8,  i16, i8;  u8,  i32, i8;  u8,  i64, i8;  u8,    isize, i8;    u8,    i128, i8}
+from_by_add_tests_ok! {u16;   u8, i8, i8; u16, i16, i16; u16, i32, i16; u16, i64, i16; u16,   isize, i16;   u16,   i128, i16}
+from_by_add_tests_ok! {u32;   u8, i8, i8; u16, i16, i16; u32, i32, i32; u32, i64, i32; u32,   isize, i32;   u32,   i128, i32}
+from_by_add_tests_ok! {u64;   u8, i8, i8; u16, i16, i16; u32, i32, i32; u64, i64, i64; usize, isize, isize; u64,   i128, i64}
+from_by_add_tests_ok! {usize; u8, i8, i8; u16, i16, i16; u32, i32, i32; usize, i64, isize; usize, isize, isize; usize, i128, isize}
+from_by_add_tests_ok! {u128;  u8, i8, i8; u16, i16, i16; u32, i32, i32; u64, i64, i64; usize, isize, isize; u128,  i128, i128}
 
-unsigned_to_signed_impls!{ i8, u8; }
-unsigned_to_signed_impls!{ i16, u16; i8, u8}
-unsigned_to_signed_impls!{ i32, u32; i8, u8; i16, u16}
-unsigned_to_signed_impls!{ i64, u64; i8, u8; i16, u16; i32, u32; isize, usize }
-unsigned_to_signed_impls!{ isize, usize; i8, u8; i16, u16; i32, u32; i64, u64 }
-unsigned_to_signed_impls!{ i128, u128; i8, u8; i16, u16; i32, u32; i64, u64; isize, usize }
+from_by_add_tests_ok! {i8;    i8, u8, u8; i8,  u16, u8;  i8,  u32, u8;  i8,  u64, u8;  i8,    usize, u8;    i8,    u128, u8}
+from_by_add_tests_ok! {i16;   i8, u8, u8; i16, u16, u16; i16, u32, u16; i16, u64, u16; i16,   usize, u16;   i16,   u128, u16}
+from_by_add_tests_ok! {i32;   i8, u8, u8; i16, u16, u16; i32, u32, u32; i32, u64, u32; i32,   usize, u32;   i32,   u128, u32}
+from_by_add_tests_ok! {i64;   i8, u8, u8; i16, u16, u16; i32, u32, u32; i64, u64, u64; isize, usize, usize; i64,   u128, u64}
+from_by_add_tests_ok! {isize; i8, u8, u8; i16, u16, u16; i32, u32, u32; isize, u64, usize; isize, usize, usize; isize, u128, usize}
+from_by_add_tests_ok! {i128;  i8, u8, u8; i16, u16, u16; i32, u32, u32; i64, u64, u64; isize, usize, usize; i128,  u128, u128}
+
+from_by_add_tests_ok! {u8;    u8, u8, u8; u8,  u16, u8;  u8,  u32, u8;  u8,  u64, u8;  u8,    usize, u8;    u8,    u128, u8}
+from_by_add_tests_ok! {u16;   u8, u8, u8; u16, u16, u16; u16, u32, u16; u16, u64, u16; u16,   usize, u16;   u16,   u128, u16}
+from_by_add_tests_ok! {u32;   u8, u8, u8; u16, u16, u16; u32, u32, u32; u32, u64, u32; u32,   usize, u32;   u32,   u128, u32}
+from_by_add_tests_ok! {u64;   u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64, u64; usize, usize, usize; u64,   u128, u64}
+from_by_add_tests_ok! {usize; u8, u8, u8; u16, u16, u16; u32, u32, u32; usize, u64, usize; usize, usize, usize; usize, u128, usize}
+from_by_add_tests_ok! {u128;  u8, u8, u8; u16, u16, u16; u32, u32, u32; u64, u64, u64; usize, usize, usize; u128,  u128, u128}
+
+from_by_add_tests_max_err! {i8, i16, i8; i8, i32, i8; i16, i32, i16; u8, i16, i8; u8, i32, u8; u16, i32, i16}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_max_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32; isize, i64, isize; u8, i64, i8;
+u16, i64, i16; u32, i64, i32; usize, i64, isize}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_max_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32; u8, i64, i8; u16, i64, i16; u32, i64, i32}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_max_err! {i8, isize, i8; i16, isize, i16; u8, isize, i8; u16, isize, i16}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_max_err! {i8, isize, i8; i16, isize, i16; i32, isize, i32; u8, isize, i8; u16, isize, i16; u32, isize, i32}
+from_by_add_tests_max_err! {i8, i128, i8; i16, i128, i16; i32, i128, i32; i64, i128, i64; isize, i128, isize;
+u8, i128, i8; u16, i128, u16; u32, i128, i32; u64, i128, i64; usize, i128, isize}
+
+from_by_add_tests_min_err! {i8, i16, i8; i8, i32, i8; i16, i32, i16}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_min_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32; isize, i64, isize}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_min_err! {i8, i64, i8; i16, i64, i16; i32, i64, i32}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_min_err! {i8, isize, i8; i16, isize, i16}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_min_err! {i8, isize, i8; i16, isize, i16; i32, isize, i32}
+from_by_add_tests_min_err! {i8, i128, i8; i16, i128, i16; i32, i128, i32; i64, i128, i64; isize, i128, isize}
+
+from_by_add_tests_max_err! {i8, u16, u8; i8, u32, u8; i16, u32, u16; u8, u16, u8; u8, u32, u8; u16, u32, u16}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_max_err! {i8, u64, u8; i16, u64, u16; i32, u64, u32; isize, u64, usize; u8, u64, u8;
+u16, u64, u16; u32, u64, u32; usize, u64, usize}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_max_err! {i8, u64, u8; i16, u64, u16; i32, u64, u32; u8, u64, u8; u16, u64, u16; u32, u64, u32}
+#[cfg(target_pointer_width = "32")]
+from_by_add_tests_max_err! {i8, usize, u8; i16, usize, u16; u8, usize, u8; u16, usize, u16}
+#[cfg(target_pointer_width = "64")]
+from_by_add_tests_max_err! {i8, usize, u8; i16, usize, u16; i32, usize, u32; u8, usize, u8; u16, usize, u16; u32, usize, u32}
+from_by_add_tests_max_err! {i8, u128, u8; i16, u128, u16; i32, u128, u32; i64, u128, u64; isize, u128, usize;
+u8, u128, u8; u16, u128, u16; u32, u128, u32; u64, u128, u64; usize, u128, usize}

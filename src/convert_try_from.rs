@@ -4,11 +4,11 @@
 /// Usage:
 ///
 /// ```
-/// # use num_convert::TryFromByAdd;
+/// # use num_convert::TryFmByAdd;
 /// // -128_i8 -> 0_u8
-/// assert_eq!(<u8 as TryFromByAdd>::try_from_i8(<i8>::MIN).unwrap(), <u8>::MIN);
+/// assert_eq!(<u8 as TryFmByAdd>::try_from_i8(<i8>::MIN).unwrap(), <u8>::MIN);
 /// // 127_i8 -> 255_u8
-/// assert_eq!(<u8 as TryFromByAdd>::try_from_i8(<i8>::MAX).unwrap(), <u8>::MAX);
+/// assert_eq!(<u8 as TryFmByAdd>::try_from_i8(<i8>::MAX).unwrap(), <u8>::MAX);
 /// ```
 /// The conversion is within the possible range of values.
 pub trait TryFromByAdd: Sized {
