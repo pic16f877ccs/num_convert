@@ -125,6 +125,7 @@ macro_rules! cast_from_impl {
                     n
                 }
             }
+
             $(
             paste!{
                 #[inline]
@@ -137,15 +138,15 @@ macro_rules! cast_from_impl {
     }
 }
 
-cast_from_impl! {i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i8}
-cast_from_impl! {i8, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i16}
-cast_from_impl! {i8, i16, i64, isize, i128, u8, u16, u32, u64, usize, u128; i32}
-cast_from_impl! {i8, i16, i32, isize, i128, u8, u16, u32, u64, usize, u128; i64}
-cast_from_impl! {i8, i16, i32, i64, i128, u8, u16, u32, u64, usize, u128; isize}
-cast_from_impl! {i8, i16, i32, i64, isize, u8, u16, u32, u64, usize, u128; i128}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; u8}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u32, u64, usize, u128; u16}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize}
-cast_from_impl! {i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128}
+cast_from_impl! { i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i8 }
+cast_from_impl! { i8, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128; i16 }
+cast_from_impl! { i8, i16, i64, isize, i128, u8, u16, u32, u64, usize, u128; i32 }
+cast_from_impl! { i8, i16, i32, isize, i128, u8, u16, u32, u64, usize, u128; i64 }
+cast_from_impl! { i8, i16, i32, i64, i128, u8, u16, u32, u64, usize, u128; isize }
+cast_from_impl! { i8, i16, i32, i64, isize, u8, u16, u32, u64, usize, u128; i128 }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u16, u32, u64, usize, u128; u8 }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u8, u32, u64, usize, u128; u16 }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u8, u16, u64, usize, u128; u32 }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u8, u16, u32, usize, u128; u64 }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, u128; usize }
+cast_from_impl! { i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize; u128 }

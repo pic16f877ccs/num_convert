@@ -21,9 +21,9 @@ pub trait IntoByAdd<T> {
 
 macro_rules! signed_or_unsigned_impls {
     ( $( $for_type:ty; $($into_type:ty),* );* ) => {
-        //signed = to signed
-        //unsigned = to unsigned
         $(
+            //signed = to signed
+            //unsigned = to unsigned
             impl IntoByAdd<$for_type> for $for_type {
                 #[inline]
                 fn into_by_add(self) -> $for_type {
@@ -47,14 +47,15 @@ macro_rules! signed_or_unsigned_impls {
 
 macro_rules! unsigned_to_signed_impls {
     ( $( $for_type:ty, $as_type:ty; $($into_type:ty),* );* ) => {
-        //unsigned = to signed
         $(
+            //unsigned = to signed
             impl IntoByAdd<$as_type> for $for_type {
                 #[inline]
                 fn into_by_add(self) -> $as_type {
                     ((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1)
                 }
             }
+
             $(
                 //unsigned < to signed
                 impl IntoByAdd<$into_type> for $for_type {

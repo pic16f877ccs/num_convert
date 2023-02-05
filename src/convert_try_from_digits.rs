@@ -1,45 +1,45 @@
 use core::ops::Rem;
 
-macro_rules! try_from_digits_impls {
-    ( $($type:ty, $trait_name:ident);* ) => {
-    /// A generic trait for converting from digits into possible types.
-    ///
-    /// # Examples
-    /// Usage:
-    ///
-    /// ```
-    /// # use num_convert::TryFromDigits;
-    /// // 65_255u16 -> 255_u8
-    /// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255u16), Ok(255u8));
-    /// // 100_000u32 -> 0_u8
-    /// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000u32), Ok(0u8));
-    /// // 10_000_965_535_i64 -> 65535u16
-    /// assert_eq!(<u16 as TryFromDigits<i64>>::from_digits(10_000_965_535i64), Ok(65_535_u16));
-    /// // 10_000_000_256u64 -> Error
-    /// assert!(<u8 as TryFromDigits<u64>>::from_digits(10_000_000_256u64).is_err());
-    /// ```
-    pub trait TryFromDigits<T> {
-        /// Returns digits as a number into possible types.
-        fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error> where Self: TryFrom<T>;
-    }
-        $(
-            impl<T> TryFromDigits<T> for $type
-            where
-                T: Rem<T, Output = T> + $trait_name,
-                Self: TryFrom<T>,
-            {
-                #[inline]
-                fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error>
-                {
-                    <Self as TryFrom<T>>::try_from(n % T::num())
-                }
-            }
-        )*
-    }
-}
-
-try_from_digits_impls! { i8,Thousands; u8, Thousands; i16, HundredThousands; u16, HundredThousands;
-i32, TenBillions; u32, TenBillions; i64, BigTen; u64, BigHundred; isize, BigTen; usize, BigHundred }
+//macro_rules! try_from_digits_impls {
+//    ( $($type:ty, $trait_name:ident);* ) => {
+//    /// A generic trait for converting from digits into possible types.
+//    ///
+//    /// # Examples
+//    /// Usage:
+//    ///
+//    /// ```
+//    /// # use num_convert::TryFromDigits;
+//    /// // 65_255u16 -> 255_u8
+//    /// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255u16), Ok(255u8));
+//    /// // 100_000u32 -> 0_u8
+//    /// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000u32), Ok(0u8));
+//    /// // 10_000_965_535_i64 -> 65535u16
+//    /// assert_eq!(<u16 as TryFromDigits<i64>>::from_digits(10_000_965_535i64), Ok(65_535_u16));
+//    /// // 10_000_000_256u64 -> Error
+//    /// assert!(<u8 as TryFromDigits<u64>>::from_digits(10_000_000_256u64).is_err());
+//    /// ```
+//    pub trait TryFromDigits<T> {
+//        /// Returns digits as a number into possible types.
+//        fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error> where Self: TryFrom<T>;
+//    }
+//        $(
+//            impl<T> TryFromDigits<T> for $type
+//            where
+//                T: Rem<T, Output = T> + $trait_name,
+//                Self: TryFrom<T>,
+//            {
+//                #[inline]
+//                fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error>
+//                {
+//                    <Self as TryFrom<T>>::try_from(n % T::num())
+//                }
+//            }
+//        )*
+//    }
+//}
+//
+//try_from_digits_impls! { i8,Thousands; u8, Thousands; i16, HundredThousands; u16, HundredThousands;
+//i32, TenBillions; u32, TenBillions; i64, BigTen; u64, BigHundred; isize, BigTen; usize, BigHundred }
 
 trait Thousands {
     fn num() -> Self;
