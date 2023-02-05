@@ -6,16 +6,16 @@ use paste::paste;
 /// Usage:
 ///
 /// ```
-/// # use num_convert::ToByAdd;
-/// fn convert_into_u8<T: ToByAdd>(min: T, max: T) -> (u8, u8) {
+/// # use num_convert::CastIntoByAdd;
+/// fn convert_into_u8<T: CastIntoByAdd>(min: T, max: T) -> (u8, u8) {
 ///     (min.into_u8(), max.into_u8())
 /// }
 /// assert_eq!(convert_into_u8(i8::MIN, i8::MAX), (u8::MIN, u8::MAX));
 ///
-/// assert_eq!(ToByAdd::into_i128(u128::MIN), i128::MIN);
-/// assert_eq!(ToByAdd::into_u64(i8::MAX), u8::MAX as u64);
+/// assert_eq!(CastIntoByAdd::into_i128(u128::MIN), i128::MIN);
+/// assert_eq!(CastIntoByAdd::into_u64(i8::MAX), u8::MAX as u64);
 /// ```
-pub trait ToByAdd {
+pub trait CastIntoByAdd {
     /// Converts the value of `self` to an `i8`.
     fn into_i8(self) -> i8;
 
@@ -113,13 +113,13 @@ macro_rules! signed_impls {
         $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty;
             $value_8bit:expr, $value_16bit:expr, $value_32bit:expr, $value_64bit:expr, $value_32or64bit:expr ) => {
 
-        impl ToByAdd for $type_i8 {
+        impl CastIntoByAdd for $type_i8 {
             return_self_value!($type_i8);
             signed_or_unsigned!($type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
             signed_to_unsigned!($value_8bit; $type_u8, $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
 
-        impl ToByAdd for $type_i16 {
+        impl CastIntoByAdd for $type_i16 {
             unreach_func!($type_i8);
             return_self_value!($type_i16);
             signed_or_unsigned!($type_i32, $type_i64, $type_isize, $type_i128);
@@ -127,7 +127,7 @@ macro_rules! signed_impls {
             signed_to_unsigned!($value_16bit; $type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
 
-        impl ToByAdd for $type_i32 {
+        impl CastIntoByAdd for $type_i32 {
             unreach_func!($type_i8, $type_i16);
             return_self_value!($type_i32);
             signed_or_unsigned!($type_i64, $type_isize, $type_i128);
@@ -136,7 +136,7 @@ macro_rules! signed_impls {
         }
 
         #[cfg(target_pointer_width = "32")]
-        impl ToByAdd for $type_i64 {
+        impl CastIntoByAdd for $type_i64 {
             unreach_func!($type_i8, $type_i16, $type_i32, $type_isize);
             return_self_value!($type_i64);
             signed_or_unsigned!($type_i128);
@@ -145,7 +145,7 @@ macro_rules! signed_impls {
         }
 
         #[cfg(target_pointer_width = "64")]
-        impl ToByAdd for $type_i64 {
+        impl CastIntoByAdd for $type_i64 {
             unreach_func!($type_i8, $type_i16, $type_i32);
             return_self_value!($type_i64);
             signed_or_unsigned!($type_isize, $type_i128);
@@ -154,7 +154,7 @@ macro_rules! signed_impls {
         }
 
         #[cfg(target_pointer_width = "32")]
-        impl ToByAdd for $type_isize {
+        impl CastIntoByAdd for $type_isize {
             unreach_func!($type_i8, $type_i16);
             return_self_value!($type_isize);
             signed_or_unsigned!($type_i32, $type_i64, $type_i128);
@@ -163,7 +163,7 @@ macro_rules! signed_impls {
         }
 
         #[cfg(target_pointer_width = "64")]
-        impl ToByAdd for $type_isize {
+        impl CastIntoByAdd for $type_isize {
             unreach_func!($type_i8, $type_i16, $type_i32);
             return_self_value!($type_isize);
             signed_or_unsigned!($type_i64, $type_i128);
@@ -171,7 +171,7 @@ macro_rules! signed_impls {
             signed_to_unsigned!($value_32or64bit; $type_u64, $type_usize, $type_u128);
         }
 
-        impl ToByAdd for $type_i128 {
+        impl CastIntoByAdd for $type_i128 {
             unreach_func!($type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
             return_self_value!($type_i128);
             unreach_func!($type_u8, $type_u16, $type_u32, $type_u64, $type_usize);
@@ -184,13 +184,13 @@ macro_rules! unsigned_impls {
     ( $type_i8:ty, $type_i16:ty, $type_i32:ty, $type_i64:ty, $type_isize:ty, $type_i128:ty;
         $type_u8:ty, $type_u16:ty, $type_u32:ty, $type_u64:ty, $type_usize:ty, $type_u128:ty; ) => {
 
-        impl ToByAdd for $type_u8 {
+        impl CastIntoByAdd for $type_u8 {
             unsigned_to_signed!($type_i8;$type_i8, $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
             return_self_value!($type_u8);
             signed_or_unsigned!($type_u16, $type_u32, $type_u64, $type_usize, $type_u128);
         }
 
-        impl ToByAdd for $type_u16 {
+        impl CastIntoByAdd for $type_u16 {
             unreach_func!($type_i8);
             unsigned_to_signed!($type_i16; $type_i16, $type_i32, $type_i64, $type_isize, $type_i128);
             unreach_func!($type_u8);
@@ -198,7 +198,7 @@ macro_rules! unsigned_impls {
             signed_or_unsigned!($type_u32, $type_u64, $type_usize, $type_u128);
         }
 
-        impl ToByAdd for $type_u32 {
+        impl CastIntoByAdd for $type_u32 {
             unreach_func!($type_i8, $type_i16);
             unsigned_to_signed!($type_i32; $type_i32, $type_i64, $type_isize, $type_i128);
             unreach_func!($type_u8, $type_u16);
@@ -207,7 +207,7 @@ macro_rules! unsigned_impls {
         }
 
         #[cfg(target_pointer_width = "32")]
-        impl ToByAdd for $type_u64 {
+        impl CastIntoByAdd for $type_u64 {
             unreach_func!($type_i8, $type_i16, $type_i32, $type_isize );
             unsigned_to_signed!($type_i64; $type_i64, $type_i128);
             unreach_func!($type_u8, $type_u16, $type_u32, $type_usize);
@@ -216,7 +216,7 @@ macro_rules! unsigned_impls {
         }
 
         #[cfg(target_pointer_width = "64")]
-        impl ToByAdd for $type_u64 {
+        impl CastIntoByAdd for $type_u64 {
             unreach_func!($type_i8, $type_i16, $type_i32);
             unsigned_to_signed!($type_i64; $type_i64, $type_isize, $type_i128);
             unreach_func!($type_u8, $type_u16, $type_u32);
@@ -225,7 +225,7 @@ macro_rules! unsigned_impls {
         }
 
         #[cfg(target_pointer_width = "32")]
-        impl ToByAdd for $type_usize {
+        impl CastIntoByAdd for $type_usize {
             unreach_func!($type_i8, $type_i16);
             unsigned_to_signed!($type_isize; $type_i32, $type_i64, $type_isize, $type_i128);
             unreach_func!($type_u8, $type_u16);
@@ -234,7 +234,7 @@ macro_rules! unsigned_impls {
         }
 
         #[cfg(target_pointer_width = "64")]
-        impl ToByAdd for $type_usize {
+        impl CastIntoByAdd for $type_usize {
             unreach_func!($type_i8, $type_i16, $type_i32);
             unsigned_to_signed!($type_isize; $type_i64, $type_isize, $type_i128);
             unreach_func!($type_u8, $type_u16, $type_u32);
@@ -242,7 +242,7 @@ macro_rules! unsigned_impls {
             signed_or_unsigned!($type_u64, $type_u128);
         }
 
-        impl ToByAdd for $type_u128 {
+        impl CastIntoByAdd for $type_u128 {
             unreach_func!($type_i8, $type_i16, $type_i32, $type_i64, $type_isize);
             unsigned_to_signed!($type_i128; $type_i128);
             unreach_func!($type_u8, $type_u16, $type_u32, $type_u64, $type_usize);

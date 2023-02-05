@@ -1,4 +1,4 @@
-use num_convert::IntoAs;
+use num_convert::FromAs;
 use std::ops::Div;
 
 trait IntegerLen {
@@ -7,12 +7,12 @@ trait IntegerLen {
 
 impl<T> IntegerLen for T
 where
-    T: Eq + Copy + Div<Output = T> + IntoAs<T>,
+    T: Eq + Copy + Div<Output = T> + FromAs<u8>,
 {
     fn len(mut self) -> usize {
         let mut count = 0;
-        let ten = <T>::from_u8(10);
-        let zero = <T>::from_u8(0);
+        let ten = <T>::from_as(10_u8);
+        let zero = <T>::from_as(0_u8);
         while self != zero {
             self = self / ten;
             count += 1;

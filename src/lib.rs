@@ -4,9 +4,9 @@
 //! # Generic traits for conversions between integer types.
 //!
 //! - The FromByAdd trait for converting from negative integers to positive or vice versa.
-//! - The ToByAdd trait for converting into negative integers to positive or vice versa.
+//! - The IntoByAdd trait for converting into negative integers to positive or vice versa.
 //! - The TryFromByAdd trait for converting from negative integers to positive or vice versa, that can fail.
-//! - The TryToByAdd trait for converting into negative integers to positive or vice versa, that can fail.
+//! - The TryIntoByAdd trait for converting into negative integers to positive or vice versa, that can fail.
 //! - The FromAs generic trait for conversion from integers with possible overflow.
 //! - The IntoAs generic trait for conversion into integers with possible overflow.
 //! - The TryFromDigits trait for converting from digits as a number, with possible value types.
@@ -14,10 +14,8 @@
 //! # Other traits for integers.
 //!
 //! - A trait IntegerLen to determine the number of digits of integers.
-//! - The Sbit trait for define the size of integer value in bits.
-//! - The Tbit trait for define the size of integer type in bits.
-//! - The CastInto trait for simple convert into between integer types with possible overflow.
-//! - The CastFrom trait for simple convert from between integer types with possible overflow.
+//! - The Sbits trait for define the size of integer value in bits.
+//! - The Tbits trait for define the size of integer type in bits.
 //!
 //! # Examples
 //! Usage:
@@ -90,18 +88,26 @@
 //! assert_eq!(u128::MAX.len(), 39usize);
 //! ```
 
-mod cast_from_by_add;
-mod cast_into_by_add;
 mod convert_from_by_add;
 mod convert_into_by_add;
 mod convert_from_as;
 mod convert_into_as;
-mod convert_try_from;
-mod convert_try_into;
 mod convert_try_from_by_add;
 mod convert_try_into_by_add;
 mod convert_try_from_digits;
 mod extra_traits;
+
+#[cfg(feature = "try-fm-by-add")]
+mod convert_try_from;
+
+#[cfg(feature = "try-to-by-add")]
+mod convert_try_into;
+
+#[cfg(feature = "cast-from-as")]
+mod cast_from_as;
+
+#[cfg(feature = "cast-into-as")]
+mod cast_into_as;
 
 #[cfg(feature = "bits")]
 mod size_type_bits;
@@ -109,18 +115,19 @@ mod size_type_bits;
 #[cfg(feature = "bounds")]
 pub mod min_zero_max;
 
-pub use crate::cast_from_by_add::CastFromByAdd;
-pub use crate::cast_into_by_add::ToByAdd;
 pub use crate::convert_from_by_add::FromByAdd;
 pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::convert_from_as::FromAs;
 pub use crate::convert_into_as::IntoAs;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::convert_try_from_by_add::TryFromByAdd;
-pub use crate::convert_try_from::TryFromByAdd as TryFmByAdd;
-pub use crate::convert_try_into::TryToByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::extra_traits::IntegerLen;
+
+#[cfg(feature = "try-fm-by-add")]
+pub use crate::convert_try_from::TryFmByAdd;
+#[cfg(feature = "try-to-by-add")]
+pub use crate::convert_try_into::TryToByAdd;
 
 #[cfg(feature = "type-info")]
 pub use crate::extra_traits::TypeInfo;
@@ -128,14 +135,12 @@ pub use crate::extra_traits::TypeInfo;
 #[cfg(feature = "val-type-info")]
 pub use crate::extra_traits::ValTypeInfo;
 
-#[cfg(feature = "cast-into_as")]
-pub use crate::convert_from_as::CastInto;
-
-#[cfg(feature = "cast-from_as")]
-pub use crate::convert_into_as::CastFrom;
+#[cfg(feature = "cast-into-as")]
+pub use crate::cast_into_as::CastIntoAs;
+#[cfg(feature = "cast-from-as")]
+pub use crate::cast_from_as::CastFromAs;
 
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Sbits;
-
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Tbits;
