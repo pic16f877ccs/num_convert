@@ -49,22 +49,22 @@ pub trait CastFromAs {
 }
 
 macro_rules! cast_from_as_impls {
-    ($($from_type:ty),+; $type:ty ) => {
-        impl CastFromAs for $type {
+    ($($from_type:ty),+; $into_type:ty ) => {
+        impl CastFromAs for $into_type {
             paste!{
                 #[inline]
-                fn [<from_$type>](n: $type) -> Self {
+                fn [<from_$into_type>](n: $into_type) -> Self {
                     n
                 }
             }
 
             $(
-            paste!{
-                #[inline]
-                fn [<from_$from_type>](n: $from_type) -> Self {
-                    n as Self
+                paste!{
+                    #[inline]
+                    fn [<from_$from_type>](n: $from_type) -> Self {
+                        n as Self
+                    }
                 }
-            }
             )*
         }
     }

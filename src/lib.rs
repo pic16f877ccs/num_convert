@@ -97,16 +97,16 @@ mod convert_try_into_by_add;
 mod convert_try_from_digits;
 mod extra_traits;
 
-#[cfg(feature = "try-fm-by-add")]
+#[cfg(feature = "try_fm_by_add")]
 mod convert_try_from;
 
-#[cfg(feature = "try-to-by-add")]
+#[cfg(feature = "try_to_by_add")]
 mod convert_try_into;
 
-#[cfg(feature = "cast-from-as")]
+#[cfg(feature = "cast_from_as")]
 mod cast_from_as;
 
-#[cfg(feature = "cast-into-as")]
+#[cfg(feature = "cast_into_as")]
 mod cast_into_as;
 
 #[cfg(feature = "bits")]
@@ -124,20 +124,20 @@ pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::extra_traits::IntegerLen;
 
-#[cfg(feature = "try-fm-by-add")]
+#[cfg(feature = "try_fm_by_add")]
 pub use crate::convert_try_from::TryFmByAdd;
-#[cfg(feature = "try-to-by-add")]
+#[cfg(feature = "try_to_by_add")]
 pub use crate::convert_try_into::TryToByAdd;
 
-#[cfg(feature = "type-info")]
+#[cfg(feature = "type_info")]
 pub use crate::extra_traits::TypeInfo;
 
-#[cfg(feature = "val-type-info")]
+#[cfg(feature = "val_type_info")]
 pub use crate::extra_traits::ValTypeInfo;
 
-#[cfg(feature = "cast-into-as")]
+#[cfg(feature = "cast_into_as")]
 pub use crate::cast_into_as::CastIntoAs;
-#[cfg(feature = "cast-from-as")]
+#[cfg(feature = "cast_from_as")]
 pub use crate::cast_from_as::CastFromAs;
 
 #[cfg(feature = "bits")]
