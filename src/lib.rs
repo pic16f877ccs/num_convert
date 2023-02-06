@@ -3,19 +3,22 @@
 #![warn(missing_docs)]
 //! # Generic traits for conversions between integer types.
 //!
-//! - The FromByAdd trait for converting from negative integers to positive or vice versa.
-//! - The IntoByAdd trait for converting into negative integers to positive or vice versa.
-//! - The TryFromByAdd trait for converting from negative integers to positive or vice versa, that can fail.
-//! - The TryIntoByAdd trait for converting into negative integers to positive or vice versa, that can fail.
-//! - The FromAs generic trait for conversion from integers with possible overflow.
-//! - The IntoAs generic trait for conversion into integers with possible overflow.
-//! - The TryFromDigits trait for converting from digits as a number, with possible value types.
+//! - The [`FromByAdd`] trait for converting from negative integers to positive or vice versa.
+//! - The [`IntoByAdd`] trait for converting into negative integers to positive or vice versa.
+//! - The [`TryFromByAdd`] trait for converting from negative integers to positive or vice versa, that can fail.
+//! - The [`TryIntoByAdd`] trait for converting into negative integers to positive or vice versa, that can fail.
+//! - The [`FromAs`] generic trait for conversion from integers with possible overflow.
+//! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
+//! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
 //!
 //! # Other traits for integers.
 //!
-//! - A trait IntegerLen to determine the number of digits of integers.
-//! - The Sbits trait for define the size of integer value in bits.
-//! - The Tbits trait for define the size of integer type in bits.
+//! - A trait [`IntegerLen`] to determine the number of digits of integers.
+//! - The [`Sbits`] trait for define the size of integer value in bits.
+//! - The [`Tbits`] trait for define the size of integer type in bits.
+//! - The [`ToZero`] trait for implementing the null value of types.
+//! - The [`ToMin`] trait for implement lower bounds on types.
+//! - The [`ToMax`] trait for implement upper bounds on types.
 //!
 //! # Examples
 //! Usage:
@@ -23,8 +26,8 @@
 //! Convert from negative into positive and positive into negative.
 //! ```
 //! # use num_convert::FromByAdd;
-//! assert_eq!(<u8>::from_by_add(-128i8), 0u8);
-//! assert_eq!(<i8>::from_by_add(255u8), 127i8);
+//! assert_eq!(<u8>::from_by_add(-28i8), 100u8);
+//! assert_eq!(<i8>::from_by_add(10u8), -118i8);
 //! ```
 //!
 //! Usage:
@@ -112,8 +115,8 @@ mod cast_into_as;
 #[cfg(feature = "bits")]
 mod size_type_bits;
 
-#[cfg(feature = "bounds")]
-pub mod min_zero_max;
+#[cfg(any(feature = "to_min", feature = "to_max", feature = "to_zero"))]
+mod to_min_to_zero_to_max;
 
 pub use crate::convert_from_by_add::FromByAdd;
 pub use crate::convert_into_by_add::IntoByAdd;
@@ -123,6 +126,15 @@ pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::extra_traits::IntegerLen;
+
+#[cfg(feature = "to_min")]
+pub use crate::to_min_to_zero_to_max::ToMin;
+
+#[cfg(feature = "to_max")]
+pub use crate::to_min_to_zero_to_max::ToMax;
+
+#[cfg(feature = "to_zero")]
+pub use crate::to_min_to_zero_to_max::ToZero;
 
 #[cfg(feature = "try_fm_by_add")]
 pub use crate::convert_try_from::TryFmByAdd;

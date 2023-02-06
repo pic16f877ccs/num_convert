@@ -1,14 +1,13 @@
 use std::ops::Shr;
-use num_convert::{ FromAs, IntoAs, Tbits };
-use num_convert::min_zero_max::Tzero;
+use num_convert::{ FromAs, IntoAs, Tbits, ToZero };
 
 fn overflow_cnt<T, O>(num: T) -> (O, T)
     where
-        T: FromAs<O> + Copy + Shr<u32, Output = T> + Tzero<T>,
+        T: FromAs<O> + Copy + Shr<u32, Output = T> + ToZero<T>,
         O: FromAs<T> + TryFrom<T> + Tbits,
 {
     match O::try_from(num) {
-        Ok(ok) => (ok, T::tzero()),
+        Ok(ok) => (ok, T::to_zero()),
         Err(_) => (O::from_as(num), num >> O::tbits())
     }
 }

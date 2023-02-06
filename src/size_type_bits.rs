@@ -1,4 +1,4 @@
-/// Generic traits for define the size of the integers type in bits.
+/// Generic trait for define the size of the integers type in bits.
 ///
 /// # Examples
 /// Usage:

@@ -49,14 +49,14 @@ signed_or_unsigned_impls! { u8; u16, u32, u64, usize, u128; u16; u32, u64, usize
 u32; u64, usize, u128; u64; usize, u128; usize; u64, u128; u128; }
 
 macro_rules! signed_gt_signed_impls {
-    ( $( $into_type:ty; $($from_type:ty),* );* ) => {
+    ( $( $into_type:ty, $min_type:expr, $max_type:expr; $($from_type:ty),* );* ) => {
         $(
             $(
                 //from signed > to signed
                 impl TryFromByAdd<$from_type> for $into_type {
                     #[inline]
                     fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n >= <$from_type>::MIN && n <= <$from_type>::MAX {
+                        if n >= $min_type && n <= $max_type {
                             Some(n as Self)
                         } else {
                             None
@@ -68,8 +68,8 @@ macro_rules! signed_gt_signed_impls {
     }
 }
 
-signed_gt_signed_impls! { i8; i16, i32, i64, isize, i128; i16; i32, i64, isize, i128;
-i32; i64, isize, i128; i64; i128; isize; i128  }
+signed_gt_signed_impls! { i8, -128, 127; i16, i32, i64, isize, i128; i16, -32_768, 32_767; i32, i64, isize, i128;
+i32, -2_147_483_648, 2_147_483_647; i64, isize, i128; i64, -9_223_372_036_854_775_808, 9_223_372_036_854_775_807; i128; isize, -9_223_372_036_854_775_808, 9_223_372_036_854_775_807; i128  }
 
 macro_rules! signed_gt_unsigned_impls {
     ( $( $into_type:ty, $max_value:expr; $($from_type:ty),* );* ) => {
@@ -95,14 +95,14 @@ signed_gt_unsigned_impls! { i8, 255; u16, u32, u64, usize, u128; i16, 65_535; u3
 i32, 4_294_967_295; u64, usize, u128; i64, 18_446_744_073_709_551_615; u128; isize, 18_446_744_073_709_551_615; u128 }
 
 macro_rules! unsigned_gt_unsigned_impls {
-    ( $( $into_type:ty; $($from_type:ty),* );* ) => {
+    ( $( $into_type:ty, $max_type:expr; $($from_type:ty),* );* ) => {
         $(
             $(
                 //from unsigned > to unsigned
                 impl TryFromByAdd<$from_type> for $into_type {
                     #[inline]
                     fn try_from_by_add(n: $from_type) -> Option<Self> {
-                        if n <= <$from_type>::MAX {
+                        if n <= $max_type {
                             Some(n as Self)
                         } else {
                             None
@@ -114,8 +114,8 @@ macro_rules! unsigned_gt_unsigned_impls {
     }
 }
 
-unsigned_gt_unsigned_impls! { u8; u16, u32, u64, usize, u128; u16; u32, u64, usize, u128;
-u32; u64, usize, u128; u64; u128; usize; u128 }
+unsigned_gt_unsigned_impls! { u8, 255; u16, u32, u64, usize, u128; u16, 65_535; u32, u64, usize, u128;
+u32, 4_294_967_295; u64, usize, u128; u64, 18_446_744_073_709_551_615; u128; usize, 18_446_744_073_709_551_615; u128 }
 
 macro_rules! unsigned_gt_signed_impls {
     ( $into_type:ty, $min_value:expr, $max_value:expr, $add_value:expr; $($from_type:ty),* ) => {
