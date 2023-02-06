@@ -100,12 +100,6 @@ mod convert_try_into_by_add;
 mod convert_try_from_digits;
 mod extra_traits;
 
-#[cfg(feature = "try_fm_by_add")]
-mod convert_try_from;
-
-#[cfg(feature = "try_to_by_add")]
-mod convert_try_into;
-
 #[cfg(feature = "cast_from_as")]
 mod cast_from_as;
 
@@ -135,11 +129,6 @@ pub use crate::to_min_to_zero_to_max::ToMax;
 
 #[cfg(feature = "to_zero")]
 pub use crate::to_min_to_zero_to_max::ToZero;
-
-#[cfg(feature = "try_fm_by_add")]
-pub use crate::convert_try_from::TryFmByAdd;
-#[cfg(feature = "try_to_by_add")]
-pub use crate::convert_try_into::TryToByAdd;
 
 #[cfg(feature = "type_info")]
 pub use crate::extra_traits::TypeInfo;
