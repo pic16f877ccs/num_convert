@@ -44,6 +44,15 @@
 //!
 //! Usage:
 //!
+//! Convert from negative into positive without error and with error.
+//! ```
+//! # use num_convert::TryFromByAdd;
+//! assert_eq!(<u8>::try_from_by_add(-128i16), Some(0u8));
+//! assert_eq!(<u8>::try_from_by_add(-129i16), None);
+//! ```
+//!
+//! Usage:
+//!
 //! Conversions type U16 in U8 without overflow and with overflow.
 //! ```
 //! # use num_convert::{IntoAs, FromAs};
