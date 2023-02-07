@@ -1,18 +1,45 @@
 use core::cmp::PartialEq;
 
 /// Trait to implement lower bounds on types.
+/// ```
+/// # use num_convert::ToMin;
+/// assert_eq!(<i8 as ToMin<i8>>::to_min(), i8::MIN);
+/// assert_eq!(<i8 as ToMin<i16>>::to_min(), i8::MIN as i16);
+/// assert_eq!(<i8 as ToMin<i32>>::to_min(), i8::MIN as i32);
+/// assert_eq!(<i8 as ToMin<i64>>::to_min(), i8::MIN as i64);
+/// assert_eq!(<i8 as ToMin<isize>>::to_min(), i8::MIN as isize);
+/// assert_eq!(<i8 as ToMin<i128>>::to_min(), i8::MIN as i128);
+/// ```
 pub trait ToMin<T>: Sized + PartialEq + Copy {
     /// Returns lower bounds of types.
     fn to_min() -> T;
 }
 
 /// Trait to implement upper bounds on types.
+/// ```
+/// # use num_convert::ToMax;
+/// assert_eq!(<u8 as ToMax<u8>>::to_max(), u8::MAX);
+/// assert_eq!(<u8 as ToMax<i16>>::to_max(), u8::MAX as i16);
+/// assert_eq!(<u8 as ToMax<u32>>::to_max(), u8::MAX as u32);
+/// assert_eq!(<u8 as ToMax<i64>>::to_max(), u8::MAX as i64);
+/// assert_eq!(<u8 as ToMax<usize>>::to_max(), u8::MAX as usize);
+/// assert_eq!(<u8 as ToMax<i128>>::to_max(), u8::MAX as i128);
+/// ```
 pub trait ToMax<T>: Sized + PartialEq + Copy {
     /// Returns upper bounds of types.
     fn to_max() -> T;
 }
 
 /// Trait for implementing the null value of types.
+/// ```
+/// # use num_convert::ToZero;
+/// assert_eq!(u8::to_zero(), u8::MIN);
+/// assert_eq!(i16::to_zero(), 0_i16);
+/// assert_eq!(u32::to_zero(), u32::MIN);
+/// assert_eq!(i64::to_zero(), 0_i64);
+/// assert_eq!(usize::to_zero(), usize::MIN);
+/// assert_eq!(i128::to_zero(), 0_i128);
+/// ```
 pub trait ToZero<T>: Sized + PartialEq + Copy {
     /// Returns zero of types.
     fn to_zero() -> T;

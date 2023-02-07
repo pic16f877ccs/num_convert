@@ -45,4 +45,3 @@ from_as_impls! { i8, u8, i16, u16, i32, u32, i64, u64, usize, i128, u128; isize 
 from_as_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, i128, u128; usize }
 from_as_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, u128; i128 }
 from_as_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128; u128 }
-

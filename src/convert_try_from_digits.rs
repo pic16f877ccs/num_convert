@@ -18,7 +18,9 @@ use core::ops::Rem;
 /// ```
 pub trait TryFromDigits<T> {
     /// Returns digits as a number into possible types.
-    fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error> where Self: TryFrom<T>;
+    fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error>
+    where
+        Self: TryFrom<T>;
 }
 
 macro_rules! try_from_digits_impls {

@@ -53,6 +53,15 @@
 //!
 //! Usage:
 //!
+//! Convert between 128 bit types lossless.
+//! ```
+//! # use num_convert::TryIntoByAdd;
+//! assert_eq!(<i128 as TryIntoByAdd<u128>>::try_into_by_add(i128::MIN), Some(u128::MIN));
+//! assert_eq!(<u128 as TryIntoByAdd<i128>>::try_into_by_add(u128::MIN), Some(i128::MIN));
+//! ```
+//!
+//! Usage:
+//!
 //! Conversions type U16 in U8 without overflow and with overflow.
 //! ```
 //! # use num_convert::{IntoAs, FromAs};
@@ -100,13 +109,13 @@
 //! assert_eq!(u128::MAX.len(), 39usize);
 //! ```
 
-mod convert_from_by_add;
-mod convert_into_by_add;
 mod convert_from_as;
+mod convert_from_by_add;
 mod convert_into_as;
+mod convert_into_by_add;
 mod convert_try_from_by_add;
-mod convert_try_into_by_add;
 mod convert_try_from_digits;
+mod convert_try_into_by_add;
 mod extra_traits;
 
 #[cfg(feature = "cast_from_as")]
@@ -121,13 +130,13 @@ mod size_type_bits;
 #[cfg(any(feature = "to_min", feature = "to_max", feature = "to_zero"))]
 mod to_min_to_zero_to_max;
 
-pub use crate::convert_from_by_add::FromByAdd;
-pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::convert_from_as::FromAs;
+pub use crate::convert_from_by_add::FromByAdd;
 pub use crate::convert_into_as::IntoAs;
-pub use crate::convert_try_into_by_add::TryIntoByAdd;
+pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
+pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
 
 #[cfg(feature = "to_min")]
@@ -145,10 +154,10 @@ pub use crate::extra_traits::TypeInfo;
 #[cfg(feature = "val_type_info")]
 pub use crate::extra_traits::ValTypeInfo;
 
-#[cfg(feature = "cast_into_as")]
-pub use crate::cast_into_as::CastIntoAs;
 #[cfg(feature = "cast_from_as")]
 pub use crate::cast_from_as::CastFromAs;
+#[cfg(feature = "cast_into_as")]
+pub use crate::cast_into_as::CastIntoAs;
 
 #[cfg(feature = "bits")]
 pub use crate::size_type_bits::Sbits;

@@ -57,6 +57,7 @@ macro_rules! cast_into_as_impls {
                     self
                 }
             }
+
             $(
                 paste!{
                     #[inline]

@@ -14,7 +14,7 @@
 /// assert_eq!(TryIntoByAdd::<u8>::try_into_by_add(128_i16), None);
 /// assert_eq!(TryIntoByAdd::<u8>::try_into_by_add(-128_i16), Some(0_u8));
 /// assert_eq!(TryIntoByAdd::<u8>::try_into_by_add(-129_i16), None);
-/// //```
+/// ```
 pub trait TryIntoByAdd<T> {
     /// Converts the value of `self` to an `T`.
     fn try_into_by_add(self) -> Option<T>;
@@ -153,6 +153,7 @@ macro_rules! unsigned_to_signed_impls {
                     Some(((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1))
                 }
             }
+
             $(
                 //unsigned < to signed
                 impl TryIntoByAdd<$into_type> for $for_type {
