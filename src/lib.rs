@@ -1,6 +1,8 @@
 #![forbid(unsafe_code)]
 #![no_std]
 #![warn(missing_docs)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![warn(rustdoc::broken_intra_doc_links)]
 //! # Generic traits for conversions between integer types.
 //!
 //! - The [`FromByAdd`] trait for converting from negative integers to positive or vice versa.
@@ -62,7 +64,7 @@
 //!
 //! Usage:
 //!
-//! Conversions type U16 in U8 without overflow and with overflow.
+//! Conversions type [`u16`] in [`u8`] without overflow and with overflow.
 //! ```
 //! # use num_convert::{IntoAs, FromAs};
 //! assert_eq!(<u16 as IntoAs<u8>>::into_as(255u16), 255u8);
@@ -109,6 +111,7 @@
 //! assert_eq!(u128::MAX.len(), 39usize);
 //! ```
 
+//#[doc = include_str!("../README.md")]
 mod convert_from_as;
 mod convert_from_by_add;
 mod convert_into_as;
@@ -140,26 +143,37 @@ pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
 
 #[cfg(feature = "to_min")]
+#[cfg_attr(docsrs, doc(cfg(feature = "to_min")))]
 pub use crate::to_min_to_zero_to_max::ToMin;
 
 #[cfg(feature = "to_max")]
+#[cfg_attr(docsrs, doc(cfg(feature = "to_max")))]
 pub use crate::to_min_to_zero_to_max::ToMax;
 
 #[cfg(feature = "to_zero")]
+#[cfg_attr(docsrs, doc(cfg(feature = "to_zero")))]
 pub use crate::to_min_to_zero_to_max::ToZero;
 
 #[cfg(feature = "type_info")]
+#[cfg_attr(docsrs, doc(cfg(feature = "type_info")))]
 pub use crate::extra_traits::TypeInfo;
 
 #[cfg(feature = "val_type_info")]
+#[cfg_attr(docsrs, doc(cfg(feature = "val_type_info")))]
 pub use crate::extra_traits::ValTypeInfo;
 
 #[cfg(feature = "cast_from_as")]
+#[cfg_attr(docsrs, doc(cfg(feature = "cast_from_as")))]
 pub use crate::cast_from_as::CastFromAs;
+
 #[cfg(feature = "cast_into_as")]
+#[cfg_attr(docsrs, doc(cfg(feature = "cast_into_as")))]
 pub use crate::cast_into_as::CastIntoAs;
 
 #[cfg(feature = "bits")]
+#[cfg_attr(docsrs, doc(cfg(feature = "bits")))]
 pub use crate::size_type_bits::Sbits;
+
 #[cfg(feature = "bits")]
+#[cfg_attr(docsrs, doc(cfg(feature = "bits")))]
 pub use crate::size_type_bits::Tbits;

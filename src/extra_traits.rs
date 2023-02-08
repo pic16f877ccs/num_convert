@@ -29,7 +29,9 @@ where
     }
 }
 
+/// Trait for type info.
 pub trait TypeInfo {
+    /// Returns the type.
     fn info() -> &'static str;
 }
 
@@ -49,7 +51,9 @@ macro_rules! type_info_impls {
 type_info_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
 type_info_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
 
+/// Trait value type info.
 pub trait ValTypeInfo {
+    /// Returns value type info.
     fn info(self) -> &'static str;
 }
 

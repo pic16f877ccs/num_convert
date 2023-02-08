@@ -24,3 +24,7 @@ cast_into_as = []
 type_info = []
 val_type_info = []
 default = ["to_min","to_zero", "to_max", "bits"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
