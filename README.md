@@ -18,7 +18,7 @@ Supports generics types.
 
 #### Other traits for integers.
 
-- A trait IntegerLen`] to determine the number of digits of integers.
+- A trait IntegerLen to determine the number of digits of integers.
 - The Sbits trait for define the size of integer value in bits.
 - The Tbits trait for define the size of integer type in bits.
 - The ToZero trait for implementing the null value of types.
