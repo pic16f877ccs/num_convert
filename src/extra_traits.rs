@@ -2,6 +2,7 @@ use crate::{FromAs, IntoAs};
 use core::ops::Div;
 
 /// A trait IntegerLen to determine the number of digits of integers.
+#[allow(clippy::len_without_is_empty)]
 pub trait IntegerLen {
     /// Returns the number of digits to self.
     fn len(self) -> usize;

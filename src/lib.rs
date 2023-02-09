@@ -111,7 +111,7 @@
 //! assert_eq!(u128::MAX.len(), 39usize);
 //! ```
 
-//#[doc = include_str!("../README.md")]
+#[doc = include_str!("../README.md")]
 mod convert_from_as;
 mod convert_from_by_add;
 mod convert_into_as;

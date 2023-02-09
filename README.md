@@ -28,12 +28,12 @@ Supports generics types.
 ### Usage
 
 #### Add this to your Cargo.toml
-```
+```rust,ignore
 [dependencies]
 num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.5.0" }
 ```
 #### Or using cargo
-```
+```rust,ignore
 cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
 
 ```
