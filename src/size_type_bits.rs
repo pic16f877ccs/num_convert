@@ -18,6 +18,7 @@ macro_rules! tbits_impls {
     ($($value_type:ty),*) => {
         $(
             impl Tbits for $value_type {
+                #[doc = concat!("The size of ", stringify!($value_type), " integer type in bits.")]
                 #[inline]
                 fn tbits() -> u32 {
                     <$value_type>::BITS
@@ -49,12 +50,13 @@ pub trait Sbits {
 }
 
 macro_rules! sbits_impls {
-    ($($type:ty),*) => {
+    ($($value_type:ty),*) => {
         $(
-            impl Sbits for $type {
+            impl Sbits for $value_type {
+                #[doc = concat!("The size of ", stringify!($value_type), " integer value in bits.")]
                 #[inline]
                 fn sbits(&self) -> u32 {
-                    <$type>::BITS
+                    <$value_type>::BITS
                 }
             }
         )*
