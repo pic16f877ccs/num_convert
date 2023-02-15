@@ -13,8 +13,7 @@ categories = ["algorithms"]
 
 [dependencies]
 paste = "1.0.8"
-#tuple_macro = { version = "0.2.1", git = "https://github.com/pic16f877ccs/tuple_tool" }
-tuple_macro = { version = "0.2.1", path = "/home/sandumars/Projects/RustLang/Crates/tuple_tool/tuple_macro" }
+from_tup_macro = { viersion = "0.1.0" }
 
 [features]
 to_min = []
@@ -26,10 +25,10 @@ cast_into_as = []
 type_info = []
 val_type_info = []
 default = ["to_min","to_zero", "to_max", "bits"]
-8 = ["tuple_macro/from_tup_8"]
-16 = ["tuple_macro/from_tup_16"]
-32 = ["tuple_macro/from_tup_32"]
-64 = ["tuple_macro/from_tup_64"]
+8 = ["from_tup_macro/from_tup_8"]
+16 = ["from_tup_macro/from_tup_16"]
+32 = ["from_tup_macro/from_tup_32"]
+64 = ["from_tup_macro/from_tup_64"]
 
 [package.metadata.docs.rs]
 all-features = true
