@@ -130,6 +130,9 @@ mod cast_into_as;
 #[cfg(feature = "bits")]
 mod size_type_bits;
 
+#[cfg(any(feature = "8", feature = "16", feature = "32", feature = "64"))]
+mod convert_from_tup;
+
 #[cfg(any(feature = "to_min", feature = "to_max", feature = "to_zero"))]
 mod to_min_to_zero_to_max;
 
@@ -141,6 +144,13 @@ pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
+
+#[cfg(any(feature = "8", feature = "16", feature = "32", feature = "64"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "8")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "16")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "32")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "64")))]
+pub use crate::convert_from_tup::FromTuple;
 
 #[cfg(feature = "to_min")]
 #[cfg_attr(docsrs, doc(cfg(feature = "to_min")))]
