@@ -9,8 +9,8 @@
 /// assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
 /// ```
 ///
-extern crate tuple_macro;
-use tuple_macro::{ tup_from_impl, tup_from_trait };
+extern crate from_tup_macro;
+use from_tup_macro::{ tup_from_impl, tup_from_trait };
 
 #[doc = "Trait for conversion tuple to array."]
 pub trait FromTuple {
