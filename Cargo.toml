@@ -13,7 +13,7 @@ categories = ["algorithms"]
 
 [dependencies]
 paste = "1.0.8"
-from_tup_macro = { viersion = "0.1.0" }
+from_tup_macro = { version = "0.1.0" }
 
 [features]
 to_min = []
@@ -24,11 +24,11 @@ cast_from_as = []
 cast_into_as = []
 type_info = []
 val_type_info = []
-default = ["to_min","to_zero", "to_max", "bits"]
 8 = ["from_tup_macro/from_tup_8"]
 16 = ["from_tup_macro/from_tup_16"]
 32 = ["from_tup_macro/from_tup_32"]
 64 = ["from_tup_macro/from_tup_64"]
+default = ["to_min","to_zero", "to_max", "bits"]
 
 [package.metadata.docs.rs]
 all-features = true

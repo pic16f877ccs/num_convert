@@ -12,6 +12,7 @@
 //! - The [`FromAs`] generic trait for conversion from integers with possible overflow.
 //! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
 //! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
+//! - The [`FromTuple`] trait to convert a tuple to an array.
 //!
 //! # Other traits for integers.
 //!
@@ -109,6 +110,14 @@
 //! assert_eq!(i8::MAX.len(), 3usize);
 //! assert_eq!(i128::MAX.len(), 39usize);
 //! assert_eq!(u128::MAX.len(), 39usize);
+//! ```
+//!
+//! Usage:
+//!
+//! ```
+//! # use num_convert::FromTuple;
+//! assert_eq!(<i32 as FromTuple>::from_3((45u8, 2023u16, -60i8,)), [45i32, 2023i32, -60i32]);
+//! assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
 //! ```
 
 #[doc = include_str!("../README.md")]
