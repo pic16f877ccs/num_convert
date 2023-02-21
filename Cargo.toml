@@ -26,8 +26,6 @@ type_info = []
 val_type_info = []
 tup8 = ["from_tup_macro/from_tup_8"]
 tup16 = ["from_tup_macro/from_tup_16"]
-tup32 = ["from_tup_macro/from_tup_32"]
-tup64 = ["from_tup_macro/from_tup_64"]
 default = ["to_min","to_zero", "to_max", "bits"]
 
 [package.metadata.docs.rs]
