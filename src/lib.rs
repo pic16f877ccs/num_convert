@@ -116,7 +116,7 @@
 //!
 //! ```
 //! # use num_convert::FromTuple;
-//! assert_eq!(<i32 as FromTuple>::from_3((45u8, 2023u16, -60i8,)), [45i32, 2023i32, -60i32]);
+//! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45u8, 2023u16, -60i8,)), [1i32, 0i32, 45i32, 2023i32, -60i32]);
 //! assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
 //! ```
 
