@@ -21,7 +21,7 @@ macro_rules! signed_or_unsigned_impls {
             //from signed = to signed
             //from unsigned = to unsigned
             impl FromByAdd<$from_type> for $from_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($from_type), " losslessly.")]
+                #[doc = concat!("Returns the same type ", stringify!($from_type), ".")]
                 #[inline]
                 fn from_by_add(n: Self) -> Self {
                     n
@@ -52,7 +52,7 @@ macro_rules! unsigned_to_signed_impls {
     ( $from_type:ty, $as_type:ty; $($into_type:ty),* ) => {
         //from unsigned = to signed
         impl FromByAdd<$from_type> for $as_type {
-            #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($as_type), " losslessly.")]
+            #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($as_type), ".")]
             #[inline]
             fn from_by_add(n: $from_type) -> Self {
                 ((n as Self).wrapping_add(<Self>::MAX)).wrapping_add(1)
@@ -61,7 +61,7 @@ macro_rules! unsigned_to_signed_impls {
         $(
             //from unsigned < to signed
             impl FromByAdd<$from_type> for $into_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn from_by_add(n: $from_type) -> Self {
                     ((n as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1) as Self
@@ -83,7 +83,7 @@ macro_rules! signed_to_unsigned_impls {
     ( $from_type:ty, $add_value:expr; $($into_type:ty),*) => {
         $(
             impl FromByAdd<$from_type> for $into_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn from_by_add(n: $from_type) -> Self {
                     (n as Self).wrapping_add($add_value)

@@ -26,6 +26,7 @@ macro_rules! signed_or_unsigned_impls {
         //unsigned = to unsigned
         $(
             impl TryIntoByAdd<$for_type> for $for_type {
+                #[doc = concat!("Returns the same type ", stringify!($for_type), ".")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$for_type> {
                     Some(self)
@@ -36,6 +37,7 @@ macro_rules! signed_or_unsigned_impls {
                 //signed < to signed
                 //unsigned < to unsigned
                 impl TryIntoByAdd<$into_type> for $for_type {
+                    #[doc = concat!("Converts ", stringify!($for_type), " to ", stringify!($into_type), " losslessly.")]
                     #[inline]
                     fn try_into_by_add(self) -> Option<$into_type> {
                         Some(self as $into_type)
@@ -55,6 +57,7 @@ macro_rules! signed_to_signed_gt {
     ( $into_type:ty, $value_min:expr, $value_max:expr; $($for_type:ty),* ) => {
         $(
             impl TryIntoByAdd<$into_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to ", stringify!($into_type), ". Conversion can fail.")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$into_type> {
                     if self < $value_min || self > $value_max {
@@ -78,6 +81,7 @@ macro_rules! signed_to_unsigned_gt {
     ( $into_type:ty, $value_min:expr, $value_max:expr, $add_value:expr; $($for_type:ty),* ) => {
         $(
             impl TryIntoByAdd<$into_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ". Conversion can fail.")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$into_type> {
                     if self < $value_min || self > $value_max {
@@ -101,6 +105,7 @@ macro_rules! unsigned_to_unsigned_gt {
     ( $into_type:ty, $value_max:expr; $($for_type:ty),* ) => {
         $(
             impl TryIntoByAdd<$into_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to ", stringify!($into_type), ". Conversion can fail.")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$into_type> {
                     if self > $value_max {
@@ -124,6 +129,7 @@ macro_rules! unsigned_to_signed_gt {
     ( $into_type:ty, $value_max:expr; $($for_type:ty),* ) => {
         $(
             impl TryIntoByAdd<$into_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ". Conversion can fail.")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$into_type> {
                     if self > $value_max {
@@ -148,6 +154,7 @@ macro_rules! unsigned_to_signed_impls {
         //unsigned = to signed
         $(
             impl TryIntoByAdd<$as_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($as_type), ".")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$as_type> {
                     Some(((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1))
@@ -157,6 +164,7 @@ macro_rules! unsigned_to_signed_impls {
             $(
                 //unsigned < to signed
                 impl TryIntoByAdd<$into_type> for $for_type {
+                    #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ".")]
                     #[inline]
                     fn try_into_by_add(self) -> Option<$into_type> {
                         Some(((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1) as $into_type)
@@ -175,6 +183,7 @@ macro_rules! signed_to_unsigned_impls {
     ( $for_type:ty; $add_value:expr; $($into_type:ty),*) => {
         $(
             impl TryIntoByAdd<$into_type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn try_into_by_add(self) -> Option<$into_type> {
                     Some((self as $into_type).wrapping_add($add_value))

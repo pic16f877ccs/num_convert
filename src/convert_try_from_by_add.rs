@@ -23,7 +23,7 @@ macro_rules! signed_or_unsigned_impls {
             //from signed = to signed
             //from unsigned = to unsigned
             impl TryFromByAdd<$from_type> for $from_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($from_type), " losslessly.")]
+                #[doc = concat!("Returns the same type ", stringify!($from_type), ".")]
                 #[inline]
                 fn try_from_by_add(n: Self) -> Option<Self> {
                     Some(n)
