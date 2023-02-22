@@ -1,4 +1,4 @@
-/// The IntoAs trait for convert into value between integer types with overflow.
+/// The IntoAs trait for convert into value between integer types with possible overflow.
 ///
 /// Usage:
 ///
@@ -29,7 +29,7 @@
 /// }
 /// ```
 pub trait IntoAs<T> {
-    /// Convert value into between integer types with overflow.
+    /// Convert value into between integer types with possible overflow.
     fn into_as(self) -> T;
 }
 

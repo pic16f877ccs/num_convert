@@ -56,7 +56,7 @@ macro_rules! signed_gt_signed_impls {
             $(
                 //from signed > to signed
                 impl TryFromByAdd<$from_type> for $into_type {
-                    #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($into_type), " losslessly.")]
+                    #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($into_type), ". Conversion can fail.")]
                     #[inline]
                     fn try_from_by_add(n: $from_type) -> Option<Self> {
                         if n >= $min_type && n <= $max_type {
@@ -80,7 +80,7 @@ macro_rules! signed_gt_unsigned_impls {
             $(
                 //from signed > to unsigned
                 impl TryFromByAdd<$from_type> for $into_type {
-                    #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                    #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ". Conversion can fail.")]
                     #[inline]
                     fn try_from_by_add(n: $from_type) -> Option<Self> {
                         if n <= $max_value {
@@ -104,7 +104,7 @@ macro_rules! unsigned_gt_unsigned_impls {
             $(
                 //from unsigned > to unsigned
                 impl TryFromByAdd<$from_type> for $into_type {
-                    #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($into_type), " losslessly.")]
+                    #[doc = concat!("Converts ", stringify!($from_type), " to ", stringify!($into_type), ". Conversion can fail.")]
                     #[inline]
                     fn try_from_by_add(n: $from_type) -> Option<Self> {
                         if n <= $max_type {
@@ -127,7 +127,7 @@ macro_rules! unsigned_gt_signed_impls {
         $(
             //from unsigned < to signed
             impl TryFromByAdd<$from_type> for $into_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ". Conversion can fail.")]
                 #[inline]
                 fn try_from_by_add(n: $from_type) -> Option<Self> {
                     if n >= $min_value && n <= $max_value {
@@ -151,7 +151,7 @@ macro_rules! unsigned_to_signed_impls {
     ( $from_type:ty, $as_type:ty; $($into_type:ty),* ) => {
         //from unsigned = to signed
         impl TryFromByAdd<$from_type> for $as_type {
-            #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($as_type), " losslessly.")]
+            #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($as_type), ".")]
             #[inline]
             fn try_from_by_add(n: $from_type) -> Option<Self> {
                 Some(((n as Self).wrapping_add(<Self>::MAX)).wrapping_add(1))
@@ -161,7 +161,7 @@ macro_rules! unsigned_to_signed_impls {
         $(
             //from unsigned < to signed
             impl TryFromByAdd<$from_type> for $into_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn try_from_by_add(n: $from_type) -> Option<Self> {
                     Some(((n as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1) as Self)
@@ -183,7 +183,7 @@ macro_rules! signed_to_unsigned_impls {
     ( $from_type:ty, $add_value:expr; $($into_type:ty),*) => {
         $(
             impl TryFromByAdd<$from_type> for $into_type {
-                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), " losslessly.")]
+                #[doc = concat!("Converts ", stringify!($from_type), " to equvalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn try_from_by_add(n: $from_type) -> Option<Self> {
                     Some((n as Self).wrapping_add($add_value))
