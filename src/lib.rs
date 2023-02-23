@@ -13,6 +13,7 @@
 //! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
 //! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
 //! - The [`FromTuple`] trait to convert a tuple to an array.
+//! - The [`TryFromIntStr`] trait for converting from str or integer to type integer.
 //!
 //! # Other traits for integers.
 //!
@@ -118,6 +119,18 @@
 //! # use num_convert::FromTuple;
 //! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45u8, 2023u16, -60i8,)), [1i32, 0i32, 45i32, 2023i32, -60i32]);
 //! assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
+//! ```
+//!
+//! Usage:
+//!
+//! ```
+//! # use num_convert::TryFromIntStr;
+//! assert_eq!(<u16 as TryFromIntStr<&str>>::try_from_int_str("2023"), Ok(2023u16));
+//! assert!(<u16 as TryFromIntStr<&str>>::try_from_int_str("20-2-2023").is_err());
+//! assert_eq!(<u16 as TryFromIntStr<u128>>::try_from_int_str(22023), Ok(22023));
+//! assert!(<u16 as TryFromIntStr<u128>>::try_from_int_str(222022).is_err());
+//! assert_eq!(<i32 as TryFromIntStr<bool>>::try_from_int_str(true), Ok(1i32));
+//! assert_eq!(<i32 as TryFromIntStr<bool>>::try_from_int_str(false), Ok(0i32));
 //! ```
 
 #[doc = include_str!("../README.md")]

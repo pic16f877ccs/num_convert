@@ -109,3 +109,21 @@ macro_rules! try_from_str {
 }
 
 try_from_str! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
+
+macro_rules! try_from_bool {
+    ( $($into_type:ty),+ ) => {
+        $(
+            impl TryFromIntStr<bool> for $into_type {
+                type IntStrErr = Infallible;
+
+                #[doc = concat!("Converts bool to ", stringify!($into_type), " losslessly.")]
+                #[inline]
+                fn try_from_int_str(var: bool) -> Result<Self, Self::IntStrErr> {
+                    Ok(var as Self)
+                }
+            }
+        )+
+    }
+}
+
+try_from_bool! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
