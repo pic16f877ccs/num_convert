@@ -128,6 +128,7 @@ mod convert_into_by_add;
 mod convert_try_from_by_add;
 mod convert_try_from_digits;
 mod convert_try_into_by_add;
+mod convert_try_from_int_str;
 mod extra_traits;
 
 #[cfg(feature = "cast_from_as")]
@@ -152,6 +153,7 @@ pub use crate::convert_into_by_add::IntoByAdd;
 pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
+pub use crate::convert_try_from_int_str::TryFromIntStr;
 pub use crate::extra_traits::IntegerLen;
 
 #[cfg(any(feature = "tup8", feature = "tup16"))]
