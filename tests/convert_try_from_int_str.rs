@@ -1,5 +1,5 @@
-use paste::paste;
 use num_convert::TryFromIntStr;
+use paste::paste;
 
 macro_rules! try_int_from_into {
     ( $from_type:ty; $($($into_type:ty),*; $($and_into_type:ty),*; $type:ty),* )=> {
@@ -150,8 +150,9 @@ macro_rules! try_str_from_into_err {
     ( $from_str:expr; $($into_type:ty),* )=> {
         $( paste! {
                 #[test]
-                fn [<$into_type _try_from_str_$from_str _err>]() {
-                   assert_eq!(<$into_type>::try_from_int_str($from_str), $from_str.parse::<$into_type>());
+                fn [<$into_type _try_from_str$from_str _err>]() {
+                   assert_eq!(<$into_type>::try_from_int_str($from_str).unwrap_err().to_string(),
+                   $from_str.parse::<$into_type>().unwrap_err().to_string());
                 }
             }
         )*
@@ -170,7 +171,8 @@ macro_rules! try_int_from_err {
             paste! {
                 #[test]
                 fn [<$into_type _try_from_int_str_$from_type _err>]() {
-                    assert_eq!(<$into_type>::try_from_int_str((<$into_type>::MAX as $from_type) + 1), <$into_type>::try_from((<$into_type>::MAX as $from_type) + 1))
+                    assert_eq!(<$into_type>::try_from_int_str((<$into_type>::MAX as $from_type) + 1).unwrap_err().to_string(),
+                    <$into_type>::try_from((<$into_type>::MAX as $from_type) + 1).unwrap_err().to_string())
                 }
             }
         )*

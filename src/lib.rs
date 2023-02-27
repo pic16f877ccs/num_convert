@@ -172,7 +172,7 @@ pub use crate::extra_traits::IntegerLen;
 
 #[cfg(feature = "try_from_int_str")]
 #[cfg_attr(docsrs, doc(cfg(feature = "try_from_int_str")))]
-pub use crate::convert_try_from_int_str::TryFromIntStr;
+pub use crate::convert_try_from_int_str::{TryFromIntStrErr, TryFromIntStr, IntStrError};
 
 #[cfg(any(feature = "tup8", feature = "tup16"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "tup8")))]
