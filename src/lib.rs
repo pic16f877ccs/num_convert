@@ -143,6 +143,9 @@ mod convert_try_from_digits;
 mod convert_try_into_by_add;
 mod extra_traits;
 
+#[cfg(any(feature = "try_from_tup8", feature = "try_from_tup16"))]
+mod convert_try_from_tup;
+
 #[cfg(feature = "try_from_int_str")]
 mod convert_try_from_int_str;
 
@@ -169,6 +172,11 @@ pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
+
+#[cfg_attr(docsrs, doc(cfg(feature = "try_from_tup8")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_from_tup16")))]
+#[cfg(any(feature = "try_from_tup8", feature = "try_from_tup16"))]
+pub use crate::convert_try_from_tup::TryFromTup;
 
 #[cfg(feature = "try_from_int_str")]
 #[cfg_attr(docsrs, doc(cfg(feature = "try_from_int_str")))]
