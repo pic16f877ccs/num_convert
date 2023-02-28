@@ -6,7 +6,7 @@ use core::str::FromStr;
 /// An error which can be returned when parsing an integer or string.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TryFromIntStrErr {
-    int_str_error: IntStrError,
+    pub(crate) int_str_error: IntStrError,
 }
 
 impl Display for TryFromIntStrErr {
