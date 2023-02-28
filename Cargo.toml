@@ -14,7 +14,7 @@ categories = ["algorithms"]
 [dependencies]
 paste = "1.0.8"
 from_tup_macro = { version = "0.1.0" }
-try_from_tup_macro = { version = "0.2.0", path = "/home/sandumars/Projects/RustLang/Crates/try_from_tup_macro", features = ["try_from_tup_8"] }
+try_from_tup_macro = { version = "0.1.2" }
 
 [features]
 to_min = []
