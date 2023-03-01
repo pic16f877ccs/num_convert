@@ -20,6 +20,7 @@
 //! - A trait [`IntegerLen`] to determine the number of digits of integers.
 //! - The [`Sbits`] trait for define the size of integer value in bits.
 //! - The [`Tbits`] trait for define the size of integer type in bits.
+//! - A trait [`TryFromTup`] to convert a tuple to an array of integers.
 //! - The [`ToZero`] trait for implementing the null value of types.
 //! - The [`ToMin`] trait for implement lower bounds on types.
 //! - The [`ToMax`] trait for implement upper bounds on types.
