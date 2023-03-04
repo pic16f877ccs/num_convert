@@ -9,6 +9,13 @@ pub struct TryFromIntStrErr {
     pub(crate) int_str_error: IntStrError,
 }
 
+impl TryFromIntStrErr {
+    /// Returns the enum error variant when converting a integer or string.
+    pub fn multi_err(&self) -> &IntStrError {
+        &self.int_str_error
+    }
+}
+
 impl Display for TryFromIntStrErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self.int_str_error {
