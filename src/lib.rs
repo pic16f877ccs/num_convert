@@ -158,6 +158,9 @@ mod size_type_bits;
 #[cfg(any(feature = "tup8", feature = "tup16"))]
 mod convert_from_tup;
 
+#[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
+mod convert_try_tup_to_arr;
+
 #[cfg(any(feature = "to_min", feature = "to_max", feature = "to_zero"))]
 mod to_min_to_zero_to_max;
 
@@ -178,6 +181,11 @@ pub use crate::convert_try_from_int_str::{TryFromIntStrErr, TryFromIntStr, IntSt
 #[cfg_attr(docsrs, doc(cfg(feature = "tup8")))]
 #[cfg_attr(docsrs, doc(cfg(feature = "tup16")))]
 pub use crate::convert_from_tup::FromTuple;
+
+#[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr8")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr16")))]
+pub use crate::convert_try_tup_to_arr::{TryTupToArr, TryTupToArrErr};
 
 #[cfg(feature = "to_min")]
 #[cfg_attr(docsrs, doc(cfg(feature = "to_min")))]
