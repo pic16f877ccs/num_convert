@@ -12,7 +12,6 @@
 //! - The [`FromAs`] generic trait for conversion from integers with possible overflow.
 //! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
 //! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
-//! - The [`FromTuple`] trait to convert a tuple to an array.
 //! - The [`TryFromIntStr`] trait for converting from str or integer to type integer.
 //!
 //! # Other traits for integers.
@@ -20,7 +19,7 @@
 //! - A trait [`IntegerLen`] to determine the number of digits of integers.
 //! - The [`Sbits`] trait for define the size of integer value in bits.
 //! - The [`Tbits`] trait for define the size of integer type in bits.
-//! - A trait [`TryFromTup`] to convert a tuple to an array of integers.
+//! - The [`FromTuple`] trait to convert a tuple to an array.
 //! - The [`ToZero`] trait for implementing the null value of types.
 //! - The [`ToMin`] trait for implement lower bounds on types.
 //! - The [`ToMax`] trait for implement upper bounds on types.
@@ -144,9 +143,6 @@ mod convert_try_from_digits;
 mod convert_try_into_by_add;
 mod extra_traits;
 
-#[cfg(any(feature = "try_from_tup8", feature = "try_from_tup16"))]
-mod convert_try_from_tup;
-
 #[cfg(feature = "try_from_int_str")]
 mod convert_try_from_int_str;
 
@@ -173,11 +169,6 @@ pub use crate::convert_try_from_by_add::TryFromByAdd;
 pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
-
-#[cfg_attr(docsrs, doc(cfg(feature = "try_from_tup8")))]
-#[cfg_attr(docsrs, doc(cfg(feature = "try_from_tup16")))]
-#[cfg(any(feature = "try_from_tup8", feature = "try_from_tup16"))]
-pub use crate::convert_try_from_tup::{TryFromTup, TryFromTupErr};
 
 #[cfg(feature = "try_from_int_str")]
 #[cfg_attr(docsrs, doc(cfg(feature = "try_from_int_str")))]
