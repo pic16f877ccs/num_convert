@@ -16,12 +16,22 @@ pub enum MultiErrors{
     TryFromIntStrError(TryFromIntStrErr),
     TryFromIntErr(TryFromIntError),
     ParseIntErr(ParseIntError),
+    TryFromByAddErr,
 }
 
 /// Structure for storing miscellaneous errors.
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct ConvertErrors {
     pub(crate) source: MultiErrors,
+}
+
+impl ConvertErrors {
+    pub fn set_multi_err(err: MultiErrors) -> Self {
+        Self{ source: err }
+    }
+    pub fn get_multi_err(&self) -> &MultiErrors {
+        &self.source
+    }
 }
 
 impl Display for ConvertErrors {
@@ -40,6 +50,9 @@ impl Display for ConvertErrors {
             }
             MultiErrors::ParseIntErr(parse_int_err) => {
                 write!(f, "{parse_int_err}")
+            }
+            MultiErrors::TryFromByAddErr => {
+                write!(f, "an attempt to convert an integral type outside the valid range")
             }
         }
     }
