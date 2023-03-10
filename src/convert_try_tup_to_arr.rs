@@ -24,15 +24,6 @@ impl Display for TryTupToArrErr {
     }
 }
 
-impl From<TryFromIntStrErr> for TryTupToArrErr {
-    fn from(err: TryFromIntStrErr) -> Self {
-        Self {
-            source: err,
-            posice: 0,
-        }
-    }
-}
-
 /// A trait to convert a [`tuple`] to an [`array`] of integers, a possible conversion error.
 ///
 /// Usage:
