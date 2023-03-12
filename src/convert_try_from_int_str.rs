@@ -29,22 +29,6 @@ impl Display for TryFromIntStrErr {
     }
 }
 
-impl From<ParseIntError> for TryFromIntStrErr {
-    fn from(err: ParseIntError) -> Self {
-        Self {
-            int_str_error: IntStrError::ErrorStr(err),
-        }
-    }
-}
-
-impl From<TryFromIntError> for TryFromIntStrErr {
-    fn from(err: TryFromIntError) -> Self {
-        Self {
-            int_str_error: IntStrError::ErrorInt(err),
-        }
-    }
-}
-
 /// Enum to store the various types of errors that can cause parsing an integer or string to fail.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum IntStrError {
