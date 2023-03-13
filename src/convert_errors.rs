@@ -2,21 +2,27 @@ use core::fmt;
 use core::fmt::Display;
 use core::num::ParseIntError;
 use core::num::TryFromIntError;
-
 #[cfg(feature = "try_from_int_str")]
 use crate::TryFromIntStrErr;
 #[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
 use crate::TryTupToArrErr;
 
+/// Enumeration variants for the crate.
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum MultiErrors{
+    /// Variants for the trait [TryTupToArr](trait.TryTupToArr.html).
     #[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
     TryTupToArrError(TryTupToArrErr),
+    /// Variants for the trait [TryFromIntStr](trait.TryFromIntStr.html).
     #[cfg(feature = "try_from_int_str")]
     TryFromIntStrError(TryFromIntStrErr),
+    /// Variants for the core trait [`TryFrom`].
     TryFromIntErr(TryFromIntError),
+    /// Variants for the method [`parse`](https://doc.rust-lang.org/nightly/core/primitive.str.html#method.parse).
     ParseIntErr(ParseIntError),
+    /// Variants for the core trait [TryFromByAdd](trait.TryFromByAdd.html).
     TryFromByAddErr,
+    /// Variants for the core trait [TryIntoByAdd](trait.TryIntoByAdd.html).
     TryIntoByAddErr,
 }
 

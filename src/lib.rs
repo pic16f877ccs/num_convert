@@ -1,8 +1,9 @@
 #![forbid(unsafe_code)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![no_std]
 #![warn(missing_docs)]
-#![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(rustdoc::broken_intra_doc_links)]
+#![allow(clippy::manual_range_contains)]
 //! # Generic traits for conversions between integer types.
 //!
 //! - The [`FromByAdd`] trait for converting from negative integers to positive or vice versa.
