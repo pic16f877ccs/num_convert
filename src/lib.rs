@@ -14,6 +14,7 @@
 //! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
 //! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
 //! - The [`TryFromIntStr`] trait for converting from str or integer to type integer.
+//! - The trait [`TryTupToArr`] to convert a tuple to an integer array, the conversion may fail.
 //!
 //! # Other traits for integers.
 //!
