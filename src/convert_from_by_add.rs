@@ -1,14 +1,34 @@
 /// A generic trait for converting from possible types.
 ///
+/// Converting numbers with different signs of the same bit depth.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::FromByAdd;
+///
+/// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-123_i8), 5_u8);
+/// assert_eq!(<u8>::from_by_add(100_i8), u8_223);
+///
+/// ```
+///
 /// # Examples
-/// Usage:
+/// Converting numbers with different signs.
 ///
 /// ```
 /// # use num_convert::FromByAdd;
-/// // -128_i8 -> 0_u32
-/// assert_eq!(<u32 as FromByAdd<i8>>::from_by_add(<i8>::MIN), <u8>::MIN as u32);
-/// // 127_i8 -> 255_u64
-/// assert_eq!(<u64 as FromByAdd<i8>>::from_by_add(<i8>::MAX), <u8>::MAX as u64);
+/// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u8);
+/// assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255_u8), i8_127);
+///
+/// ```
+///
+/// Converting numbers with the same sign.
+///
+/// ```
+/// # use num_convert::FromByAdd;
+/// assert_eq!(<i16 as FromByAdd<i8>>::from_by_add(-128_i8), -128_i16);
+/// assert_eq!(<u16 as FromByAdd<u8>>::from_by_add(0_u8), 0_u16);
 /// ```
 pub trait FromByAdd<T> {
     /// Converts the value from `T` to `self`.
