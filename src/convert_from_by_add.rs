@@ -1,6 +1,8 @@
 /// A generic trait for converting from possible types.
 ///
-/// Converting numbers with different signs of the same bit depth.
+/// - Converting types with different signs of the same size in bits.
+/// - A normal conversion of same-signed types to a larger integral type.
+/// - It is possible to convert types with different signs to a larger integer type.
 ///
 /// # Usage
 /// Basic use of the trait.
@@ -29,6 +31,15 @@
 /// # use num_convert::FromByAdd;
 /// assert_eq!(<i16 as FromByAdd<i8>>::from_by_add(-128_i8), -128_i16);
 /// assert_eq!(<u16 as FromByAdd<u8>>::from_by_add(0_u8), 0_u16);
+/// ```
+///
+/// Converting numbers with different signs to larger type.
+///
+/// ```
+/// # use num_convert::FromByAdd;
+/// assert_eq!(<u16 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u16);
+/// assert_eq!(<i16 as FromByAdd<u8>>::from_by_add(255_u8), i16_127);
+///
 /// ```
 pub trait FromByAdd<T> {
     /// Converts the value from `T` to `self`.
