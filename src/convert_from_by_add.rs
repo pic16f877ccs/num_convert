@@ -1,4 +1,4 @@
-/// A generic trait for converting from possible types.
+/// A generic trait for converting from possible integer types.
 ///
 /// - Converting types with different signs of the same size in bits.
 /// - A normal conversion of same-signed types to a larger integral type.
@@ -11,7 +11,7 @@
 /// use num_convert::FromByAdd;
 ///
 /// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-123_i8), 5_u8);
-/// assert_eq!(<u8>::from_by_add(100_i8), u8_223);
+/// assert_eq!(<u8>::from_by_add(100_i8), 228_u8);
 ///
 /// ```
 ///
@@ -21,7 +21,7 @@
 /// ```
 /// # use num_convert::FromByAdd;
 /// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u8);
-/// assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255_u8), i8_127);
+/// assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255_u8), 127_i8);
 ///
 /// ```
 ///
@@ -38,11 +38,11 @@
 /// ```
 /// # use num_convert::FromByAdd;
 /// assert_eq!(<u16 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u16);
-/// assert_eq!(<i16 as FromByAdd<u8>>::from_by_add(255_u8), i16_127);
+/// assert_eq!(<i16 as FromByAdd<u8>>::from_by_add(255_u8), 127_i16);
 ///
 /// ```
 pub trait FromByAdd<T> {
-    /// Converts the value from `T` to `self`.
+    /// Converts one input integer type to another integer output type.
     fn from_by_add(n: T) -> Self;
 }
 
