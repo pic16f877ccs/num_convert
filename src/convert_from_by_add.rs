@@ -1,4 +1,4 @@
-/// A generic trait for converting from possible integer types.
+/// Generic trait for converting between integer types of different signs.
 ///
 /// - Converting types with different signs of the same size in bits.
 /// - A normal conversion of same-signed types to a larger integral type.
@@ -16,7 +16,7 @@
 /// ```
 ///
 /// # Examples
-/// Converting numbers with different signs.
+/// Converting integer types with different signs.
 ///
 /// ```
 /// # use num_convert::FromByAdd;
@@ -25,7 +25,7 @@
 ///
 /// ```
 ///
-/// Converting numbers with the same sign.
+/// Converting integer types with the same sign.
 ///
 /// ```
 /// # use num_convert::FromByAdd;
@@ -33,7 +33,7 @@
 /// assert_eq!(<u16 as FromByAdd<u8>>::from_by_add(0_u8), 0_u16);
 /// ```
 ///
-/// Converting numbers with different signs to larger type.
+/// Conversion of integer types with different signs to a larger type.
 ///
 /// ```
 /// # use num_convert::FromByAdd;
