@@ -7,7 +7,7 @@ use core::fmt::Display;
 use core::num::ParseIntError;
 use core::num::TryFromIntError;
 
-/// Enumeration error variants for the crate.
+/// Enumeration error variants for the [`crate`](index.html).
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum MultiErrors {
     /// Variant for the trait [TryTupToArr](trait.TryTupToArr.html).
@@ -24,10 +24,10 @@ pub enum MultiErrors {
     /// Variant for the method [`parse`](https://doc.rust-lang.org/nightly/core/primitive.str.html#method.parse).
     ParseIntErr(ParseIntError),
 
-    /// Variant for the core trait [TryFromByAdd](trait.TryFromByAdd.html).
+    /// Variant for the trait [TryFromByAdd](trait.TryFromByAdd.html).
     TryFromByAddErr,
 
-    /// Variant for the core trait [TryIntoByAdd](trait.TryIntoByAdd.html).
+    /// Variant for the trait [TryIntoByAdd](trait.TryIntoByAdd.html).
     TryIntoByAddErr,
 }
 
