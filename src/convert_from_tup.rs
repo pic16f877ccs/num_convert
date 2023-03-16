@@ -18,8 +18,8 @@ use from_tup_macro::{tup_from_impl, tup_from_trait};
 /// # Examples
 /// ```
 /// # use num_convert::FromTuple;
-/// assert_eq!(<i32>::from_2((true, 10101_u16)), [1i32, 10101i32]);
-/// assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8)).iter().sum::<i32>(), 2015i32);
+/// assert_eq!(<i32>::from_2((true, 10101_u16)), [1_i32, 10101_i32]);
+/// assert_eq!(<i32>::from_3((45_u8, 2023_u16, -53_i8)).iter().sum::<i32>(), 2015_i32);
 /// ```
 pub trait FromTuple {
     tup_from_trait!();
