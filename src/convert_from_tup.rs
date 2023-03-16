@@ -1,17 +1,26 @@
 extern crate from_tup_macro;
-use from_tup_macro::{ tup_from_impl, tup_from_trait };
+use from_tup_macro::{tup_from_impl, tup_from_trait};
 
-/// Train for conversion tuple to array.
-/// The FromTuple trait is intended for perfect conversions.
+/// A trait to convert a tuple of different types to an array of integers.
 ///
-/// Usage:
+/// - The FromTuple trait is intended for perfect conversions.
 ///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::FromTuple;
+///
+/// assert_eq!(<u16 as FromTuple>::from_3((true, false, 255_u8)), [1_u16, 0_u16, 255_u16]);
+/// assert_eq!(<i64>::from_2((-19_500_000_i32, 230_u8)), [-19_500_000_i64, 230_i64]);
+/// ```
+///
+/// # Examples
 /// ```
 /// # use num_convert::FromTuple;
-/// assert_eq!(<i32 as FromTuple>::from_4((true, 45u8, 2023u16, -60i8,)), [1i32, 45i32, 2023i32, -60i32]);
-/// assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
+/// assert_eq!(<i32>::from_2((true, 10101_u16)), [1i32, 10101i32]);
+/// assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8)).iter().sum::<i32>(), 2015i32);
 /// ```
-///
 pub trait FromTuple {
     tup_from_trait!();
 }
