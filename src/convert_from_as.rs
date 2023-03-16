@@ -16,6 +16,7 @@ pub trait FromAs<T> {
 macro_rules! from_as_impls {
     ( $($type:ty),*; $for_type:ty ) => {
         impl FromAs<$for_type> for $for_type {
+            #[doc = concat!("Returns the same type ", stringify!($for_type), ".")]
             #[inline]
             fn from_as(num: $for_type) -> Self {
                 num
@@ -24,6 +25,7 @@ macro_rules! from_as_impls {
 
         $(
             impl FromAs<$type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($type), " to ", stringify!($for_type), ".")]
                 #[inline]
                 fn from_as(num: $type) -> Self {
                     num as Self
