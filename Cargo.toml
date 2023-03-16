@@ -1,6 +1,6 @@
 [package]
 name = "num_convert"
-version = "0.5.3"
+version = "0.5.4"
 edition = "2021"
 authors = ["Karl Wulfert <pic16f877.ccs@emailn.de>"]
 readme = "README.md"
