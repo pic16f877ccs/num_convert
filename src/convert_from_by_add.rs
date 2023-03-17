@@ -12,7 +12,6 @@
 ///
 /// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-123_i8), 5_u8);
 /// assert_eq!(<u8>::from_by_add(100_i8), 228_u8);
-///
 /// ```
 ///
 /// # Examples
@@ -22,7 +21,6 @@
 /// # use num_convert::FromByAdd;
 /// assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u8);
 /// assert_eq!(<i8 as FromByAdd<u8>>::from_by_add(255_u8), 127_i8);
-///
 /// ```
 ///
 /// Converting integer types with the same sign.
@@ -39,7 +37,6 @@
 /// # use num_convert::FromByAdd;
 /// assert_eq!(<u16 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u16);
 /// assert_eq!(<i16 as FromByAdd<u8>>::from_by_add(255_u8), 127_i16);
-///
 /// ```
 pub trait FromByAdd<T> {
     /// Converts one input integer type to another integer output type.
