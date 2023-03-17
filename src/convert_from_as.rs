@@ -1,12 +1,21 @@
 /// The FromAs generic trait for convert from value between integer types with possible overflow.
+/// - Can use overflow in generic code.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::FromAs;
+/// assert_eq!(<u8 as FromAs<i8>>::from_as(-128_i8), 128_u8);
+/// assert_eq!(<i8>::from_as(128_u8), -128_i8);
+/// ```
 ///
 /// # Examples
-/// Usage:
 ///
 /// ```
 /// # use num_convert::FromAs;
-/// assert_eq!(<u8>::from_as(258u16), 2u8);
-/// assert_eq!(<u8 as FromAs<u16>>::from_as(255u16), 255u8);
+/// assert_eq!(<u8>::from_as(258_u16), 2_u8);
+/// assert_eq!(<u8 as FromAs<u16>>::from_as(255_u16), 255_u8);
 /// ```
 pub trait FromAs<T> {
     /// Convert from value between integer types with overflow.
