@@ -1,14 +1,24 @@
 use paste::paste;
 
 /// The CastIntoAs trait for simple convert self value between integer types with possible overflow.
+/// - No generic data type used in the trait definition.
+/// - Easy implementation when used as a super trait.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::CastIntoAs;
+/// assert_eq!(<u16 as CastIntoAs>::into_u8(255_u16), 255_u8);
+/// assert_eq!(258_u16.into_u8(), 2_u8);
+/// ```
 ///
 /// # Examples
-/// Usage:
 ///
 /// ```
 /// # use num_convert::CastIntoAs;
-/// assert_eq!(255u16.into_u8(), 255u8);
-/// assert_eq!(258u16.into_u8(), 2u8);
+/// assert_eq!(128_u8.into_i8(), -128_i8);
+/// assert_eq!(512_u16.into_u8(), 0_u8);
 /// ```
 pub trait CastIntoAs {
     /// Converts the value of self to i8. Overflow possible during conversion.
