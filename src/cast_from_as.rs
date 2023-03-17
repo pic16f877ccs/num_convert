@@ -1,14 +1,24 @@
 use paste::paste;
 
 /// The CastFromAs trait for simple convert from value between integer types with possible overflow.
+/// - No generic data type used in the trait definition.
+/// - Easy implementation when used as a super trait.
 ///
 /// # Examples
-/// Usage:
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::CastFromAs;
+/// assert_eq!(<i8 as CastFromAs>::from_u8(127_u8), 127_i8);
+/// assert_eq!(<i8>::from_u8(255_u8), -1_i8);
+/// ```
+///
+/// # Examples
 ///
 /// ```
 /// # use num_convert::CastFromAs;
-/// assert_eq!(<i8>::from_u8(127u8), 127i8);
-/// assert_eq!(<i8>::from_u8(255u8), -1i8);
+/// assert_eq!(<i16>::from_i8(-128_i8), -128_i16);
+/// assert_eq!(<i8>::from_u16(256_u16), 0_i8);
 /// ```
 pub trait CastFromAs {
     /// Converts the value from i8 to Self. Overflow possible during conversion.
