@@ -4,6 +4,8 @@ use from_tup_macro::{tup_from_impl, tup_from_trait};
 /// A trait to convert a tuple of different types to an array of integers.
 ///
 /// - The FromTuple trait is intended for perfect conversions.
+/// - Trait is implemented for integer and boolean types, not for arrays.
+/// - Without using the heap.
 ///
 /// # Usage
 /// Basic use of the trait.

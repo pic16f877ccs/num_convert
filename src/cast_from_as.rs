@@ -4,7 +4,7 @@ use paste::paste;
 /// - No generic data type used in the trait definition.
 /// - Easy implementation when used as a super trait.
 ///
-/// # Examples
+/// # Usage
 /// Basic use of the trait.
 ///
 /// ```
