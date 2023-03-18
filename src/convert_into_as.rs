@@ -1,32 +1,22 @@
 /// The IntoAs trait for convert into value between integer types with possible overflow.
 ///
-/// Usage:
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::IntoAs;
+///
+/// assert_eq!(IntoAs::<u8>::into_as(256_u16), 0_u8);
+/// assert_eq!(<u8 as IntoAs<i8>>::into_as(156_u8), -100_i8);
+/// ```
+///
+/// # Examples
 ///
 /// ```
 /// # use num_convert::IntoAs;
-/// # use std::ops::Div;
-/// fn primitive_type_len<T>(mut num: T) -> usize
-/// where
-///     T: Eq + Copy + Div<Output = T> + IntoAs<T>,
-///     u8: IntoAs<T>,
-/// {
-///     let mut count = 0;
-///     // There will never be a conversion error here.
-///     let ten = 10u8.into_as();
-///     // There will never be a conversion error here.
-///     let zero = 0u8.into_as();
-///
-///     while num != zero {
-///         num = num / ten;
-///         count += 1;
-///     }
-///
-///     if count == 0 {
-///         1
-///     } else {
-///         count
-///     }
-/// }
+/// let int: u8 = 612_u16.into_as();
+/// assert_eq!(int, 100_u8);
+/// assert_eq!(<u8 as IntoAs<i8>>::into_as(127_u8), 127_i8);
 /// ```
 pub trait IntoAs<T> {
     /// Convert value into between integer types with possible overflow.
@@ -36,6 +26,7 @@ pub trait IntoAs<T> {
 macro_rules! into_as_impls {
     ( $($type:ty),*; $for_type:ty ) => {
         impl IntoAs<$for_type> for $for_type {
+            #[doc = concat!("Returns the same type ", stringify!($for_type), ".")]
             #[inline]
             fn into_as(self) -> $for_type {
                 self
@@ -44,6 +35,7 @@ macro_rules! into_as_impls {
 
         $(
             impl IntoAs<$type> for $for_type {
+                #[doc = concat!("Converts ", stringify!($for_type), " to ", stringify!($type), ".")]
                 #[inline]
                 fn into_as(self) -> $type {
                     self as $type
