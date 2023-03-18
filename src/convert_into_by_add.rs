@@ -1,19 +1,26 @@
-/// A generic trait for converting into possible types.
+/// A generic trait for converting into possible types with different signs.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::IntoByAdd;
+///
+/// assert_eq!(IntoByAdd::<u64>::into_by_add(i8::MAX), u8::MAX as u64);
+/// assert_eq!(<i16 as IntoByAdd<u16>>::into_by_add(i16::MIN), u16::MIN);
+/// ```
 ///
 /// # Examples
-/// Usage:
 ///
 /// ```
 /// # use num_convert::IntoByAdd;
 /// fn convert_into_u8<T: IntoByAdd<u8>>(min: T, max: T) -> (u8, u8) {
 ///     (min.into_by_add(), max.into_by_add())
 /// }
-/// assert_eq!(convert_into_u8(i8::MIN, i8::MAX), (u8::MIN, u8::MAX));
 ///
-/// assert_eq!(<i16 as IntoByAdd<u16>>::into_by_add(  i16::MIN), u16::MIN);
-/// assert_eq!(<i32 as IntoByAdd<u128>>::into_by_add( i32::MIN), u32::MIN as u128);
-/// assert_eq!(IntoByAdd::<u64>::into_by_add(i8::MAX), u8::MAX as u64);
-/// //```
+/// assert_eq!(convert_into_u8(i8::MIN, i8::MAX), (u8::MIN, u8::MAX));
+/// assert_eq!(<i32 as IntoByAdd<u128>>::into_by_add(i32::MIN), u32::MIN as u128);
+/// ```
 pub trait IntoByAdd<T> {
     /// Converts the value of `self` to an `T`.
     fn into_by_add(self) -> T;
