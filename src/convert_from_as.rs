@@ -1,5 +1,5 @@
 /// The FromAs generic trait for convert from value between integer types with possible overflow.
-/// - Can use overflow in generic code.
+/// - Can use conversion with overflow in generic code.
 ///
 /// # Usage
 /// Basic use of the trait.
