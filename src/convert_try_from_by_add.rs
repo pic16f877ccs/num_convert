@@ -1,14 +1,34 @@
-/// A generic trait for converting from possible types.
+/// Generic trait for converting between integer types within bounds of possible values.
+/// - For all integer types in the range of possible values.
+/// - Returns an error if the value is out of range.
+/// - Converting types with different signs of the same size in bits.
+/// - A normal conversion of same-signed types to a larger integral type.
+/// - It is possible to convert types with different signs to a larger integer type.
 ///
-/// # Examples
-/// Usage:
+/// # Usage
+/// Basic use of the trait.
 ///
 /// ```
+/// use num_convert::TryFromByAdd;
+///
+/// assert_eq!(<u8 as TryFromByAdd<i16>>::try_from_by_add(-128_i16).unwrap(), 0_u8);
+/// assert_eq!(<u8>::try_from_by_add(127_i8).unwrap(), 255_u8);
+/// ```
+///
+/// # Examples
+///
+/// Converting without error.
+/// ```
 /// # use num_convert::TryFromByAdd;
-/// // -128_i8 -> 0_u32
 /// assert_eq!(<u32 as TryFromByAdd<i8>>::try_from_by_add(<i8>::MIN), Some(<u8>::MIN as u32));
-/// // 127_i8 -> 255_u64
 /// assert_eq!(<u64 as TryFromByAdd<i8>>::try_from_by_add(<i8>::MAX), Some(<u8>::MAX as u64));
+/// ```
+///
+/// Converting with error.
+/// ```
+/// # use num_convert::TryFromByAdd;
+/// assert_eq!(<u32>::try_from_by_add(<u64>::MAX), None);
+/// assert_eq!(<u8>::try_from_by_add(128_i16), None);
 /// ```
 pub trait TryFromByAdd<T> {
     /// Converts the value from `T` to `self`.
