@@ -1,20 +1,24 @@
 use core::ops::Rem;
 
-/// A generic trait for converting from digits into possible types.
+/// Generic trait for converting integer type digits to some integer type.
+/// - Returns an error if the value is out of range.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::TryFromDigits;
+///
+/// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255_u16), Ok(255_u8));
+/// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000_u32), Ok(0_u8));
+/// ```
 ///
 /// # Examples
-/// Usage:
 ///
 /// ```
 /// # use num_convert::TryFromDigits;
-/// // 65_255u16 -> 255_u8
-/// assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255u16), Ok(255u8));
-/// // 100_000u32 -> 0_u8
-/// assert_eq!(<u8 as TryFromDigits<u32>>::from_digits(100_000u32), Ok(0u8));
-/// // 10_000_965_535_i64 -> 65535u16
-/// assert_eq!(<u16 as TryFromDigits<i64>>::from_digits(10_000_965_535i64), Ok(65_535_u16));
-/// // 10_000_000_256u64 -> Error
-/// assert!(<u8 as TryFromDigits<u64>>::from_digits(10_000_000_256u64).is_err());
+/// assert_eq!(<u16>::from_digits(10_000_965_535_i64), Ok(65_535_u16));
+/// assert!(<u8>::from_digits(10_000_000_256_u64).is_err());
 /// ```
 pub trait TryFromDigits<T> {
     /// Returns digits as a number into possible types.
@@ -31,6 +35,7 @@ macro_rules! try_from_digits_impls {
                 T: Rem<T, Output = T> + $trait_name,
                 Self: TryFrom<T>,
             {
+                #[doc = concat!("Converts ", stringify!($type), " to digit range Self.")]
                 #[inline]
                 fn from_digits(n: T) -> Result<Self, <Self as TryFrom<T>>::Error>
                 {

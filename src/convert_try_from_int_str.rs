@@ -39,13 +39,24 @@ pub enum IntStrError {
 }
 
 /// A generic trait for converting from str or integer to type integer.
+/// - Implemented conversion from string, integer and boolean type to integer type.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::TryFromIntStr;
+///
+/// assert_eq!(<u32 as TryFromIntStr<&str>>::try_from_int_str("20032023"), Ok(20032023_u32));
+/// assert_eq!(<usize>::try_from_int_str(<usize>::MAX as i128), Ok(usize::MAX));
+/// ```
 ///
 /// # Examples
-/// Usage:
 ///
 /// ```
 /// # use num_convert::TryFromIntStr;
-/// assert_eq!(<u32>::try_from_int_str("2023"), Ok(2023u32));
+/// assert_eq!(<u8>::try_from_int_str(true), Ok(1_u8));
+/// assert_eq!(<u32>::try_from_int_str("2023"), Ok(2023_u32));
 /// assert_eq!(<u64>::try_from_int_str(<u64>::MAX as u128), Ok(u64::MAX));
 /// assert_eq!(<u64>::try_from_int_str(u128::MAX).unwrap_err().to_string(),
 /// "out of range integral type conversion attempted");
