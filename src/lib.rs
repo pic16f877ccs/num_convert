@@ -1,123 +1,38 @@
 #![forbid(unsafe_code)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![no_std]
 #![warn(missing_docs)]
-#![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(rustdoc::broken_intra_doc_links)]
+#![allow(clippy::manual_range_contains)]
 //! # Generic traits for conversions between integer types.
-//!
-//! - The [`FromByAdd`] trait for converting from negative integers to positive or vice versa.
-//! - The [`IntoByAdd`] trait for converting into negative integers to positive or vice versa.
-//! - The [`TryFromByAdd`] trait for converting from negative integers to positive or vice versa, that can fail.
-//! - The [`TryIntoByAdd`] trait for converting into negative integers to positive or vice versa, that can fail.
-//! - The [`FromAs`] generic trait for conversion from integers with possible overflow.
-//! - The [`IntoAs`] generic trait for conversion into integers with possible overflow.
-//! - The [`TryFromDigits`] trait for converting from digits as a number, with possible value types.
-//! - The [`FromTuple`] trait to convert a tuple to an array.
-//!
-//! # Other traits for integers.
-//!
-//! - A trait [`IntegerLen`] to determine the number of digits of integers.
-//! - The [`Sbits`] trait for define the size of integer value in bits.
-//! - The [`Tbits`] trait for define the size of integer type in bits.
-//! - The [`ToZero`] trait for implementing the null value of types.
-//! - The [`ToMin`] trait for implement lower bounds on types.
-//! - The [`ToMax`] trait for implement upper bounds on types.
+//! This library provides various ways to convert to integer type from other types.
 //!
 //! # Examples
-//! Usage:
 //!
-//! Convert from negative into positive and positive into negative.
 //! ```
-//! # use num_convert::FromByAdd;
-//! assert_eq!(<u8>::from_by_add(-28i8), 100u8);
-//! assert_eq!(<i8>::from_by_add(10u8), -118i8);
-//! ```
+//! # use num_convert::*;
+//! assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u8);
+//! assert_eq!(<i16 as IntoByAdd<u16>>::into_by_add(i16::MIN), u16::MIN);
 //!
-//! Usage:
-//!
-//! Convert into between integer types.
-//! ```
-//! # use num_convert::IntoByAdd;
-//! fn integer_to_integer<T1: IntoByAdd<U1>, T2: IntoByAdd<U2>, U1, U2>(min: T1, max: T2) -> (U1, U2) {
-//!     (min.into_by_add(), max.into_by_add())
-//! }
-//! assert_eq!(integer_to_integer(i16::MIN, u16::MAX), (u16::MIN, i16::MAX));
-//! assert_eq!(integer_to_integer(u16::MIN, u16::MAX), (i16::MIN, i16::MAX));
-//! ```
-//!
-//! Usage:
-//!
-//! Convert from negative into positive without error and with error.
-//! ```
-//! # use num_convert::TryFromByAdd;
-//! assert_eq!(<u8>::try_from_by_add(-128i16), Some(0u8));
-//! assert_eq!(<u8>::try_from_by_add(-129i16), None);
-//! ```
-//!
-//! Usage:
-//!
-//! Convert between 128 bit types lossless.
-//! ```
-//! # use num_convert::TryIntoByAdd;
+//! assert_eq!(<i8 as TryFromByAdd<u8>>::try_from_by_add(0_u8), Some(-128_i8));
 //! assert_eq!(<i128 as TryIntoByAdd<u128>>::try_into_by_add(i128::MIN), Some(u128::MIN));
-//! assert_eq!(<u128 as TryIntoByAdd<i128>>::try_into_by_add(u128::MIN), Some(i128::MIN));
-//! ```
 //!
-//! Usage:
+//! assert_eq!(<u8 as FromAs<i8>>::from_as(-128_i8), 128_u8);
+//! assert_eq!(<u16 as IntoAs<u8>>::into_as(258_u16), 2_u8);
 //!
-//! Conversions type [`u16`] in [`u8`] without overflow and with overflow.
-//! ```
-//! # use num_convert::{IntoAs, FromAs};
-//! assert_eq!(<u16 as IntoAs<u8>>::into_as(255u16), 255u8);
-//! assert_eq!(<u16 as IntoAs<u8>>::into_as(258u16), 2u8);
-//! assert_eq!(<u8>::from_as(261u16), 5u8);
-//! ```
+//! assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255_u16), Ok(255_u8));
 //!
-//! Usage:
+//! assert_eq!(u64::MAX.sbits(), 64_u32);
+//! assert_eq!(i8::tbits(), 8_u32);
 //!
-//! Converting from digits as a number.
-//! ```
-//! # use num_convert::TryFromDigits;
-//! let arr: [u32; 6] = [25_635_071, 25_634_091, 25_633_334, 25_636_309, 25_637_101, 25_636_243];
-//! let val: Vec<u8> = arr.iter().map(|var| u8::from_digits(*var).unwrap_or(255u8) ).collect::<_>();
-//! assert_eq!(val, [71, 91, 255, 255, 101, 243]);
-//! ```
+//! assert_eq!(0i8.len(), 1_usize);
+//! assert_eq!(u128::MAX.len(), 39_usize);
 //!
-//! Usage:
+//! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45_u8, 2023_u16, -60_i8,)),
+//! [1_i32, 0_i32, 45_i32, 2023_i32, -60_i32]);
 //!
-//! The size of integer values in bits.
-//! ```
-//! # use num_convert::Sbits;
-//! assert_eq!((-128i8).sbits(), 8u32);
-//! assert_eq!(u64::MAX.sbits(), 64u32);
-//! ```
-//!
-//! Usage:
-//!
-//! The size of integer type in bits.
-//! ```
-//! # use num_convert::Tbits;
-//! assert_eq!(i8::tbits(), 8u32);
-//! assert_eq!(u64::tbits(), 64u32);
-//! ```
-//!
-//! Usage:
-//!
-//! Determining the number of digits of integers.
-//! ```
-//! # use num_convert::IntegerLen;
-//! assert_eq!(0i8.len(), 1usize);
-//! assert_eq!(i8::MAX.len(), 3usize);
-//! assert_eq!(i128::MAX.len(), 39usize);
-//! assert_eq!(u128::MAX.len(), 39usize);
-//! ```
-//!
-//! Usage:
-//!
-//! ```
-//! # use num_convert::FromTuple;
-//! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45u8, 2023u16, -60i8,)), [1i32, 0i32, 45i32, 2023i32, -60i32]);
-//! assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
+//! assert_eq!(<i16 as TryFromIntStr<&str>>::try_from_int_str("-2023"), Ok(-2023_i16));
+//! assert_eq!(<u16 as TryFromIntStr<u128>>::try_from_int_str(1975_u128), Ok(1975_u16));
 //! ```
 
 #[doc = include_str!("../README.md")]
@@ -129,6 +44,16 @@ mod convert_try_from_by_add;
 mod convert_try_from_digits;
 mod convert_try_into_by_add;
 mod extra_traits;
+
+#[cfg(any(
+    feature = "try_tup_to_arr8",
+    feature = "try_tup_to_arr16",
+    feature = "try_from_int_str"
+))]
+mod convert_errors;
+
+#[cfg(feature = "try_from_int_str")]
+mod convert_try_from_int_str;
 
 #[cfg(feature = "cast_from_as")]
 mod cast_from_as;
@@ -142,6 +67,9 @@ mod size_type_bits;
 #[cfg(any(feature = "tup8", feature = "tup16"))]
 mod convert_from_tup;
 
+#[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
+mod convert_try_tup_to_arr;
+
 #[cfg(any(feature = "to_min", feature = "to_max", feature = "to_zero"))]
 mod to_min_to_zero_to_max;
 
@@ -154,10 +82,29 @@ pub use crate::convert_try_from_digits::TryFromDigits;
 pub use crate::convert_try_into_by_add::TryIntoByAdd;
 pub use crate::extra_traits::IntegerLen;
 
+#[cfg_attr(docsrs, doc(cfg(feature = "try_from_int_str")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr8")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr16")))]
+#[cfg(any(
+    feature = "try_tup_to_arr8",
+    feature = "try_tup_to_arr16",
+    feature = "try_from_int_str"
+))]
+pub use crate::convert_errors::{ConvertErrors, MultiErrors};
+
+#[cfg(feature = "try_from_int_str")]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_from_int_str")))]
+pub use crate::convert_try_from_int_str::{IntStrError, TryFromIntStr, TryFromIntStrErr};
+
 #[cfg(any(feature = "tup8", feature = "tup16"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "tup8")))]
 #[cfg_attr(docsrs, doc(cfg(feature = "tup16")))]
 pub use crate::convert_from_tup::FromTuple;
+
+#[cfg(any(feature = "try_tup_to_arr8", feature = "try_tup_to_arr16"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr8")))]
+#[cfg_attr(docsrs, doc(cfg(feature = "try_tup_to_arr16")))]
+pub use crate::convert_try_tup_to_arr::{TryTupToArr, TryTupToArrErr};
 
 #[cfg(feature = "to_min")]
 #[cfg_attr(docsrs, doc(cfg(feature = "to_min")))]
