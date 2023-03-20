@@ -2,9 +2,26 @@ use crate::{FromAs, IntoAs};
 use core::ops::Div;
 
 /// A trait IntegerLen to determine the number of digits of integers.
+///
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::IntegerLen;
+///
+/// assert_eq!(i8::MAX.len(), 3usize);
+/// assert_eq!(u128::MAX.len(), 39usize);
+/// ```
+///
+/// # Examples
+/// ```
+/// # use num_convert::IntegerLen;
+/// assert_eq!(0_i8.len(), 1_usize);
+/// assert_eq!(i128::MAX.len(), 39_usize);
+/// ```
 #[allow(clippy::len_without_is_empty)]
 pub trait IntegerLen {
-    /// Returns the number of digits to self.
+    /// Returns the number of digits for self value.
     fn len(self) -> usize;
 }
 
