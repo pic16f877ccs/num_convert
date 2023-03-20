@@ -24,19 +24,34 @@ impl Display for TryTupToArrErr {
     }
 }
 
-/// A trait to convert a [`tuple`] to an [`array`] of integers, a possible conversion error.
+/// A trait to convert a [`tuple`] of different types to an [`array`] of integers, a possible conversion error.
+/// - Without using the heap.
+/// - Returns an error if the value is out of range.
 ///
-/// Usage:
+/// # Usage
+/// Basic use of the trait.
+///
+/// ```
+/// use num_convert::TryTupToArr;
+///
+/// assert_eq!(TryTupToArr::<i32>::try_into_arr((45_u8, 2023_u16, -60_i8,)),
+/// Ok([45_i32, 2023_i32, -60_i32]));
+///
+/// let arr: [i16; 3] = ("45", 2023_u16, true,).try_into_arr().unwrap();
+/// assert_eq!(arr, [45_i16, 2023_i16, 1_i16]);
+/// ```
+///
+/// # Examples
 ///
 /// ```
 /// # use num_convert::TryTupToArr;
-/// assert_eq!(TryTupToArr::<i32>::try_into_arr((45u8, 2023u16, -60i8,)),
-/// Ok([45i32, 2023i32, -60i32]));
-/// assert_eq!(TryTupToArr::<i16>::try_into_arr(("45", 2023u16, true,)),
-/// Ok([45i16, 2023i16, 1i16]));
-/// assert_eq!(TryTupToArr::try_into_arr((45u8, 2023u16, -53i8,))
+/// assert_eq!(TryTupToArr::<i16>::try_into_arr(("-12345", 9923_u16, false,)),
+/// Ok([-12345_i16, 9923_i16, 0_i16]));
+///
+/// assert_eq!(TryTupToArr::try_into_arr((45_u8, 2023_u16, -53_i8,))
 /// .unwrap().iter().sum::<i32>(), 2015i32);
-///assert!(TryTupToArr::<i16>::try_into_arr(("6032023", 2023u16, true,)).is_err());
+///
+/// assert!(TryTupToArr::<i16>::try_into_arr(("6032023", 2023_u16, true,)).is_err());
 /// ```
 pub trait TryTupToArr<U> {
     ///Output type [`array`] of integers.
