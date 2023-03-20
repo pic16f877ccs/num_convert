@@ -5,70 +5,34 @@
 #![warn(rustdoc::broken_intra_doc_links)]
 #![allow(clippy::manual_range_contains)]
 //! # Generic traits for conversions between integer types.
+//! This library provides various ways to convert to integer type from other types.
 //!
 //! # Examples
 //!
 //! ```
-//! # use num_convert::FromByAdd;
+//! # use num_convert::*;
 //! assert_eq!(<u8 as FromByAdd<i8>>::from_by_add(-128_i8), 0_u8);
-//! ```
-//!
-//! ```
-//! # use num_convert::IntoByAdd;
 //! assert_eq!(<i16 as IntoByAdd<u16>>::into_by_add(i16::MIN), u16::MIN);
-//! ```
 //!
-//! ```
-//! # use num_convert::TryFromByAdd;
 //! assert_eq!(<i8 as TryFromByAdd<u8>>::try_from_by_add(0_u8), Some(-128_i8));
-//! ```
-//!
-//! ```
-//! # use num_convert::TryIntoByAdd;
 //! assert_eq!(<i128 as TryIntoByAdd<u128>>::try_into_by_add(i128::MIN), Some(u128::MIN));
-//! ```
 //!
-//! ```
-//! # use num_convert::IntoAs;
-//! assert_eq!(<u16 as IntoAs<u8>>::into_as(258_u16), 2_u8);
-//! ```
-//!
-//! ```
-//! # use num_convert::FromAs;
 //! assert_eq!(<u8 as FromAs<i8>>::from_as(-128_i8), 128_u8);
-//! ```
+//! assert_eq!(<u16 as IntoAs<u8>>::into_as(258_u16), 2_u8);
 //!
-//! ```
-//! # use num_convert::TryFromDigits;
 //! assert_eq!(<u8 as TryFromDigits<u16>>::from_digits(65_255_u16), Ok(255_u8));
-//! ```
 //!
-//! ```
-//! # use num_convert::Sbits;
-//! assert_eq!(u64::MAX.sbits(), 64u32);
-//! ```
+//! assert_eq!(u64::MAX.sbits(), 64_u32);
+//! assert_eq!(i8::tbits(), 8_u32);
 //!
-//! ```
-//! # use num_convert::Tbits;
-//! assert_eq!(i8::tbits(), 8u32);
-//! ```
+//! assert_eq!(0i8.len(), 1_usize);
+//! assert_eq!(u128::MAX.len(), 39_usize);
 //!
-//! ```
-//! # use num_convert::IntegerLen;
-//! assert_eq!(0i8.len(), 1usize);
-//! assert_eq!(u128::MAX.len(), 39usize);
-//! ```
+//! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45_u8, 2023_u16, -60_i8,)),
+//! [1_i32, 0_i32, 45_i32, 2023_i32, -60_i32]);
 //!
-//! ```
-//! # use num_convert::FromTuple;
-//! assert_eq!(<i32 as FromTuple>::from_5((true, false, 45u8, 2023u16, -60i8,)),
-//! [1i32, 0i32, 45i32, 2023i32, -60i32]);
-//! ```
-//!
-//! ```
-//! # use num_convert::TryFromIntStr;
 //! assert_eq!(<i16 as TryFromIntStr<&str>>::try_from_int_str("-2023"), Ok(-2023_i16));
-//! assert_eq!(<u16 as TryFromIntStr<u128>>::try_from_int_str(1975), Ok(1975_u16));
+//! assert_eq!(<u16 as TryFromIntStr<u128>>::try_from_int_str(1975_u128), Ok(1975_u16));
 //! ```
 
 #[doc = include_str!("../README.md")]
