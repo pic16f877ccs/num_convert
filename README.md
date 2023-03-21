@@ -15,6 +15,9 @@ Supports generics types.
 - The FromAs generic trait for conversion from integers with possible overflow.
 - The IntoAs generic trait for conversion into integers with possible overflow.
 - The TryFromDigits trait for converting from digits as a number, with possible value types.
+- The TryFromIntStr trait for converting from str or integer to type integer.
+- The FromTuple trait for convert a tuple of different types to an array of integers.
+- The TryFromTuple trait for convert a tuple of different types to an array of integers, possible conversion error.
 
 #### Other traits for integers.
 
@@ -30,7 +33,7 @@ Supports generics types.
 #### Add this to your Cargo.toml
 ```rust,ignore
 [dependencies]
-num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.5.0" }
+num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.6.0" }
 ```
 #### Or using cargo
 ```rust,ignore
@@ -117,6 +120,35 @@ assert_eq!(i8::MAX.len(), 3usize);
 assert_eq!(i128::MAX.len(), 39usize);
 assert_eq!(u128::MAX.len(), 39usize);
 ```
+Converting from tuple to array of integers.
+```
+use num_convert::FromTuple;
+
+assert_eq!(<i32 as FromTuple>::from_5((true, false, 45u8, 2023u16, -60i8,)), [1i32, 0i32, 45i32, 2023i32, -60i32]);
+assert_eq!(<i32>::from_3((45u8, 2023u16, -53i8,)).iter().sum::<i32>(), 2015i32);
+```
+Conversion from str or integer to type integer.
+```
+use num_convert::TryFromIntStr;
+
+assert_eq!(<u16 as TryFromIntStr<&str>>::try_from_int_str("2023"), Ok(2023u16));
+assert!(<u16 as TryFromIntStr<&str>>::try_from_int_str("20-2-2023").is_err());
+assert_eq!(<u16 as TryFromIntStr<u128>>::try_from_int_str(22023), Ok(22023));
+assert!(<u16 as TryFromIntStr<u128>>::try_from_int_str(222022).is_err());
+assert_eq!(<i32 as TryFromIntStr<bool>>::try_from_int_str(true), Ok(1i32));
+assert_eq!(<i32 as TryFromIntStr<bool>>::try_from_int_str(false), Ok(0i32));
+```
+Converting tuple to array of integers.
+```
+use num_convert::TryTupToArr;
+
+assert_eq!(TryTupToArr::<i32>::try_into_arr((45u8, 2023u16, -60i8,)),
+Ok([45i32, 2023i32, -60i32]));
+
+let arr: [i16; 3] = ("45", 2023u16, true,).try_into_arr().unwrap();
+assert_eq!(arr, [45i16, 2023i16, 1i16]);
+```
+
 ## License
 GNU General Public License v3.0
 
