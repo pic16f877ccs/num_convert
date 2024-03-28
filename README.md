@@ -38,7 +38,6 @@ num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "
 #### Or using cargo
 ```rust,ignore
 cargo add num_convert --git "https://github.com/pic16f877ccs/num_convert"
-
 ```
 #### Examples
 

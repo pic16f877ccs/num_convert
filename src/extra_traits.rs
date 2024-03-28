@@ -1,4 +1,5 @@
 use crate::{FromAs, IntoAs};
+use core::ops::Rem;
 use core::ops::Div;
 
 /// A trait IntegerLen to determine the number of digits of integers.
@@ -90,3 +91,52 @@ macro_rules! val_type_info_impls {
 
 val_type_info_impls! { i8, "i8"; i16, "i16"; i32, "i32"; i64, "i64"; isize, "isize"; i128, "i128" }
 val_type_info_impls! { u8, "u8"; u16, "u16"; u32, "u32"; u64, "u64"; usize, "usize"; u128, "u128" }
+
+impl<T> CheckRem for T
+where
+    T: Copy + Default + Rem<Output = T> + PartialEq,
+{ }
+
+/// Trait for checking the remainder.
+pub trait CheckRem: Rem<Output = Self> + PartialEq
+where
+    Self: Copy + Default,
+{
+    /// Returns true if there is no remainder.
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - The divisor with which the remainder is checked.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use num_convert::CheckRem;
+    ///
+    /// assert_eq!(10.no_rem(2), true);
+    /// assert_eq!(10.no_rem(3), false);
+    /// ```
+    #[inline]
+    fn no_rem(&self, n: Self) -> bool {
+        *self % n == Self::default()
+    }
+
+    /// Returns true if there is a remainder.
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - The divisor with which the remainder is checked.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use num_convert::CheckRem;
+    ///
+    /// assert_eq!(10.is_rem(2), false);
+    /// assert_eq!(10.is_rem(3), true);
+    /// ```
+    #[inline]
+    fn is_rem(&self, n: Self) -> bool {
+        *self % n != Self::default()
+    }
+}

@@ -126,6 +126,10 @@ pub use crate::extra_traits::TypeInfo;
 #[cfg_attr(docsrs, doc(cfg(feature = "val_type_info")))]
 pub use crate::extra_traits::ValTypeInfo;
 
+#[cfg(feature = "get_rem")]
+#[cfg_attr(docsrs, doc(cfg(feature = "get_rem")))]
+pub use crate::extra_traits::CheckRem;
+
 #[cfg(feature = "cast_from_as")]
 #[cfg_attr(docsrs, doc(cfg(feature = "cast_from_as")))]
 pub use crate::cast_from_as::CastFromAs;
