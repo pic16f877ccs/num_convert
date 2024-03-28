@@ -33,7 +33,7 @@ Supports generics types.
 #### Add this to your Cargo.toml
 ```rust,ignore
 [dependencies]
-num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.6.0" }
+num_convert = { git = "https://github.com/pic16f877ccs/num_convert", version = "0.7.0" }
 ```
 #### Or using cargo
 ```rust,ignore
