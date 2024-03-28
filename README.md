@@ -149,4 +149,5 @@ assert_eq!(arr, [45i16, 2023i16, 1i16]);
 ```
 
 ## License
+MIT
 
