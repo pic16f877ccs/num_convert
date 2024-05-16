@@ -104,6 +104,9 @@ where
 {
     /// Returns true if there is no remainder.
     ///
+    /// # Panics
+    /// If the divisor is zero.
+    ///
     /// # Arguments
     ///
     /// * `n` - The divisor with which the remainder is checked.
