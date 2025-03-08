@@ -8,17 +8,17 @@ use try_tup_to_arr_macro::try_tup_to_arr_impl;
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct TryTupToArrErr {
     pub(crate) source: TryFromIntStrErr,
-    position: usize,
+    posice: usize,
 }
 
 impl Display for TryTupToArrErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self.source.multi_err() {
             IntStrError::ErrorStr(parse_int_error) => {
-                write!(f, "{parse_int_error}, position {pos}", pos = self.position)
+                write!(f, "{parse_int_error}, position {pos}", pos = self.posice)
             }
             IntStrError::ErrorInt(try_from_int_error) => {
-                write!(f, "{try_from_int_error}, position {pos}", pos = self.position)
+                write!(f, "{try_from_int_error}, position {pos}", pos = self.posice)
             }
         }
     }
