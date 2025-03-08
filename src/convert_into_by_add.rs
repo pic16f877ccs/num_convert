@@ -59,7 +59,7 @@ macro_rules! unsigned_to_signed_impls {
         $(
             //unsigned = to signed
             impl IntoByAdd<$as_type> for $for_type {
-                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($as_type), ".")]
+                #[doc = concat!("Converts ", stringify!($for_type), " to equivalent ", stringify!($as_type), ".")]
                 #[inline]
                 fn into_by_add(self) -> $as_type {
                     ((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1)
@@ -69,7 +69,7 @@ macro_rules! unsigned_to_signed_impls {
             $(
                 //unsigned < to signed
                 impl IntoByAdd<$into_type> for $for_type {
-                    #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ".")]
+                    #[doc = concat!("Converts ", stringify!($for_type), " to equivalent ", stringify!($into_type), ".")]
                     #[inline]
                     fn into_by_add(self) -> $into_type {
                         ((self as $as_type).wrapping_add(<$as_type>::MAX)).wrapping_add(1) as $into_type
@@ -85,7 +85,7 @@ macro_rules! signed_to_unsigned_impls {
     ( $for_type:ty; $add_value:expr; $($into_type:ty),*) => {
         $(
             impl IntoByAdd<$into_type> for $for_type {
-                #[doc = concat!("Converts ", stringify!($for_type), " to equvalent ", stringify!($into_type), ".")]
+                #[doc = concat!("Converts ", stringify!($for_type), " to equivalent ", stringify!($into_type), ".")]
                 #[inline]
                 fn into_by_add(self) -> $into_type {
                     (self as $into_type).wrapping_add($add_value)

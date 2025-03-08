@@ -88,8 +88,8 @@ cast_from_as_impls! { i8; "possible overflow", u8, i16, u16, i32, u32, i64, u64,
 cast_from_as_impls! { i16; "losslessly", i8, u8; "possible overflow", u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 cast_from_as_impls! { i32; "losslessly", i8, u8, i16, u16; "possible overflow", u32, i64, u64, isize, usize, i128, u128 }
 cast_from_as_impls! { i64; "losslessly", i8, u8, i16, u16, i32, u32, isize; "possible overflow", u64, usize, i128, u128 }
-cast_from_as_impls! { isize; "losslessly", i8, u8, i16, u16, i32, u32, i64; "possibe overflow", u64, usize, i128, u128 }
-cast_from_as_impls! { i128; "losslessly", i8, u8, u16, i16, u32, i32, u64, i64, usize, isize; "possibly overflow", u128 }
+cast_from_as_impls! { isize; "losslessly", i8, u8, i16, u16, i32, u32, i64; "possible overflow", u64, usize, i128, u128 }
+cast_from_as_impls! { i128; "losslessly", i8, u8, u16, i16, u32, i32, u64, i64, usize, isize; "possible overflow", u128 }
 
 cast_from_as_impls! { u8; "possible overflow", i8, u16, i16, i32, u32, i64, u64, isize, usize, i128, u128 }
 cast_from_as_impls! { u16; "losslessly", u8; "possible overflow", i8, i16, i32, u32, i64, u64, isize, usize, i128, u128 }

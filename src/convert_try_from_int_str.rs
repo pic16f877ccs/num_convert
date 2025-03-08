@@ -10,7 +10,7 @@ pub struct TryFromIntStrErr {
 }
 
 impl TryFromIntStrErr {
-    /// Returns the enum error variant when converting a integer or string.
+    /// Returns the enum error variant when converting an integer or string.
     pub fn multi_err(&self) -> &IntStrError {
         &self.int_str_error
     }

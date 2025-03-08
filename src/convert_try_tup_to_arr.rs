@@ -8,23 +8,23 @@ use try_tup_to_arr_macro::try_tup_to_arr_impl;
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct TryTupToArrErr {
     pub(crate) source: TryFromIntStrErr,
-    posice: usize,
+    position: usize,
 }
 
 impl Display for TryTupToArrErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self.source.multi_err() {
             IntStrError::ErrorStr(parse_int_error) => {
-                write!(f, "{parse_int_error}, position {pos}", pos = self.posice)
+                write!(f, "{parse_int_error}, position {pos}", pos = self.position)
             }
             IntStrError::ErrorInt(try_from_int_error) => {
-                write!(f, "{try_from_int_error}, position {pos}", pos = self.posice)
+                write!(f, "{try_from_int_error}, position {pos}", pos = self.position)
             }
         }
     }
 }
 
-/// A trait to convert a [`tuple`] of different types to an [`array`] of integers, a possible conversion error.
+/// A trait to convert a [`tuple`] of different types to an [`array`] of integers, handling possible conversion errors.
 /// - Without using the heap.
 /// - Returns an error if the value is out of range.
 ///
@@ -54,7 +54,7 @@ impl Display for TryTupToArrErr {
 /// assert!(TryTupToArr::<i16>::try_into_arr(("6032023", 2023_u16, true,)).is_err());
 /// ```
 pub trait TryTupToArr<U> {
-    ///Output type [`array`] of integers.
+    /// Output type [`array`] of integers.
     type A;
 
     /// Returns an [`array`] of integers or a conversion error.

@@ -1,4 +1,4 @@
-/// Generic trait for define the size of the integers type in bits.
+/// Generic trait to define the size of the integers type in bits.
 ///
 /// # Usage
 /// Basic use of the trait.
@@ -22,7 +22,7 @@
 /// assert_eq!(get_bits_from_type(isize::MIN), 64_u32);
 /// ```
 pub trait Tbits {
-    /// Returns the size of integer type in bits.
+    /// Returns the size of the integer type in bits.
     fn tbits() -> u32;
 }
 
@@ -42,7 +42,7 @@ macro_rules! tbits_impls {
 
 tbits_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 
-/// The Sbit trait for define the size of integer value in bits.
+/// The Sbit trait to define the size of integer value in bits.
 ///
 /// # Usage
 /// Basic use of the trait.
@@ -66,7 +66,7 @@ tbits_impls! { i8, u8, i16, u16, i32, u32, i64, u64, isize, usize, i128, u128 }
 /// assert_eq!(get_bits_from_value(u128::MAX), 128_u32);
 /// ```
 pub trait Sbits {
-    /// Method returns the size of integers value in bits.
+    /// Returns the size of the integer value in bits.
     fn sbits(&self) -> u32;
 }
 
